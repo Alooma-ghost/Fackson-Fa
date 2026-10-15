@@ -181,55 +181,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </li>
           )}
 
-          {/* Mobile-Only: Join Academy */}
-          {mobileOpen && (
-            <li style={{ paddingTop: '0.5rem' }}>
-              <button
-                className={`btn btn-sm ${isAngels ? 'btn-angels' : 'btn-gold'}`}
-                onClick={() => { openRegistration(); setMobileOpen(false); }}
-                style={{
-                  width: '100%',
-                  justifyContent: 'center',
-                  background: isAngels ? 'linear-gradient(135deg, #fb7185 0%, #e11d48 100%)' : undefined,
-                  color: isAngels ? '#fff' : undefined
-                }}
-              >
-                <UserPlus size={16} />
-                <span>Join Academy</span>
-              </button>
-            </li>
-          )}
-
-          {/* Mobile-Only: WhatsApp Contact */}
-          {mobileOpen && (
-            <li style={{ paddingTop: '0.5rem' }}>
-              <a
-                href={coachWhatsAppUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  background: 'rgba(37, 211, 102, 0.12)',
-                  border: '1px solid rgba(37, 211, 102, 0.3)',
-                  color: '#25D366',
-                  borderRadius: '10px',
-                  padding: '10px 14px',
-                  fontWeight: 700,
-                  fontSize: '0.82rem',
-                  textDecoration: 'none'
-                }}
-              >
-                <MessageCircle size={16} />
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: '0.78rem' }}>WhatsApp Coach</div>
-                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '1px' }}>0817 349 6343 · 0802 974 5452</div>
-                </div>
-              </a>
-            </li>
-          )}
 
           {/* Mobile-Only: Coach & Staff Portal */}
           {mobileOpen && (

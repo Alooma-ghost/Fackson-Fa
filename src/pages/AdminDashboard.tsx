@@ -356,28 +356,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <img src="/logos/fackson-angels.jpg" alt="" className="admin-logo-small" />
           </div>
           <div>
-            <h2 style={{ fontSize: '1.25rem', color: '#fff' }}>COACH & STAFF PORTAL</h2>
-            <p style={{ fontSize: '0.78rem', color: 'var(--color-gold-primary)' }}>
+            <h2 className="admin-title-heading">COACH &amp; STAFF PORTAL</h2>
+            <p className="admin-title-sub">
               Logged in as: <strong>{adminUser.name}</strong> ({adminUser.role})
             </p>
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <button className="btn btn-outline btn-sm" onClick={onReturnToSite}>
-            <ArrowLeft size={16} />
-            <span>View Public Website</span>
+        <div className="admin-header-actions">
+          <button className="btn btn-outline admin-header-btn" onClick={onReturnToSite}>
+            <ArrowLeft size={14} />
+            <span>Back to Website</span>
           </button>
           <button 
-            className="btn btn-sm" 
+            className="btn admin-header-btn admin-logout-btn" 
             onClick={() => {
               removeAuthToken();
               onLogout();
             }}
-            style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.4)' }}
           >
-            <LogOut size={16} />
-            <span>Sign Out</span>
+            <LogOut size={14} />
+            <span>Log Out</span>
           </button>
         </div>
       </header>

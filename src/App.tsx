@@ -20,7 +20,7 @@ import { AdminLogin } from './pages/AdminLogin';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { AboutPage } from './pages/AboutPage';
 
-import { api, getAuthToken } from './services/api';
+import { api, getAuthToken, removeAuthToken } from './services/api';
 import { Player, GalleryItem, NewsItem, MatchItem, RegistrationItem, AdminUser, AcademyType } from './types';
 
 export const App: React.FC = () => {
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
             setAdminUser(user);
             loadAllData();
           }}
-          onCancel={() => setCurrentTab('home')}
+          onCancel={() => { setCurrentTab('home'); window.scrollTo({ top: 0, behavior: 'instant' }); }}
         />
       );
     }
@@ -110,7 +110,8 @@ export const App: React.FC = () => {
         adminUser={adminUser}
         onLogout={() => {
           setAdminUser(null);
-          setCurrentTab('home');
+          removeAuthToken();
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }}
         onReturnToSite={() => { setCurrentTab('home'); window.scrollTo({ top: 0, behavior: 'instant' }); }}
         players={players}

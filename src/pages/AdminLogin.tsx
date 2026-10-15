@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Shield, ArrowRight, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Lock, Shield, ArrowRight, ArrowLeft, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { api, setAuthToken } from '../services/api';
 import { AdminUser } from '../types';
 
@@ -34,22 +34,24 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onCancel
   return (
     <div className="admin-login-screen">
       <div className="admin-login-card">
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
           <img 
             src="/logos/fackson-next-pro.jpg" 
             alt="Fackson Next Pro" 
-            style={{ width: '56px', height: '56px', borderRadius: '50%', border: '2px solid var(--color-green-light)' }} 
+            style={{ width: '42px', height: '42px', borderRadius: '50%', border: '2px solid var(--color-green-light)' }} 
           />
           <img 
             src="/logos/fackson-angels.jpg" 
             alt="Fackson Angels" 
-            style={{ width: '56px', height: '56px', borderRadius: '50%', border: '2px solid var(--color-gold-primary)' }} 
+            style={{ width: '42px', height: '42px', borderRadius: '50%', border: '2px solid var(--color-gold-primary)' }} 
           />
         </div>
 
-        <h2 style={{ fontSize: '1.8rem', color: '#fff', marginBottom: '0.25rem' }}>Fackson Academy</h2>
-        <p style={{ color: 'var(--color-gold-primary)', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.75rem' }}>
-          Coach & Staff Portal
+        <h2 style={{ fontSize: 'clamp(1.15rem, 3.5vw, 1.4rem)', color: '#fff', marginBottom: '0.2rem', fontWeight: 900 }}>
+          Fackson Academy
+        </h2>
+        <p style={{ color: 'var(--color-gold-primary)', fontSize: '0.76rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1.25rem' }}>
+          Coach &amp; Staff Portal
         </p>
 
         {error && (
@@ -122,21 +124,22 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onCancel
           <button 
             type="submit" 
             className="btn btn-gold" 
-            style={{ width: '100%', padding: '0.85rem' }}
+            style={{ width: '100%', padding: '0.65rem 1rem', fontSize: '0.86rem', fontWeight: 800 }}
             disabled={loading}
             id="admin-submit-btn"
           >
-            {loading ? 'Authenticating...' : 'Sign In to Admin Portal'}
-            <ArrowRight size={18} />
+            {loading ? 'Authenticating...' : 'Sign In to Portal'}
+            <ArrowRight size={16} />
           </button>
 
           <button
             type="button"
             className="btn btn-outline"
-            style={{ width: '100%', marginTop: '0.75rem', padding: '0.75rem' }}
+            style={{ width: '100%', marginTop: '0.6rem', padding: '0.55rem 1rem', fontSize: '0.78rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
             onClick={onCancel}
           >
-            Return to Public Website
+            <ArrowLeft size={14} />
+            <span>Back to Public Website</span>
           </button>
         </form>
       </div>
