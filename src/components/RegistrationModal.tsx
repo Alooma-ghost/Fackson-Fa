@@ -276,8 +276,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a
-                href={`https://wa.me/2348173496343?text=${encodeURIComponent(
-                  `Hello Coach Farouk Yusuf, I have registered ${formData.playerName} for Fackson Football Academy (${formData.academyPreference === 'angels' ? 'Angels' : 'Next Pro'}, ${formData.category.toUpperCase()}) trials at Meiran Field Estate, Alagbado. Please confirm trial time.`
+                href={`https://wa.me/2348029745452?text=${encodeURIComponent(
+                  `Hello Head Coach Farouk Yusuf, I have registered ${formData.playerName} for Fackson Football Academy (${formData.academyPreference === 'angels' ? 'Angels' : 'Next Pro'}, ${formData.category.toUpperCase()}) trials at Meiran Field Estate, Alagbado. Please confirm trial time.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -293,11 +293,11 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   padding: '0.6rem 1.4rem'
                 }}
               >
-                <span>WhatsApp: 0817 349 6343</span>
+                <span>0802 974 5452 (Head Coach)</span>
               </a>
 
               <a
-                href={`https://wa.me/2348029745452?text=${encodeURIComponent(
+                href={`https://wa.me/2348173496343?text=${encodeURIComponent(
                   `Hello Coach, I have registered ${formData.playerName} for Fackson Football Academy (${formData.academyPreference === 'angels' ? 'Angels' : 'Next Pro'}, ${formData.category.toUpperCase()}) trials at Meiran Field Estate, Alagbado. Please confirm trial time.`
                 )}`}
                 target="_blank"
@@ -315,7 +315,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   padding: '0.6rem 1.4rem'
                 }}
               >
-                <span>WhatsApp: 0802 974 5452</span>
+                <span>0817 349 6343 (Coach)</span>
               </a>
 
               <button className="btn btn-outline btn-sm" onClick={handleResetAndClose}>

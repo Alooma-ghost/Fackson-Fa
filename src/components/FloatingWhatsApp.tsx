@@ -4,16 +4,19 @@ import { MessageCircle, X, PhoneCall } from 'lucide-react';
 interface FloatingWhatsAppProps {
   primaryPhone?: string;
   secondaryPhone?: string;
-  coachPhone?: string; // backwards compatibility
+  coachPhone?: string;
+  headCoachPhone?: string;
 }
 
 export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
-  primaryPhone = '2348173496343',
-  secondaryPhone = '2348029745452',
-  coachPhone,
+  headCoachPhone = '2348029745452',
+  coachPhone = '2348173496343',
+  primaryPhone,
+  secondaryPhone,
 }) => {
   const [showTooltip, setShowTooltip] = useState(true);
-  const primary = coachPhone || primaryPhone;
+  const headCoach = headCoachPhone || secondaryPhone || '2348029745452';
+  const coach = coachPhone || primaryPhone || '2348173496343';
 
   const getUrl = (phone: string, role: string) =>
     `https://wa.me/${phone}?text=${encodeURIComponent(
@@ -86,7 +89,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <a
-              href={getUrl(primary, 'Coach Farouk')}
+              href={getUrl(headCoach, 'Head Coach Farouk')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -105,12 +108,12 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
               }}
               className="wa-chip"
             >
-              <span>0817 349 6343</span>
-              <span style={{ fontSize: '0.65rem', color: '#cbd5e1', fontWeight: 500 }}>Head Coach</span>
+              <span>0802 974 5452</span>
+              <span style={{ fontSize: '0.65rem', color: '#cbd5e1', fontWeight: 600 }}>Head Coach</span>
             </a>
 
             <a
-              href={getUrl(secondaryPhone, 'Coach')}
+              href={getUrl(coach, 'Coach')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -129,8 +132,8 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
               }}
               className="wa-chip"
             >
-              <span>0802 974 5452</span>
-              <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 500 }}>Coach Line</span>
+              <span>0817 349 6343</span>
+              <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600 }}>Coach</span>
             </a>
           </div>
         </div>
@@ -138,7 +141,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
 
       {/* Pulsing Floating Action Button */}
       <a
-        href={getUrl(primary, 'Coach')}
+        href={getUrl(headCoach, 'Head Coach Farouk')}
         target="_blank"
         rel="noopener noreferrer"
         style={{
@@ -156,7 +159,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
           position: 'relative',
         }}
         className="floating-whatsapp-btn"
-        title="Chat on WhatsApp: 0817 349 6343 / 0802 974 5452"
+        title="Chat on WhatsApp: 0802 974 5452 (Head Coach) / 0817 349 6343 (Coach)"
       >
         <MessageCircle size={28} />
         {/* Radar Ring Animation */}

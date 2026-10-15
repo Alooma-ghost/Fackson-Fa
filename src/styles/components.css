@@ -863,8 +863,8 @@ main > * {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 208, 0, 0.1);
   overflow: hidden;
   display: grid;
-  grid-template-columns: minmax(360px, 440px) 1fr;
-  min-height: 560px;
+  grid-template-columns: minmax(440px, 520px) 1fr;
+  min-height: 640px;
   margin-bottom: 3rem;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
@@ -880,7 +880,7 @@ main > * {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 560px;
+  min-height: 640px;
   background: #030603;
   overflow: hidden;
 }
@@ -889,7 +889,7 @@ main > * {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 12%;
+  object-position: center 8%;
   position: absolute;
   inset: 0;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1096,14 +1096,14 @@ main > * {
 /* TABLET RESPONSIVENESS (769px - 991px) */
 @media (max-width: 991px) and (min-width: 769px) {
   .head-coach-master-card {
-    grid-template-columns: 340px 1fr;
-    min-height: 500px;
+    grid-template-columns: 380px 1fr;
+    min-height: 580px;
   }
   .head-coach-photo-wrapper {
-    min-height: 500px;
+    min-height: 580px;
   }
   .head-coach-content {
-    padding: 2rem 1.75rem;
+    padding: 2.25rem 2rem;
   }
 }
 
@@ -1119,13 +1119,13 @@ main > * {
 
   .head-coach-photo-wrapper {
     width: 100%;
-    height: 420px;
-    min-height: 420px;
+    height: 490px;
+    min-height: 490px;
     position: relative;
   }
 
   .head-coach-photo-img {
-    object-position: center 10%;
+    object-position: center 8%;
   }
 
   .head-coach-photo-overlay {
@@ -1192,10 +1192,10 @@ main > * {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .head-coach-photo-wrapper {
-    height: 380px;
-    min-height: 380px;
+    height: 450px;
+    min-height: 450px;
   }
   .head-coach-stats-grid {
     grid-template-columns: 1fr;

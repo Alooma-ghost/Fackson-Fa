@@ -73,12 +73,12 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
     }
   };
 
+  const headCoachPhone = '2348029745452';
   const coachPhone = '2348173496343';
-  const secondaryPhone = '2348029745452';
-  const whatsappPreFilled = `https://wa.me/${coachPhone}?text=${encodeURIComponent(
-    `Hello Coach Farouk Yusuf, I have registered for Fackson Football Academy (${academy === 'angels' ? 'Fackson Angels Women' : 'Fackson Next Pro Men'}, ${category.toUpperCase()}).\n\nPlayer Name: ${fullName}\nDOB: ${dateOfBirth}\nPosition: ${position} (${dominantFoot} foot)\nGuardian: ${guardianName} (${phone})\nLocation: Meiran Field Estate, Alagbado.\n\nPlease confirm our trial date and training schedule.`
+  const whatsappPreFilled = `https://wa.me/${headCoachPhone}?text=${encodeURIComponent(
+    `Hello Head Coach Farouk Yusuf, I have registered for Fackson Football Academy (${academy === 'angels' ? 'Fackson Angels Women' : 'Fackson Next Pro Men'}, ${category.toUpperCase()}).\n\nPlayer Name: ${fullName}\nDOB: ${dateOfBirth}\nPosition: ${position} (${dominantFoot} foot)\nGuardian: ${guardianName} (${phone})\nLocation: Meiran Field Estate, Alagbado.\n\nPlease confirm our trial date and training schedule.`
   )}`;
-  const whatsappPreFilled2 = `https://wa.me/${secondaryPhone}?text=${encodeURIComponent(
+  const whatsappPreFilled2 = `https://wa.me/${coachPhone}?text=${encodeURIComponent(
     `Hello Coach, I have registered for Fackson Football Academy (${academy === 'angels' ? 'Fackson Angels Women' : 'Fackson Next Pro Men'}, ${category.toUpperCase()}).\n\nPlayer Name: ${fullName}\nDOB: ${dateOfBirth}\nPosition: ${position} (${dominantFoot} foot)\nGuardian: ${guardianName} (${phone})\nLocation: Meiran Field Estate, Alagbado.\n\nPlease confirm our trial date and training schedule.`
   )}`;
 
@@ -202,7 +202,7 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
                     }}
                   >
                     <MessageCircle size={16} />
-                    <span>Send to Coach (0817 349 6343)</span>
+                    <span>Send to Head Coach (0802 974 5452)</span>
                   </a>
                   <a
                     href={whatsappPreFilled2}
@@ -223,7 +223,7 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
                     }}
                   >
                     <MessageCircle size={16} />
-                    <span>Send to Line 2 (0802 974 5452)</span>
+                    <span>Send to Coach (0817 349 6343)</span>
                   </a>
                 </div>
               </div>

@@ -5,11 +5,11 @@ interface CoachesSectionProps {
   openRegistration?: () => void;
 }
 
-const COACH_WHATSAPP = 'https://wa.me/2348173496343?text=' + encodeURIComponent(
-  'Hello Coach Farouk, I would like to inquire about Fackson Football Academy trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
+const HEAD_COACH_WHATSAPP = 'https://wa.me/2348029745452?text=' + encodeURIComponent(
+  'Hello Head Coach Farouk, I would like to inquire about Fackson Football Academy trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
 );
 
-const COACH_WHATSAPP_2 = 'https://wa.me/2348029745452?text=' + encodeURIComponent(
+const COACH_WHATSAPP = 'https://wa.me/2348173496343?text=' + encodeURIComponent(
   'Hello Coach, I would like to inquire about Fackson Football Academy trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
 );
 
@@ -67,10 +67,10 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration
               Technical Leadership
             </span>
           </div>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', fontWeight: 900, color: '#fff', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontSize: 'clamp(1.25rem, 2.2vw, 1.7rem)', fontWeight: 800, color: '#fff', marginBottom: '0.45rem', letterSpacing: '-0.01em' }}>
             ACADEMY COACHING STAFF
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.95rem', maxWidth: '620px', margin: '0 auto', lineHeight: 1.6 }}>
+          <p style={{ color: '#94a3b8', fontSize: '0.86rem', maxWidth: '580px', margin: '0 auto', lineHeight: 1.55 }}>
             Licensed coaches and dedicated technical trainers committed to developing Nigeria's next generation of football talent at Meiran Field Estate, Alagbado.
           </p>
         </div>
@@ -157,25 +157,25 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration
             {/* Direct Contact CTAs */}
             <div className="head-coach-actions">
               <a
-                href={COACH_WHATSAPP}
+                href={HEAD_COACH_WHATSAPP}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="head-coach-wa-btn-1"
                 id="head-coach-wa-1"
               >
                 <MessageCircle size={16} />
-                <span>WhatsApp: 0817 349 6343</span>
+                <span>0802 974 5452 (Head Coach)</span>
               </a>
 
               <a
-                href={COACH_WHATSAPP_2}
+                href={COACH_WHATSAPP}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="head-coach-wa-btn-2"
                 id="head-coach-wa-2"
               >
                 <MessageCircle size={16} />
-                <span>WhatsApp: 0802 974 5452</span>
+                <span>0817 349 6343 (Coach)</span>
               </a>
 
               {openRegistration && (

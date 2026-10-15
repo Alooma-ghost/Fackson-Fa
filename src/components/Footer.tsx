@@ -184,8 +184,8 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration,
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                 <Phone size={18} color="var(--color-gold-primary)" style={{ flexShrink: 0 }} />
                 <div>
-                  <a href="https://wa.me/2348173496343" target="_blank" rel="noopener noreferrer" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'block' }}>+234 817 349 6343</a>
-                  <a href="https://wa.me/2348029745452" target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8', textDecoration: 'none', display: 'block', fontSize: '0.82rem', marginTop: '2px' }}>+234 802 974 5452</a>
+                  <a href="https://wa.me/2348029745452" target="_blank" rel="noopener noreferrer" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'block' }}>+234 802 974 5452 (Head Coach)</a>
+                  <a href="https://wa.me/2348173496343" target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8', textDecoration: 'none', display: 'block', fontSize: '0.82rem', marginTop: '2px' }}>+234 817 349 6343 (Coach)</a>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>

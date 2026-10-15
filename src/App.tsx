@@ -221,8 +221,8 @@ export const App: React.FC = () => {
         openRegistration={handleOpenRegistration}
       />
 
-      {/* Floating Coach WhatsApp Button */}
-      <FloatingWhatsApp coachPhone="2348173496343" />
+      {/* Floating WhatsApp Button */}
+      <FloatingWhatsApp headCoachPhone="2348029745452" coachPhone="2348173496343" />
 
       {/* Registration Modal */}
       <RegistrationModal 
