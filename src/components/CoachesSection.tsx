@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Shield, Star, Users, CheckCircle, ArrowRight, MessageCircle } from 'lucide-react';
+import { Award, Shield, Star, Users, CheckCircle, ArrowRight, MessageCircle, Calendar, Trophy, MapPin } from 'lucide-react';
 
 interface CoachesSectionProps {
   openRegistration?: () => void;
@@ -75,171 +75,120 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration
           </p>
         </div>
 
-        {/* HEAD COACH — Big Alumni-Style Portrait Card */}
-        <div style={{ marginBottom: '2.5rem' }}>
-          <div
-            style={{
-              background: '#070b07',
-              borderRadius: '24px',
-              border: '1px solid rgba(255,208,0,0.3)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.8)',
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-            }}
-          >
-            {/* Portrait photo — tall album style just like alumni */}
-            <div
-              style={{
-                position: 'relative',
-                width: 'clamp(200px, 30vw, 320px)',
-                minHeight: '420px',
-                flexShrink: 0,
-                background: '#040804',
-                overflow: 'hidden',
-              }}
-            >
-              <img
-                src="/images/coach-head.jpg"
-                alt="Coach Farouk Yusuf"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                  position: 'absolute',
-                  inset: 0,
-                }}
-              />
-              {/* Overlay */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to right, rgba(7,11,7,0) 60%, rgba(7,11,7,0.6) 100%)',
-              }} />
-              {/* Badge */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '14px',
-                  left: '14px',
-                  background: 'rgba(0,0,0,0.88)',
-                  border: '1px solid rgba(255,208,0,0.55)',
-                  borderRadius: '50px',
-                  padding: '5px 12px',
-                  fontSize: '0.68rem',
-                  fontWeight: 900,
-                  color: 'var(--color-gold-primary)',
-                  letterSpacing: '0.04em'
-                }}
-              >
-                ⭐ FOUNDER &amp; CEO
+        {/* HEAD COACH — Prominent Featured Master Card */}
+        <div className="head-coach-master-card">
+          {/* Portrait photo column */}
+          <div className="head-coach-photo-wrapper">
+            <img
+              src="/images/coach-head.jpg"
+              alt="Coach Farouk Yusuf"
+              className="head-coach-photo-img"
+            />
+            {/* Visual gradient overlay for seamless card blend */}
+            <div className="head-coach-photo-overlay" />
+
+            {/* Founder badge */}
+            <div className="head-coach-founder-badge">
+              <Star size={13} fill="var(--color-gold-primary)" color="var(--color-gold-primary)" />
+              <span>FOUNDER &amp; HEAD COACH</span>
+            </div>
+
+            {/* Bottom photo tag */}
+            <div className="head-coach-experience-tag">
+              <Trophy size={14} color="#4ade80" />
+              <span>26+ Years NFF Grassroots Leadership</span>
+            </div>
+          </div>
+
+          {/* Coach Details column */}
+          <div className="head-coach-content">
+            <div className="head-coach-badge-row">
+              <Shield size={14} color="var(--color-gold-primary)" />
+              <span style={{ fontSize: '0.74rem', color: 'var(--color-gold-primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Technical Director • NFF Licensed
+              </span>
+            </div>
+
+            <h3 className="head-coach-name">
+              Coach Farouk Yusuf
+            </h3>
+            <p className="head-coach-title">
+              <span>"Ajobi"</span>
+              <span style={{ color: 'rgba(255,255,255,0.3)' }}>•</span>
+              <span style={{ color: '#cbd5e1' }}>Academy Founder &amp; Chief Tactician</span>
+            </p>
+
+            {/* Structured Stats Grid */}
+            <div className="head-coach-stats-grid">
+              <div className="head-coach-stat-pill">
+                <span className="head-coach-stat-val">26+ Years</span>
+                <span className="head-coach-stat-lbl">Grassroots Excellence</span>
+              </div>
+              <div className="head-coach-stat-pill">
+                <span className="head-coach-stat-val">Est. 1998</span>
+                <span className="head-coach-stat-lbl">Alagbado, Lagos</span>
+              </div>
+              <div className="head-coach-stat-pill">
+                <span className="head-coach-stat-val">Europe Pathway</span>
+                <span className="head-coach-stat-lbl">Slovenia 1st Tier &amp; Beyond</span>
+              </div>
+              <div className="head-coach-stat-pill">
+                <span className="head-coach-stat-val">National Teams</span>
+                <span className="head-coach-stat-lbl">Nigeria U17 / U20 Mentorship</span>
               </div>
             </div>
 
-            {/* Coach Details */}
-            <div style={{ flex: '1 1 280px', padding: 'clamp(1.5rem, 3vw, 2.5rem)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '0.5rem' }}>
-                <Shield size={14} color="var(--color-gold-primary)" />
-                <span style={{ fontSize: '0.74rem', color: 'var(--color-gold-primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  NFF Licensed • Grassroots Pioneer
-                </span>
-              </div>
+            <p className="head-coach-bio">
+              Founded Fackson Nextpro Football Academy in 1998 at Alagbado, Lagos. Over 26 years of dedicated football mentorship, developing players from foundational technique to professional contracts across European top tiers (Slovenia PrvaLiga) and Nigerian national selections.
+            </p>
 
-              <h3 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900, color: '#fff', lineHeight: 1.15, marginBottom: '0.2rem' }}>
-                Coach Farouk Yusuf
-              </h3>
-              <p style={{ fontSize: '1rem', color: '#4ade80', fontWeight: 800, marginBottom: '1rem' }}>
-                "Ajobi" — Head Coach &amp; Academy Founder
-              </p>
-
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
-                {['26+ Years Experience', 'Est. 1998', 'Meiran Field Estate', 'European Transfer Pathway'].map(badge => (
-                  <span key={badge} style={{
-                    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '6px', padding: '4px 10px',
-                    fontSize: '0.72rem', color: '#cbd5e1', fontWeight: 700
-                  }}>
-                    {badge}
-                  </span>
-                ))}
-              </div>
-
-              <p style={{ fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.7, marginBottom: '1.5rem', maxWidth: '560px' }}>
-                Founded Fackson Nextpro Football Academy in 1998 at Alagbado, Lagos. Over 26 years of dedicated grassroots development, producing professionals playing across European first tiers (Slovenia PrvaLiga) and representing the Nigerian national teams.
-              </p>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(255, 208, 0, 0.1)',
-                  border: '1px solid rgba(255, 208, 0, 0.3)',
-                  color: 'var(--color-gold-primary)',
-                  borderRadius: '50px',
-                  padding: '8px 18px',
-                  fontSize: '0.84rem',
-                  fontWeight: 700
-                }}>
-                  <CheckCircle size={15} color="var(--color-gold-primary)" />
-                  <span>Official Head Coach &amp; Technical Director</span>
+            {/* Training Schedule Callout */}
+            <div className="head-coach-schedule-box">
+              <Calendar size={18} color="#4ade80" style={{ flexShrink: 0 }} />
+              <div>
+                <strong style={{ color: '#ffffff' }}>Training Days:</strong> Tuesday, Thursday, Saturday · <span style={{ color: '#4ade80' }}>6:45 AM – 11:00 AM</span>
+                <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '2px' }}>
+                  <MapPin size={12} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '4px' }} />
+                  Meiran Field Estate, Alagbado, Lagos
                 </div>
-                <a
-                  href={COACH_WHATSAPP}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
-                    color: '#fff',
-                    borderRadius: '50px',
-                    padding: '8px 18px',
-                    fontSize: '0.84rem',
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    boxShadow: '0 4px 14px rgba(37, 211, 102, 0.35)'
-                  }}
-                >
-                  <MessageCircle size={15} />
-                  <span>WhatsApp: +234 817 349 6343</span>
-                </a>
-                <a
-                  href={COACH_WHATSAPP_2}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(37, 211, 102, 0.12)',
-                    border: '1px solid rgba(37, 211, 102, 0.4)',
-                    color: '#4ade80',
-                    borderRadius: '50px',
-                    padding: '8px 18px',
-                    fontSize: '0.84rem',
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  <MessageCircle size={15} />
-                  <span>WhatsApp: +234 802 974 5452</span>
-                </a>
-                {openRegistration && (
-                  <button
-                    onClick={openRegistration}
-                    className="btn btn-outline btn-sm"
-                    style={{ fontSize: '0.84rem', padding: '8px 18px' }}
-                  >
-                    <span>Register for Assessment</span>
-                    <ArrowRight size={14} />
-                  </button>
-                )}
               </div>
+            </div>
+
+            {/* Direct Contact CTAs */}
+            <div className="head-coach-actions">
+              <a
+                href={COACH_WHATSAPP}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="head-coach-wa-btn-1"
+                id="head-coach-wa-1"
+              >
+                <MessageCircle size={16} />
+                <span>WhatsApp: 0817 349 6343</span>
+              </a>
+
+              <a
+                href={COACH_WHATSAPP_2}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="head-coach-wa-btn-2"
+                id="head-coach-wa-2"
+              >
+                <MessageCircle size={16} />
+                <span>WhatsApp: 0802 974 5452</span>
+              </a>
+
+              {openRegistration && (
+                <button
+                  onClick={openRegistration}
+                  className="btn btn-gold btn-sm"
+                  style={{ padding: '12px 22px', fontSize: '0.86rem', fontWeight: 800 }}
+                  id="head-coach-trial-btn"
+                >
+                  <span>Book Trial Assessment</span>
+                  <ArrowRight size={15} />
+                </button>
+              )}
             </div>
           </div>
         </div>
