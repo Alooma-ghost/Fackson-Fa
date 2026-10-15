@@ -9,8 +9,8 @@ interface AdminLoginProps {
 }
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onCancel }) => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('fackson2026!');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -77,6 +77,8 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onCancel
             <input
               type="text"
               required
+              placeholder="Enter username"
+              autoComplete="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="form-input"
@@ -84,12 +86,14 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onCancel
             />
           </div>
 
-          <div className="form-group" style={{ position: 'relative' }}>
+          <div className="form-group" style={{ position: 'relative', marginBottom: '1.75rem' }}>
             <label className="form-label">Password</label>
             <div style={{ position: 'relative' }}>
               <input
                 type={showPass ? 'text' : 'password'}
                 required
+                placeholder="Enter password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-input"
@@ -113,20 +117,6 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onCancel
                 {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-          </div>
-
-          <div style={{
-            background: 'rgba(255, 208, 0, 0.08)',
-            border: '1px dashed var(--border-accent)',
-            borderRadius: 'var(--radius-md)',
-            padding: '0.75rem',
-            marginBottom: '1.5rem',
-            fontSize: '0.8rem',
-            color: '#cbd5e1'
-          }}>
-            <strong style={{ color: 'var(--color-gold-primary)' }}>Default Credentials:</strong><br />
-            Username: <code style={{ color: '#fff' }}>admin</code><br />
-            Password: <code style={{ color: '#fff' }}>fackson2026!</code>
           </div>
 
           <button 
