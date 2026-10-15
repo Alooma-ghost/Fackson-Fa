@@ -30,8 +30,8 @@ export const Home: React.FC<HomeProps> = ({
   const activeNews = news.slice(0, 3);
   const teaserGallery = gallery.slice(0, 3);
 
-  const coachWhatsAppUrl = `https://wa.me/2348173496343?text=${encodeURIComponent(
-    'Hello Coach Farouk Yusuf, I would like to inquire about Fackson Football Academy trials and training (Tuesday, Thursday & Saturday morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
+  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(
+    'Hello Head Coach Farouk Yusuf, I would like to inquire about Fackson Football Academy trials and training (Tuesday, Thursday & Saturday morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
   )}`;
 
   return (

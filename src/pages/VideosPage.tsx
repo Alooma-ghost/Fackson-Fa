@@ -76,8 +76,8 @@ export const VideosPage: React.FC<VideosPageProps> = ({ openRegistration }) => {
     ? videoList 
     : videoList.filter(v => v.category === selectedCategory);
 
-  const scoutWhatsApp = `https://wa.me/2348173496343?text=${encodeURIComponent(
-    'Hello Coach Farouk, I am an accredited scout/agent and would like to request full uncut match footage and scouting profiles for Fackson Football Academy players.'
+  const scoutWhatsApp = `https://wa.me/2348029745452?text=${encodeURIComponent(
+    'Hello Head Coach Farouk, I am an accredited scout/agent and would like to request full uncut match footage and scouting profiles for Fackson Football Academy players.'
   )}`;
 
   return (

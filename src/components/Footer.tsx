@@ -10,7 +10,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration, activeAcademy = 'next_pro' }) => {
   const isAngels = activeAcademy === 'angels';
-  const coachWhatsAppUrl = `https://wa.me/2348173496343?text=${encodeURIComponent(`Hello Coach Farouk, I would like to inquire about Fackson Football Academy (${isAngels ? 'Fackson Angels' : 'Fackson Next Pro'}) at Meiran Estate Alagbado Lagos.`)}`;
+  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(`Hello Head Coach Farouk, I would like to inquire about Fackson Football Academy (${isAngels ? 'Fackson Angels' : 'Fackson Next Pro'}) at Meiran Estate Alagbado Lagos.`)}`;
 
   const navTo = (tab: string) => {
     setCurrentTab(tab);

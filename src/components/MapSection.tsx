@@ -4,7 +4,7 @@ import { MapPin, Navigation, Phone, Clock, Shield, CheckCircle, ExternalLink, Me
 export const MapSection: React.FC = () => {
   const mapAddress = "Meiran Estate, Alagbado, Lagos, Nigeria";
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapAddress)}`;
-  const coachWhatsAppUrl = `https://wa.me/2348173496343?text=${encodeURIComponent("Hello Coach! I'm planning to visit Fackson Football Academy at Meiran Field Estate, Alagbado, Lagos. Please confirm the training schedule (Tuesday, Thursday & Saturday morning 6:45 AM - 11:00 AM) and pitch directions.")}`;
+  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello Head Coach Farouk! I'm planning to visit Fackson Football Academy at Meiran Field Estate, Alagbado, Lagos. Please confirm the training schedule (Tuesday, Thursday & Saturday morning 6:45 AM - 11:00 AM) and pitch directions.")}`;
 
   return (
     <section className="section" style={{ background: '#030a07', position: 'relative' }}>

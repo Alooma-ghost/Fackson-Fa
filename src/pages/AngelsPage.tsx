@@ -14,7 +14,7 @@ interface AngelsPageProps {
 export const AngelsPage: React.FC<AngelsPageProps> = ({ players, openRegistration }) => {
   const [selectedCategory, setSelectedCategory] = useState<AgeCategory | 'all'>('all');
   const angelsPlayers = players.filter(p => p.academy === 'angels');
-  const coachWhatsAppUrl = `https://wa.me/2348173496343?text=${encodeURIComponent("Hello Coach, I would like to inquire about Fackson Angels (Women) trials, scholarship slots, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.")}`;
+  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello Head Coach Farouk, I would like to inquire about Fackson Angels (Women) trials, scholarship slots, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.")}`;
 
   return (
     <div>

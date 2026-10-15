@@ -14,7 +14,7 @@ interface NextProPageProps {
 export const NextProPage: React.FC<NextProPageProps> = ({ players, openRegistration }) => {
   const [selectedCategory, setSelectedCategory] = useState<AgeCategory | 'all'>('all');
   const nextProPlayers = players.filter(p => p.academy === 'next_pro');
-  const coachWhatsAppUrl = `https://wa.me/2348173496343?text=${encodeURIComponent("Hello Coach, I would like to inquire about Fackson Next Pro (Men) trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.")}`;
+  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello Head Coach Farouk, I would like to inquire about Fackson Next Pro (Men) trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.")}`;
 
   return (
     <div>
