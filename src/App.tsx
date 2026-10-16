@@ -214,6 +214,11 @@ export const App: React.FC = () => {
           <NewsPage 
             news={news}
             openRegistration={handleOpenRegistration}
+            matches={matches}
+            onViewMatches={() => {
+              setCurrentTab('matches');
+              window.scrollTo({ top: 0, behavior: 'instant' });
+            }}
           />
         )}
 

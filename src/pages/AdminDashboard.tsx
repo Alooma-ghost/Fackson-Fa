@@ -1361,17 +1361,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
 
                   <div className="logo-palette-grid">
-                    {/* OUR TEAM LOGO */}
+                    {/* HOME TEAM CREST (Left / Host) */}
                     <div style={{ 
                       background: 'rgba(11, 27, 22, 0.6)', 
                       border: '1px solid rgba(16, 185, 129, 0.25)', 
                       borderRadius: '10px', 
                       padding: '1rem' 
                     }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-gold-light)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                          Our Academy Crest (Home)
-                        </span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.4rem' }}>
+                        <div>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-gold-light)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            Home Team Crest
+                          </span>
+                          <span style={{ fontSize: '0.7rem', color: '#94a3b8', marginLeft: '0.4rem' }}>
+                            ({matchForm.homeTeam?.toLowerCase().includes('fackson') ? 'Fackson Squad' : 'Host Club'})
+                          </span>
+                        </div>
                         <div style={{ display: 'flex', gap: '0.35rem' }}>
                           <button
                             type="button"
@@ -1403,6 +1408,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           >
                             Angels
                           </button>
+                          {matchForm.homeLogo && (
+                            <button
+                              type="button"
+                              onClick={() => setMatchForm(prev => ({ ...prev, homeLogo: '' }))}
+                              style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '0.72rem', cursor: 'pointer' }}
+                            >
+                              Reset
+                            </button>
+                          )}
                         </div>
                       </div>
 
@@ -1423,7 +1437,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           {matchForm.homeLogo ? (
                             <img 
                               src={getMediaUrl(matchForm.homeLogo)} 
-                              alt="Our Crest" 
+                              alt="Home Crest" 
                               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
@@ -1447,12 +1461,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             ) : (
                               <Upload size={14} />
                             )}
-                            <span>{uploadingOurLogo ? 'Uploading Crest...' : 'Upload Crest File'}</span>
+                            <span>{uploadingOurLogo ? 'Uploading Crest...' : 'Upload Home Crest'}</span>
                           </button>
 
                           <input
                             type="text"
-                            placeholder="Or paste Logo Image URL"
+                            placeholder="Or paste Home Crest Image URL"
                             value={matchForm.homeLogo}
                             onChange={(e) => setMatchForm({ ...matchForm, homeLogo: e.target.value })}
                             className="form-input"
@@ -1462,26 +1476,63 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       </div>
                     </div>
 
-                    {/* OPPONENT TEAM LOGO */}
+                    {/* AWAY TEAM CREST (Right / Visiting) */}
                     <div style={{ 
                       background: 'rgba(24, 15, 34, 0.6)', 
                       border: '1px solid rgba(217, 119, 6, 0.3)', 
                       borderRadius: '10px', 
                       padding: '1rem' 
                     }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                          Opponent Team Crest (Away)
-                        </span>
-                        {matchForm.awayLogo && (
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.4rem' }}>
+                        <div>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            Away Team Crest
+                          </span>
+                          <span style={{ fontSize: '0.7rem', color: '#94a3b8', marginLeft: '0.4rem' }}>
+                            ({matchForm.awayTeam?.toLowerCase().includes('fackson') ? 'Fackson Squad' : 'Opponent'})
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.35rem' }}>
                           <button
                             type="button"
-                            onClick={() => setMatchForm(prev => ({ ...prev, awayLogo: '' }))}
-                            style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '0.72rem', cursor: 'pointer' }}
+                            onClick={() => setMatchForm(prev => ({ ...prev, awayLogo: '/logos/fackson-next-pro.jpg' }))}
+                            style={{ 
+                              background: matchForm.awayLogo.includes('next-pro') ? 'rgba(16, 185, 129, 0.25)' : 'transparent',
+                              border: '1px solid rgba(255,255,255,0.1)',
+                              color: '#fff',
+                              borderRadius: '4px',
+                              padding: '0.2rem 0.5rem',
+                              fontSize: '0.72rem',
+                              cursor: 'pointer'
+                            }}
                           >
-                            Reset
+                            Next Pro
                           </button>
-                        )}
+                          <button
+                            type="button"
+                            onClick={() => setMatchForm(prev => ({ ...prev, awayLogo: '/logos/fackson-angels.jpg' }))}
+                            style={{ 
+                              background: matchForm.awayLogo.includes('angels') ? 'rgba(217, 119, 6, 0.25)' : 'transparent',
+                              border: '1px solid rgba(255,255,255,0.1)',
+                              color: '#fff',
+                              borderRadius: '4px',
+                              padding: '0.2rem 0.5rem',
+                              fontSize: '0.72rem',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            Angels
+                          </button>
+                          {matchForm.awayLogo && (
+                            <button
+                              type="button"
+                              onClick={() => setMatchForm(prev => ({ ...prev, awayLogo: '' }))}
+                              style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '0.72rem', cursor: 'pointer' }}
+                            >
+                              Reset
+                            </button>
+                          )}
+                        </div>
                       </div>
 
                       <div className="logo-palette-inner">
@@ -1501,7 +1552,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           {matchForm.awayLogo ? (
                             <img 
                               src={getMediaUrl(matchForm.awayLogo)} 
-                              alt="Opponent Crest" 
+                              alt="Away Crest" 
                               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
@@ -1525,12 +1576,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             ) : (
                               <Upload size={14} />
                             )}
-                            <span>{uploadingOpponentLogo ? 'Uploading Crest...' : 'Upload Opponent Crest'}</span>
+                            <span>{uploadingOpponentLogo ? 'Uploading Crest...' : 'Upload Away Crest'}</span>
                           </button>
 
                           <input
                             type="text"
-                            placeholder="Or paste Opponent Crest URL"
+                            placeholder="Or paste Away Crest URL"
                             value={matchForm.awayLogo}
                             onChange={(e) => setMatchForm({ ...matchForm, awayLogo: e.target.value })}
                             className="form-input"
@@ -1542,26 +1593,68 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
                 </div>
 
-                {/* TEAM NAMES */}
+                {/* TEAM NAMES HEADER & AWAY MATCH SWAP BUTTON */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span>Team Names &amp; Venue Positioning</span>
+                    <span className="badge badge-gold" style={{ fontSize: '0.68rem' }}>
+                      {matchForm.homeTeam?.toLowerCase().includes('fackson') 
+                        ? 'Home Match (Fackson Host)' 
+                        : matchForm.awayTeam?.toLowerCase().includes('fackson') 
+                        ? 'Away Match (Fackson Visiting)' 
+                        : 'Neutral / Invitational'}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMatchForm(prev => ({
+                        ...prev,
+                        homeTeam: prev.awayTeam,
+                        awayTeam: prev.homeTeam,
+                        homeLogo: prev.awayLogo,
+                        awayLogo: prev.homeLogo,
+                        homeScore: prev.awayScore,
+                        awayScore: prev.homeScore
+                      }));
+                    }}
+                    className="btn btn-outline btn-sm"
+                    style={{
+                      fontSize: '0.75rem',
+                      padding: '0.3rem 0.75rem',
+                      borderColor: 'var(--color-gold-primary)',
+                      color: 'var(--color-gold-light)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                    title="Click to swap Home and Away teams & logos for an Away Match"
+                  >
+                    <RefreshCw size={12} />
+                    <span>⇄ Swap Home / Away (Away Match)</span>
+                  </button>
+                </div>
+
+                {/* TEAM NAMES INPUTS */}
                 <div className="form-row">
                   <div className="form-group">
-                    <label className="form-label">Home Team Name *</label>
+                    <label className="form-label">Home Team Name (Left) *</label>
                     <input 
                       type="text" 
                       required 
                       value={matchForm.homeTeam}
                       onChange={(e) => setMatchForm({ ...matchForm, homeTeam: e.target.value })}
-                      placeholder="e.g. Fackson Next Pro U17"
+                      placeholder="e.g. Fackson Next Pro U17 or PCH FC"
                       className="form-input"
                     />
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Away / Opponent Team Name *</label>
+                    <label className="form-label">Away Team Name (Right) *</label>
                     <input 
                       type="text" 
                       required 
-                      placeholder="e.g. Apex Stars Football Academy"
+                      placeholder="e.g. Apex Stars FC or Fackson NextPro"
                       value={matchForm.awayTeam}
                       onChange={(e) => setMatchForm({ ...matchForm, awayTeam: e.target.value })}
                       className="form-input"
@@ -1850,16 +1943,24 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <div className="match-teams-showcase">
                       <div className="team-col team-col-home">
                         <div className="team-crest-wrapper">
-                          <img 
-                            src={getMediaUrl(matchForm.homeLogo)} 
-                            alt={matchForm.homeTeam} 
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
-                            }}
-                          />
+                          {matchForm.homeLogo ? (
+                            <img 
+                              src={getMediaUrl(matchForm.homeLogo)} 
+                              alt={matchForm.homeTeam} 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
+                              }}
+                            />
+                          ) : (
+                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0b1b16' }}>
+                              <Shield size={36} color="var(--color-gold-primary)" />
+                            </div>
+                          )}
                         </div>
-                        <h4 className="team-name">{matchForm.homeTeam || 'Fackson Next Pro'}</h4>
-                        <span className="team-subtext">HOME CREST</span>
+                        <h4 className="team-name">{matchForm.homeTeam || 'Home Team'}</h4>
+                        <span className="team-subtext">
+                          {matchForm.homeTeam?.toLowerCase().includes('fackson') ? 'FACKSON SQUAD (HOME)' : 'HOST CLUB (HOME)'}
+                        </span>
                       </div>
 
                       <div className="score-center-col">
@@ -1896,8 +1997,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             </div>
                           )}
                         </div>
-                        <h4 className="team-name">{matchForm.awayTeam || 'Opponent Club'}</h4>
-                        <span className="team-subtext">AWAY CREST</span>
+                        <h4 className="team-name">{matchForm.awayTeam || 'Away Team'}</h4>
+                        <span className="team-subtext">
+                          {matchForm.awayTeam?.toLowerCase().includes('fackson') ? 'FACKSON SQUAD (AWAY)' : 'VISITING SQUAD'}
+                        </span>
                       </div>
                     </div>
 

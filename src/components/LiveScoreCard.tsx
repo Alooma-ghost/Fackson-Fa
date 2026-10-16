@@ -31,6 +31,21 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
 
   const liveMatch = matches?.find(m => m.status === 'live') || fallbackMatch;
 
+  const isHomeFackson = (liveMatch.homeTeam || '').toLowerCase().includes('fackson');
+  const isAwayFackson = (liveMatch.awayTeam || '').toLowerCase().includes('fackson');
+
+  const homeLogoSrc = liveMatch.homeLogo
+    ? getMediaUrl(liveMatch.homeLogo)
+    : isHomeFackson
+      ? (liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg')
+      : '';
+
+  const awayLogoSrc = liveMatch.awayLogo
+    ? getMediaUrl(liveMatch.awayLogo)
+    : isAwayFackson
+      ? (liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg')
+      : '';
+
   return (
     <div style={{
       background: 'linear-gradient(135deg, rgba(10, 14, 10, 0.95) 0%, rgba(5, 7, 5, 0.98) 100%)',
@@ -126,20 +141,45 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
           gap: '10px',
           flex: 1
         }}>
-          <img
-            src={getMediaUrl(liveMatch.homeLogo || (liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'), '/logos/fackson-next-pro.jpg')}
-            alt={liveMatch.homeTeam}
-            style={{
-              width: '42px',
-              height: '42px',
-              borderRadius: '50%',
-              border: '2px solid var(--color-gold-primary)',
-              objectFit: 'cover'
-            }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
-            }}
-          />
+          {homeLogoSrc ? (
+            <img
+              src={homeLogoSrc}
+              alt={liveMatch.homeTeam}
+              style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '50%',
+                border: '2px solid var(--color-gold-primary)',
+                objectFit: 'contain',
+                background: '#07100b'
+              }}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (isHomeFackson) {
+                  target.src = liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                } else {
+                  target.style.display = 'none';
+                  if (target.nextElementSibling) {
+                    (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                  }
+                }
+              }}
+            />
+          ) : null}
+          <div style={{
+            display: homeLogoSrc ? 'none' : 'flex',
+            width: '42px',
+            height: '42px',
+            borderRadius: '50%',
+            background: '#131e2b',
+            border: '2px solid rgba(255, 208, 0, 0.4)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0
+          }}>
+            <Shield size={20} color={isHomeFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
+          </div>
+
           <div>
             <div style={{
               fontSize: '0.92rem',
@@ -151,10 +191,12 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
             </div>
             <div style={{
               fontSize: '0.68rem',
-              color: '#4ade80',
+              color: isHomeFackson ? '#4ade80' : '#94a3b8',
               fontWeight: 700
             }}>
-              {liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'FACKSON NEXT PRO'}
+              {isHomeFackson 
+                ? (liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'FACKSON NEXT PRO')
+                : 'HOST CLUB (HOME)'}
             </div>
           </div>
         </div>
@@ -176,7 +218,7 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
             color: 'var(--color-gold-primary)',
             fontFamily: 'monospace'
           }}>
-            {liveMatch.homeScore ?? 2}
+            {liveMatch.homeScore ?? 0}
           </span>
           <span style={{ color: '#64748b', fontWeight: 900 }}>:</span>
           <span style={{
@@ -185,7 +227,7 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
             color: '#ffffff',
             fontFamily: 'monospace'
           }}>
-            {liveMatch.awayScore ?? 1}
+            {liveMatch.awayScore ?? 0}
           </span>
         </div>
 
@@ -209,34 +251,41 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
             </div>
             <div style={{
               fontSize: '0.68rem',
-              color: '#94a3b8',
-              fontWeight: 600
+              color: isAwayFackson ? '#4ade80' : '#94a3b8',
+              fontWeight: 700
             }}>
-              VISITING SQUAD
+              {isAwayFackson 
+                ? (liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'FACKSON NEXT PRO')
+                : 'VISITING SQUAD'}
             </div>
           </div>
-          {liveMatch.awayLogo ? (
+          {awayLogoSrc ? (
             <img 
-              src={getMediaUrl(liveMatch.awayLogo)}
+              src={awayLogoSrc}
               alt={liveMatch.awayTeam}
               style={{
                 width: '42px',
                 height: '42px',
                 borderRadius: '50%',
                 border: '2px solid rgba(255, 208, 0, 0.4)',
-                objectFit: 'cover'
+                objectFit: 'contain',
+                background: '#130c1f'
               }}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                if (target.nextElementSibling) {
-                  (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                if (isAwayFackson) {
+                  target.src = liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                } else {
+                  target.style.display = 'none';
+                  if (target.nextElementSibling) {
+                    (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                  }
                 }
               }}
             />
           ) : null}
           <div style={{
-            display: liveMatch.awayLogo ? 'none' : 'flex',
+            display: awayLogoSrc ? 'none' : 'flex',
             width: '42px',
             height: '42px',
             borderRadius: '50%',
@@ -244,9 +293,9 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
             border: '2px solid rgba(255, 208, 0, 0.4)',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'var(--color-gold-primary)'
+            flexShrink: 0
           }}>
-            <Shield size={20} />
+            <Shield size={20} color={isAwayFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
           </div>
         </div>
       </div>

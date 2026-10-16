@@ -27,7 +27,27 @@ export const Home: React.FC<HomeProps> = ({
   matches,
   onOpenLightbox
 }) => {
-  const activeNews = news.slice(0, 3);
+  // Blend match fixtures into pitchside news feed so fixtures display as news on the website
+  const matchNewsTeasers: NewsItem[] = matches.slice(0, 2).map(m => {
+    const isHomeFackson = (m.homeTeam || '').toLowerCase().includes('fackson');
+    const isAwayFackson = (m.awayTeam || '').toLowerCase().includes('fackson');
+    const matchType = isHomeFackson ? 'Home Fixture' : isAwayFackson ? 'Away Fixture' : 'Showcase';
+    return {
+      _id: `home-match-news-${m._id}`,
+      title: `MATCH FIXTURE: ${m.homeTeam} vs ${m.awayTeam} (${m.gameType || '11 v 11'})`,
+      slug: `match-${m._id}`,
+      excerpt: `${matchType} on ${m.date} at ${m.time} WAT • Venue: ${m.venue || 'Meiran Field Estate'} • Format: ${m.gameType || '11 v 11'}`,
+      content: `Official Match Bulletin: ${m.homeTeam} vs ${m.awayTeam} at ${m.venue || 'Meiran Field Estate'} on ${m.date} at ${m.time}.`,
+      coverImage: (isHomeFackson ? m.homeLogo : m.awayLogo) || m.homeLogo || m.awayLogo || '/logos/fackson-next-pro.jpg',
+      category: 'match_fixture',
+      academy: m.academy,
+      author: 'Fackson FA Match Desk',
+      date: m.date,
+      featured: true
+    };
+  });
+
+  const activeNews = [...matchNewsTeasers, ...news].slice(0, 3);
   const teaserGallery = gallery.slice(0, 3);
 
   const ceoWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(

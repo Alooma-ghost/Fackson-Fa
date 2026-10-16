@@ -316,10 +316,18 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
           ) : (
             <div className="match-grid-large">
               {filteredMatches.map(m => {
-                const homeLogoSrc = getMediaUrl(
-                  m.homeLogo || (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'),
-                  m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'
-                );
+                const isHomeFackson = (m.homeTeam || '').toLowerCase().includes('fackson');
+                const isAwayFackson = (m.awayTeam || '').toLowerCase().includes('fackson');
+                const homeLogoSrc = m.homeLogo
+                  ? getMediaUrl(m.homeLogo)
+                  : isHomeFackson
+                    ? (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg')
+                    : '';
+                const awayLogoSrc = m.awayLogo
+                  ? getMediaUrl(m.awayLogo)
+                  : isAwayFackson
+                    ? (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg')
+                    : '';
                 const isHomeMeiran = (m.venue || '').toLowerCase().includes('meiran');
 
                 return (
@@ -389,23 +397,50 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
                       {/* Home Team */}
                       <div className="team-box">
                         <div className="team-crest-wrapper">
-                          <img 
-                            src={homeLogoSrc}
-                            alt={m.homeTeam}
-                            className="team-crest-img"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              const fallback = m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
-                              if (!target.src.includes(fallback)) target.src = fallback;
-                            }}
-                          />
+                          {homeLogoSrc ? (
+                            <img 
+                              src={homeLogoSrc}
+                              alt={m.homeTeam}
+                              className="team-crest-img"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                if (isHomeFackson) {
+                                  const fallback = m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                                  if (!target.src.includes(fallback)) target.src = fallback;
+                                } else {
+                                  target.style.display = 'none';
+                                  if (target.nextElementSibling) {
+                                    (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                                  }
+                                }
+                              }}
+                            />
+                          ) : null}
+                          <div style={{
+                            display: homeLogoSrc ? 'none' : 'flex',
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            background: '#131e2b',
+                            border: '1px solid rgba(255, 208, 0, 0.4)',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>
+                            <Shield size={30} color={isHomeFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
+                          </div>
                         </div>
                         <div className="team-title-large">
                           {m.homeTeam}
                         </div>
-                        <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
-                          {m.academy === 'angels' ? 'Angels Squad' : 'Next Pro Squad'}
-                        </span>
+                        {isHomeFackson ? (
+                          <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
+                            {m.academy === 'angels' ? 'Angels Squad' : 'Next Pro Squad'}
+                          </span>
+                        ) : (
+                          <span className="badge badge-navy" style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
+                            Host Club (Home)
+                          </span>
+                        )}
                       </div>
 
                       {/* Center Board (Score / VS / Kickoff) */}
@@ -467,22 +502,27 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
                       {/* Away Team */}
                       <div className="team-box">
                         <div className="team-crest-wrapper">
-                          {m.awayLogo ? (
+                          {awayLogoSrc ? (
                             <img 
-                              src={getMediaUrl(m.awayLogo)}
+                              src={awayLogoSrc}
                               alt={m.awayTeam}
                               className="team-crest-img"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                                if (target.nextElementSibling) {
-                                  (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                                if (isAwayFackson) {
+                                  const fallback = m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                                  if (!target.src.includes(fallback)) target.src = fallback;
+                                } else {
+                                  target.style.display = 'none';
+                                  if (target.nextElementSibling) {
+                                    (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                                  }
                                 }
                               }}
                             />
                           ) : null}
                           <div style={{
-                            display: m.awayLogo ? 'none' : 'flex',
+                            display: awayLogoSrc ? 'none' : 'flex',
                             width: '100%',
                             height: '100%',
                             borderRadius: '50%',
@@ -491,15 +531,21 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
                             alignItems: 'center',
                             justifyContent: 'center'
                           }}>
-                            <Shield size={30} color="var(--color-gold-primary)" />
+                            <Shield size={30} color={isAwayFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
                           </div>
                         </div>
                         <div className="team-title-large">
                           {m.awayTeam}
                         </div>
-                        <span className="badge badge-navy" style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
-                          Opponent
-                        </span>
+                        {isAwayFackson ? (
+                          <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
+                            {m.academy === 'angels' ? 'Angels Squad' : 'Next Pro Squad'}
+                          </span>
+                        ) : (
+                          <span className="badge badge-navy" style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
+                            Visiting Opponent
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -552,10 +598,10 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
                           </span>
                           <span style={{
                             fontSize: '0.68rem',
-                            color: isHomeMeiran ? 'var(--color-gold-primary)' : '#94a3b8',
+                            color: isHomeFackson || isHomeMeiran ? 'var(--color-gold-primary)' : '#38bdf8',
                             fontWeight: 700
                           }}>
-                            {isHomeMeiran ? '🏟️ Home Ground' : '📍 Away Stadium'}
+                            {isHomeFackson || isHomeMeiran ? '🏟️ Home Ground' : '📍 Away Stadium (Visiting)'}
                           </span>
                         </div>
                         <p style={{
