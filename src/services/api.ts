@@ -12,7 +12,8 @@ export const getMediaUrl = (path?: string, fallback: string = ''): string => {
   if (path.startsWith('data:') || path.startsWith('blob:')) return path;
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
   if (path.startsWith('/uploads')) {
-    const backendUrl = RAW_URL || 'http://localhost:5000';
+    const backendHost = typeof window !== 'undefined' && window.location?.hostname ? window.location.hostname : 'localhost';
+    const backendUrl = RAW_URL || `http://${backendHost}:5000`;
     return `${backendUrl}${path}`;
   }
   return path;

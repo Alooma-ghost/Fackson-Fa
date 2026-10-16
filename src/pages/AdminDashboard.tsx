@@ -520,7 +520,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             id="tab-admin-gallery"
           >
             <Camera size={18} />
-            <span>Post & Manage Pictures ({gallery.length})</span>
+            <span className="admin-tab-label">Pictures ({gallery.length})</span>
           </button>
 
           <button 
@@ -529,7 +529,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             id="tab-admin-players"
           >
             <Users size={18} />
-            <span>Manage Players & Squads ({players.length})</span>
+            <span className="admin-tab-label">Squad ({players.length})</span>
           </button>
 
           <button 
@@ -538,7 +538,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             id="tab-admin-news"
           >
             <Newspaper size={18} />
-            <span>Post News & Updates ({news.length})</span>
+            <span className="admin-tab-label">News ({news.length})</span>
           </button>
 
           <button 
@@ -547,7 +547,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             id="tab-admin-matches"
           >
             <Trophy size={18} />
-            <span>Manage Fixtures ({matches.length})</span>
+            <span className="admin-tab-label">Fixtures ({matches.length})</span>
           </button>
 
           <button 
@@ -556,7 +556,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             id="tab-admin-registrations"
           >
             <UserPlus size={18} />
-            <span>Trial Registrations ({registrations.length})</span>
+            <span className="admin-tab-label">Trials ({registrations.length})</span>
           </button>
         </div>
 
@@ -1360,7 +1360,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>(Upload direct club crests or enter image links)</span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                  <div className="logo-palette-grid">
                     {/* OUR TEAM LOGO */}
                     <div style={{ 
                       background: 'rgba(11, 27, 22, 0.6)', 
@@ -1406,7 +1406,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         </div>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <div className="logo-palette-inner">
                         <div style={{ 
                           width: '64px', 
                           height: '64px', 
@@ -1484,7 +1484,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         )}
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <div className="logo-palette-inner">
                         <div style={{ 
                           width: '64px', 
                           height: '64px', 
@@ -1570,7 +1570,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
 
                 {/* ACADEMY, AGE TIER, & GAME FORMAT */}
-                <div className="form-row">
+                <div className="form-row form-row-3">
                   <div className="form-group">
                     <label className="form-label">Academy Association *</label>
                     <select 
@@ -1710,7 +1710,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
 
                 {/* DATE, TIME & STATUS */}
-                <div className="form-row">
+                <div className="form-row form-row-3">
                   <div className="form-group">
                     <label className="form-label">Match Date *</label>
                     <input 
@@ -1937,114 +1937,201 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </span>
             </div>
 
-            <div className="admin-table-container">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Match Teams & Logos</th>
-                    <th>Format</th>
-                    <th>Academy & Tier</th>
-                    <th>Date & Time</th>
-                    <th>Match Venue</th>
-                    <th>Status / Score</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {matches.map(m => (
-                    <tr key={m._id}>
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                            <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#0b1b16', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <img 
-                                src={getMediaUrl(m.homeLogo || (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'))} 
-                                alt={m.homeTeam} 
-                                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                                onError={(e) => { (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg'; }}
-                              />
-                            </div>
-                            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>vs</span>
-                            <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#180f22', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              {m.awayLogo ? (
+            <div className="admin-matches-table-wrapper">
+              <div className="admin-table-container">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Match Teams & Logos</th>
+                      <th>Format</th>
+                      <th>Academy & Tier</th>
+                      <th>Date & Time</th>
+                      <th>Match Venue</th>
+                      <th>Status / Score</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {matches.map(m => (
+                      <tr key={m._id}>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#0b1b16', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <img 
-                                  src={getMediaUrl(m.awayLogo)} 
-                                  alt={m.awayTeam} 
+                                  src={getMediaUrl(m.homeLogo || (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'))} 
+                                  alt={m.homeTeam} 
                                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                                   onError={(e) => { (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg'; }}
                                 />
-                              ) : (
-                                <Shield size={14} color="#94a3b8" />
-                              )}
+                              </div>
+                              <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>vs</span>
+                              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#180f22', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {m.awayLogo ? (
+                                  <img 
+                                    src={getMediaUrl(m.awayLogo)} 
+                                    alt={m.awayTeam} 
+                                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                    onError={(e) => { (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg'; }}
+                                  />
+                                ) : (
+                                  <Shield size={14} color="#94a3b8" />
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <strong style={{ color: '#fff', fontSize: '0.92rem' }}>{m.homeTeam} vs {m.awayTeam}</strong>
+                              <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: 0 }}>{m.competition}</p>
                             </div>
                           </div>
-                          <div>
-                            <strong style={{ color: '#fff', fontSize: '0.92rem' }}>{m.homeTeam} vs {m.awayTeam}</strong>
-                            <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: 0 }}>{m.competition}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <span className="game-type-chip" style={{ fontSize: '0.75rem', padding: '0.2rem 0.55rem' }}>
-                          {m.gameType || '11 v 11'}
-                        </span>
-                      </td>
-                      <td>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                          <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ width: 'fit-content' }}>
-                            {m.academy === 'angels' ? 'Angels' : 'Next Pro'}
+                        </td>
+                        <td>
+                          <span className="game-type-chip" style={{ fontSize: '0.75rem', padding: '0.2rem 0.55rem' }}>
+                            {m.gameType || '11 v 11'}
                           </span>
-                          <span style={{ fontSize: '0.78rem', color: '#cbd5e1' }}>{m.category.toUpperCase()}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div style={{ fontSize: '0.85rem', color: '#f8fafc' }}>
-                          <strong>{m.date}</strong>
-                          <div style={{ fontSize: '0.78rem', color: 'var(--color-gold-light)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                            <Clock size={11} /> {m.time}
-                          </div>
-                        </div>
-                      </td>
-                      <td style={{ maxWidth: '240px' }}>
-                        <div style={{ fontSize: '0.8rem', color: '#cbd5e1', display: 'flex', alignItems: 'flex-start', gap: '0.35rem' }}>
-                          <MapPin size={13} color="var(--color-gold-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                          <span style={{ lineHeight: 1.3 }}>{m.venue || 'Meiran Field Estate'}</span>
-                        </div>
-                      </td>
-                      <td>
-                        {m.status === 'completed' ? (
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <strong style={{ color: 'var(--color-gold-primary)', fontSize: '0.95rem' }}>
-                              {m.homeScore} - {m.awayScore}
-                            </strong>
-                            <span className="badge badge-gold" style={{ fontSize: '0.68rem', width: 'fit-content' }}>FINAL</span>
-                          </div>
-                        ) : m.status === 'live' ? (
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <strong style={{ color: '#10b981', fontSize: '0.95rem' }}>
-                              {m.homeScore} - {m.awayScore}
-                            </strong>
-                            <span className="live-status-pill" style={{ fontSize: '0.68rem', width: 'fit-content', padding: '0.15rem 0.45rem' }}>
-                              <span className="pulse-dot"></span> LIVE
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                            <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ width: 'fit-content' }}>
+                              {m.academy === 'angels' ? 'Angels' : 'Next Pro'}
                             </span>
+                            <span style={{ fontSize: '0.78rem', color: '#cbd5e1' }}>{m.category.toUpperCase()}</span>
                           </div>
-                        ) : (
-                          <span className="badge badge-navy">UPCOMING</span>
-                        )}
-                      </td>
-                      <td>
-                        <button 
-                          className="btn-icon-danger"
-                          title="Delete Match"
-                          onClick={() => handleDeleteMatch(m._id)}
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        </td>
+                        <td>
+                          <div style={{ fontSize: '0.85rem', color: '#f8fafc' }}>
+                            <strong>{m.date}</strong>
+                            <div style={{ fontSize: '0.78rem', color: 'var(--color-gold-light)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                              <Clock size={11} /> {m.time}
+                            </div>
+                          </div>
+                        </td>
+                        <td style={{ maxWidth: '240px' }}>
+                          <div style={{ fontSize: '0.8rem', color: '#cbd5e1', display: 'flex', alignItems: 'flex-start', gap: '0.35rem' }}>
+                            <MapPin size={13} color="var(--color-gold-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                            <span style={{ lineHeight: 1.3 }}>{m.venue || 'Meiran Field Estate'}</span>
+                          </div>
+                        </td>
+                        <td>
+                          {m.status === 'completed' ? (
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                              <strong style={{ color: 'var(--color-gold-primary)', fontSize: '0.95rem' }}>
+                                {m.homeScore} - {m.awayScore}
+                              </strong>
+                              <span className="badge badge-gold" style={{ fontSize: '0.68rem', width: 'fit-content' }}>FINAL</span>
+                            </div>
+                          ) : m.status === 'live' ? (
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                              <strong style={{ color: '#10b981', fontSize: '0.95rem' }}>
+                                {m.homeScore} - {m.awayScore}
+                              </strong>
+                              <span className="live-status-pill" style={{ fontSize: '0.68rem', width: 'fit-content', padding: '0.15rem 0.45rem' }}>
+                                <span className="pulse-dot"></span> LIVE
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="badge badge-navy">UPCOMING</span>
+                          )}
+                        </td>
+                        <td>
+                          <button 
+                            className="btn-icon-danger"
+                            title="Delete Match"
+                            onClick={() => handleDeleteMatch(m._id)}
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Mobile Cards View for Small Screens */}
+            <div className="admin-matches-cards">
+              {matches.map(m => (
+                <div key={m._id} className="admin-match-card-mobile">
+                  <div className="admin-match-card-mobile-header">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ fontSize: '0.68rem' }}>
+                        {m.academy === 'angels' ? 'Angels' : 'Next Pro'}
+                      </span>
+                      <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{m.category.toUpperCase()}</span>
+                    </div>
+                    <span className="game-type-chip" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>
+                      {m.gameType || '11 v 11'}
+                    </span>
+                  </div>
+
+                  <div className="admin-match-card-mobile-teams">
+                    <div className="admin-match-card-mobile-team">
+                      <img 
+                        src={getMediaUrl(m.homeLogo || (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'))} 
+                        alt={m.homeTeam} 
+                        className="admin-match-card-mobile-crest"
+                        onError={(e) => { (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg'; }}
+                      />
+                      <span className="admin-match-card-mobile-teamname">{m.homeTeam}</span>
+                    </div>
+
+                    <div className="admin-match-card-mobile-vs">
+                      {m.status === 'completed' || m.status === 'live' ? (
+                        <div className="admin-match-card-mobile-score">
+                          {m.homeScore ?? 0} - {m.awayScore ?? 0}
+                        </div>
+                      ) : (
+                        <span style={{ color: '#94a3b8', fontSize: '0.78rem' }}>VS</span>
+                      )}
+                      {m.status === 'live' ? (
+                        <span className="live-status-pill" style={{ fontSize: '0.62rem', padding: '0.1rem 0.35rem' }}>
+                          <span className="pulse-dot"></span> LIVE
+                        </span>
+                      ) : m.status === 'completed' ? (
+                        <span className="badge badge-gold" style={{ fontSize: '0.62rem' }}>FINAL</span>
+                      ) : (
+                        <span className="badge badge-navy" style={{ fontSize: '0.62rem' }}>UPCOMING</span>
+                      )}
+                    </div>
+
+                    <div className="admin-match-card-mobile-team">
+                      {m.awayLogo ? (
+                        <img 
+                          src={getMediaUrl(m.awayLogo)} 
+                          alt={m.awayTeam} 
+                          className="admin-match-card-mobile-crest"
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg'; }}
+                        />
+                      ) : (
+                        <div className="admin-match-card-mobile-crest" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Shield size={20} color="#94a3b8" />
+                        </div>
+                      )}
+                      <span className="admin-match-card-mobile-teamname">{m.awayTeam}</span>
+                    </div>
+                  </div>
+
+                  <div className="admin-match-card-mobile-footer">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: 'var(--color-gold-light)', fontSize: '0.74rem' }}>
+                        <Clock size={11} /> {m.date} • {m.time}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#cbd5e1', fontSize: '0.72rem' }}>
+                        <MapPin size={11} color="var(--color-gold-primary)" /> {m.venue || 'Meiran Field Estate'}
+                      </div>
+                    </div>
+                    <button 
+                      className="btn-icon-danger"
+                      title="Delete Match"
+                      onClick={() => handleDeleteMatch(m._id)}
+                      style={{ padding: '0.35rem' }}
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
