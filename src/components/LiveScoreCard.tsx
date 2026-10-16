@@ -47,116 +47,54 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
       : '';
 
   return (
-    <div style={{
-      background: 'linear-gradient(135deg, rgba(10, 14, 10, 0.95) 0%, rgba(5, 7, 5, 0.98) 100%)',
-      border: '1px solid rgba(255, 208, 0, 0.35)',
-      borderRadius: '16px',
-      padding: '1.25rem 1.5rem',
-      boxShadow: '0 12px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 208, 0, 0.1)',
-      position: 'relative',
-      overflow: 'hidden',
-      maxWidth: '520px',
-      width: '100%',
-      backdropFilter: 'blur(12px)'
-    }}>
+    <div className="live-score-card">
       {/* Top Ambient Glow Bar */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '3px',
-        background: 'linear-gradient(90deg, #4ade80, var(--color-gold-primary), #fb7185)'
-      }} />
+      <div className="live-score-strip" />
 
       {/* Header Bar */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: '0.85rem'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '5px',
-            background: 'rgba(239, 68, 68, 0.18)',
-            border: '1px solid rgba(239, 68, 68, 0.5)',
-            color: '#f87171',
-            borderRadius: '50px',
-            padding: '3px 10px',
-            fontSize: '0.68rem',
-            fontWeight: 800,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em'
-          }}>
+      <div className="live-score-topbar">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+          <span className="live-score-badge-live">
             <span style={{
-              width: '6px',
-              height: '6px',
+              width: '5px',
+              height: '5px',
               borderRadius: '50%',
               background: '#ef4444',
-              boxShadow: '0 0 8px #ef4444',
-              animation: 'pulse 1.5s infinite'
+              boxShadow: '0 0 6px #ef4444',
+              animation: 'pulse 1.5s infinite',
+              flexShrink: 0
             }} />
             PITCHSIDE LIVE
           </span>
-          <span style={{
-            color: 'var(--color-gold-primary)',
-            fontSize: '0.72rem',
-            fontWeight: 700,
-            letterSpacing: '0.04em'
-          }}>
-            {liveMatch.time || '68\' 2nd Half'}
+          <span className="live-score-time-indicator">
+            {liveMatch.time || "68' 2nd Half"}
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{
-            fontSize: '0.7rem',
-            color: '#94a3b8',
-            fontWeight: 600,
-            textTransform: 'uppercase'
-          }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+          <span className="live-score-competition-label" title={liveMatch.competition}>
             {liveMatch.competition}
           </span>
-          <span className="game-type-chip" style={{ fontSize: '0.65rem', padding: '2px 8px' }}>
+          <span className="game-type-chip" style={{ fontSize: '0.62rem', padding: '1px 6px', whiteSpace: 'nowrap' }}>
             ⚽ {liveMatch.gameType || '11 v 11'}
           </span>
         </div>
       </div>
 
       {/* Scoreboard Row */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0.5rem 0',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
-      }}>
+      <div className="live-score-matchup">
         {/* Home Team */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          flex: 1
-        }}>
+        <div className="live-score-team">
           {homeLogoSrc ? (
             <img
               src={homeLogoSrc}
               alt={liveMatch.homeTeam}
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '50%',
-                border: '2px solid var(--color-gold-primary)',
-                objectFit: 'contain',
-                background: '#07100b'
-              }}
+              className="live-score-crest-img"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 if (isHomeFackson) {
-                  target.src = liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                  const fallback = liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                  if (!target.src.includes(fallback)) target.src = fallback;
                 } else {
                   target.style.display = 'none';
                   if (target.nextElementSibling) {
@@ -166,115 +104,61 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
               }}
             />
           ) : null}
-          <div style={{
-            display: homeLogoSrc ? 'none' : 'flex',
-            width: '42px',
-            height: '42px',
-            borderRadius: '50%',
-            background: '#131e2b',
-            border: '2px solid rgba(255, 208, 0, 0.4)',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0
-          }}>
-            <Shield size={20} color={isHomeFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
+          <div className="live-score-crest-placeholder" style={{ display: homeLogoSrc ? 'none' : 'flex' }}>
+            <Shield size={16} color={isHomeFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
           </div>
 
-          <div>
-            <div style={{
-              fontSize: '0.92rem',
-              fontWeight: 800,
-              color: '#ffffff',
-              lineHeight: 1.15
-            }}>
+          <div className="live-score-team-info">
+            <div className="live-score-team-name" title={liveMatch.homeTeam}>
               {liveMatch.homeTeam}
             </div>
-            <div style={{
-              fontSize: '0.68rem',
-              color: isHomeFackson ? '#4ade80' : '#94a3b8',
-              fontWeight: 700
-            }}>
+            <div
+              className="live-score-team-role"
+              style={{ color: isHomeFackson ? '#4ade80' : '#94a3b8' }}
+            >
               {isHomeFackson 
-                ? (liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'FACKSON NEXT PRO')
-                : 'HOST CLUB (HOME)'}
+                ? (liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'NEXT PRO')
+                : 'HOME CLUB'}
             </div>
           </div>
         </div>
 
-        {/* Big Score Box */}
-        <div style={{
-          background: 'rgba(0, 0, 0, 0.6)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          borderRadius: '10px',
-          padding: '6px 14px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          margin: '0 0.75rem'
-        }}>
-          <span style={{
-            fontSize: '1.6rem',
-            fontWeight: 900,
-            color: 'var(--color-gold-primary)',
-            fontFamily: 'monospace'
-          }}>
+        {/* Big Score Digits Box */}
+        <div className="live-score-digits-box">
+          <span className="live-score-digit-home">
             {liveMatch.homeScore ?? 0}
           </span>
-          <span style={{ color: '#64748b', fontWeight: 900 }}>:</span>
-          <span style={{
-            fontSize: '1.6rem',
-            fontWeight: 900,
-            color: '#ffffff',
-            fontFamily: 'monospace'
-          }}>
+          <span className="live-score-colon">:</span>
+          <span className="live-score-digit-away">
             {liveMatch.awayScore ?? 0}
           </span>
         </div>
 
         {/* Away Team */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          flex: 1,
-          justifyContent: 'flex-end',
-          textAlign: 'right'
-        }}>
-          <div>
-            <div style={{
-              fontSize: '0.92rem',
-              fontWeight: 800,
-              color: '#ffffff',
-              lineHeight: 1.15
-            }}>
+        <div className="live-score-team away">
+          <div className="live-score-team-info">
+            <div className="live-score-team-name" title={liveMatch.awayTeam}>
               {liveMatch.awayTeam}
             </div>
-            <div style={{
-              fontSize: '0.68rem',
-              color: isAwayFackson ? '#4ade80' : '#94a3b8',
-              fontWeight: 700
-            }}>
+            <div 
+              className="live-score-team-role"
+              style={{ color: isAwayFackson ? '#4ade80' : '#94a3b8' }}
+            >
               {isAwayFackson 
-                ? (liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'FACKSON NEXT PRO')
-                : 'VISITING SQUAD'}
+                ? (liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'NEXT PRO')
+                : 'VISITOR'}
             </div>
           </div>
           {awayLogoSrc ? (
             <img 
               src={awayLogoSrc}
               alt={liveMatch.awayTeam}
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '50%',
-                border: '2px solid rgba(255, 208, 0, 0.4)',
-                objectFit: 'contain',
-                background: '#130c1f'
-              }}
+              className="live-score-crest-img"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 if (isAwayFackson) {
-                  target.src = liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                  const fallback = liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                  if (!target.src.includes(fallback)) target.src = fallback;
                 } else {
                   target.style.display = 'none';
                   if (target.nextElementSibling) {
@@ -284,40 +168,36 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
               }}
             />
           ) : null}
-          <div style={{
-            display: awayLogoSrc ? 'none' : 'flex',
-            width: '42px',
-            height: '42px',
-            borderRadius: '50%',
-            background: '#131e2b',
-            border: '2px solid rgba(255, 208, 0, 0.4)',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0
-          }}>
-            <Shield size={20} color={isAwayFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
+          <div className="live-score-crest-placeholder" style={{ display: awayLogoSrc ? 'none' : 'flex' }}>
+            <Shield size={16} color={isAwayFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
           </div>
         </div>
       </div>
 
-      {/* Scorers & Venue Strip */}
-      <div style={{
-        marginTop: '0.75rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '8px'
-      }}>
+      {/* Scorers Strip (if any) */}
+      {liveMatch.scorers && liveMatch.scorers.length > 0 && (
+        <div className="live-score-scorers-bar">
+          <span style={{ color: 'var(--color-gold-primary)', fontWeight: 800 }}>⚽ Scorers:</span>
+          <span>{liveMatch.scorers.join(' • ')}</span>
+        </div>
+      )}
+
+      {/* Venue & Link Strip */}
+      <div className="live-score-footer">
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
+          gap: '5px',
           color: '#cbd5e1',
-          fontSize: '0.72rem'
+          minWidth: 0,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
         }}>
-          <MapPin size={13} color="#4ade80" />
-          <span style={{ color: '#94a3b8' }}>{liveMatch.venue || 'Meiran Field Estate, Alagbado'}</span>
+          <MapPin size={12} color="#4ade80" style={{ flexShrink: 0 }} />
+          <span style={{ color: '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {liveMatch.venue || 'Meiran Field Estate, Alagbado'}
+          </span>
         </div>
 
         {onViewMatches && (
@@ -327,17 +207,18 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
               background: 'none',
               border: 'none',
               color: 'var(--color-gold-primary)',
-              fontSize: '0.72rem',
-              fontWeight: 700,
+              fontSize: '0.7rem',
+              fontWeight: 800,
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
               cursor: 'pointer',
-              padding: 0
+              padding: 0,
+              flexShrink: 0
             }}
           >
             <span>Match Center</span>
-            <ArrowRight size={12} />
+            <ArrowRight size={11} />
           </button>
         )}
       </div>

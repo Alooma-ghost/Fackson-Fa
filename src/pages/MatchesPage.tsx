@@ -168,40 +168,33 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
       </section>
 
       {/* 1. ACTIVE LIVE MATCH SNAPSHOT (If Any) */}
-      <section style={{ padding: '2.5rem 0 1.5rem' }}>
+      <section style={{ padding: '1.75rem 0 1rem' }}>
         <div className="container">
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(12, 18, 12, 0.9) 0%, rgba(5, 7, 5, 0.95) 100%)',
-            border: '1px solid rgba(255, 208, 0, 0.35)',
-            borderRadius: '20px',
-            padding: '2rem',
-            boxShadow: '0 16px 48px rgba(0,0,0,0.8)',
-            marginBottom: '2rem'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="live-scoreboard-container">
+            <div className="live-scoreboard-header-bar">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                 <span style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '6px',
+                  gap: '5px',
                   background: 'rgba(239, 68, 68, 0.2)',
                   border: '1px solid rgba(239, 68, 68, 0.5)',
                   color: '#f87171',
                   borderRadius: '50px',
-                  padding: '4px 12px',
-                  fontSize: '0.72rem',
+                  padding: '3px 10px',
+                  fontSize: '0.68rem',
                   fontWeight: 800,
                   textTransform: 'uppercase'
                 }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }} />
+                  <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }} />
                   ACTIVE MATCHDAY SCOREBOARD
                 </span>
-                <span style={{ color: 'var(--color-gold-primary)', fontSize: '0.82rem', fontWeight: 700 }}>
+                <span style={{ color: 'var(--color-gold-primary)', fontSize: '0.78rem', fontWeight: 700 }}>
                   Meiran Field Estate Pitch 1
                 </span>
               </div>
 
-              <span style={{ color: '#94a3b8', fontSize: '0.78rem' }}>
+              <span style={{ color: '#94a3b8', fontSize: '0.74rem' }}>
                 Official Grassroots League Snapshot
               </span>
             </div>
