@@ -51,10 +51,19 @@ export const App: React.FC = () => {
         api.getNews(),
         api.getMatches()
       ]);
-      setPlayers(playersData);
-      setGallery(galleryData && galleryData.length > 0 ? galleryData : INITIAL_GALLERY_ITEMS);
-      setNews(newsData);
-      setMatches(matchesData);
+      setPlayers(playersData || []);
+
+      // Combine user-added gallery items with initial showcase items (newest user items first)
+      const mergedGallery = [...(galleryData || [])];
+      INITIAL_GALLERY_ITEMS.forEach(initItem => {
+        if (!mergedGallery.some(g => g._id === initItem._id || g.title === initItem.title)) {
+          mergedGallery.push(initItem);
+        }
+      });
+      setGallery(mergedGallery.length > 0 ? mergedGallery : INITIAL_GALLERY_ITEMS);
+
+      setNews(newsData || []);
+      setMatches(matchesData || []);
 
       // If admin token is active, also fetch registrations
       if (getAuthToken()) {

@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Camera, Users, Newspaper, Calendar, UserPlus, LogOut, Upload, Trash2, 
-  Plus, Check, AlertCircle, ArrowLeft, Image as ImageIcon, Eye, Shield, Trophy, CreditCard
+  Plus, Check, AlertCircle, ArrowLeft, Image as ImageIcon, Eye, Shield, Trophy, CreditCard,
+  MapPin, Clock, Flag, RefreshCw
 } from 'lucide-react';
-import { api, removeAuthToken } from '../services/api';
+import { api, removeAuthToken, getMediaUrl, fileToBase64 } from '../services/api';
 import { Player, GalleryItem, NewsItem, MatchItem, RegistrationItem, AdminUser, AcademyType, AgeCategory, PaymentItem } from '../types';
 
 interface AdminDashboardProps {
@@ -119,7 +120,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     position: 'Forward' as any,
     jerseyNumber: 10,
     age: 16,
-    photoUrl: '/images/training-1.jpg',
+    photoUrl: '',
     bio: '',
     appearances: 0,
     goals: 0,
@@ -176,7 +177,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         position: 'Forward',
         jerseyNumber: 11,
         age: 16,
-        photoUrl: '/images/training-1.jpg',
+        photoUrl: '',
         bio: '',
         appearances: 0,
         goals: 0,
@@ -210,7 +211,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     excerpt: '',
     content: '',
     category: 'match',
-    coverImage: '/images/training-1.jpg',
+    coverImage: '',
     academy: 'all' as any,
     author: 'Fackson Academy Media'
   });
@@ -253,7 +254,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         excerpt: '',
         content: '',
         category: 'match',
-        coverImage: '/images/training-1.jpg',
+        coverImage: '',
         academy: 'all',
         author: 'Fackson Academy Media'
       });
@@ -277,44 +278,90 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   // ================= MATCH FIXTURE STATE =================
+  const ourLogoFileInputRef = useRef<HTMLInputElement>(null);
+  const opponentLogoFileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingOurLogo, setUploadingOurLogo] = useState(false);
+  const [uploadingOpponentLogo, setUploadingOpponentLogo] = useState(false);
+
   const [matchForm, setMatchForm] = useState({
     title: '',
     homeTeam: 'Fackson Next Pro U17',
     awayTeam: '',
+    homeLogo: '/logos/fackson-next-pro.jpg',
+    awayLogo: '',
     academy: 'next_pro' as AcademyType,
     category: 'u17' as AgeCategory,
+    gameType: '11 v 11',
     date: new Date().toISOString().split('T')[0],
     time: '15:00',
-    venue: 'Fackson Academy Stadium Complex',
-    competition: 'State Elite Youth Cup',
-    status: 'upcoming' as any,
+    venue: 'Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado',
+    competition: 'Lagos State Elite Grassroots League',
+    status: 'upcoming' as 'upcoming' | 'completed' | 'live',
     homeScore: 0,
-    awayScore: 0
+    awayScore: 0,
+    scorers: ''
   });
+
+  const handleOurLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingOurLogo(true);
+    try {
+      const url = await api.uploadImage(file);
+      setMatchForm(prev => ({ ...prev, homeLogo: url }));
+      showNotification('success', 'Our team logo uploaded!');
+    } catch (err: any) {
+      showNotification('error', err.message || 'Failed to upload our logo');
+    } finally {
+      setUploadingOurLogo(false);
+    }
+  };
+
+  const handleOpponentLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingOpponentLogo(true);
+    try {
+      const url = await api.uploadImage(file);
+      setMatchForm(prev => ({ ...prev, awayLogo: url }));
+      showNotification('success', 'Opponent logo uploaded!');
+    } catch (err: any) {
+      showNotification('error', err.message || 'Failed to upload opponent logo');
+    } finally {
+      setUploadingOpponentLogo(false);
+    }
+  };
 
   const handleCreateMatch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!matchForm.homeTeam || !matchForm.awayTeam) {
-      showNotification('error', 'Please provide home and away teams.');
+      showNotification('error', 'Please provide both home and away teams.');
       return;
     }
     setLoading(true);
     try {
-      await api.createMatch(matchForm);
-      showNotification('success', 'Match fixture created!');
+      await api.createMatch({
+        ...matchForm,
+        scorers: matchForm.scorers ? matchForm.scorers.split(',').map(s => s.trim()).filter(Boolean) : []
+      });
+      showNotification('success', 'Match fixture created and published!');
       setMatchForm({
         title: '',
-        homeTeam: 'Fackson Next Pro U17',
+        homeTeam: matchForm.academy === 'angels' ? 'Fackson Angels U17' : 'Fackson Next Pro U17',
         awayTeam: '',
-        academy: 'next_pro',
-        category: 'u17',
+        homeLogo: matchForm.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg',
+        awayLogo: '',
+        academy: matchForm.academy,
+        category: matchForm.category,
+        gameType: matchForm.gameType || '11 v 11',
         date: new Date().toISOString().split('T')[0],
         time: '15:00',
-        venue: 'Fackson Academy Stadium Complex',
-        competition: 'State Elite Youth Cup',
+        venue: 'Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado',
+        competition: 'Lagos State Elite Grassroots League',
         status: 'upcoming',
         homeScore: 0,
-        awayScore: 0
+        awayScore: 0,
+        scorers: ''
       });
       await refreshData();
     } catch (err: any) {
@@ -554,9 +601,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       <div style={{ marginTop: '0.75rem', textAlign: 'center' }}>
                         <span style={{ fontSize: '0.8rem', color: '#4ade80' }}>✓ Image ready</span>
                         <img 
-                          src={galleryForm.imageUrl} 
+                          src={getMediaUrl(galleryForm.imageUrl, '/images/training-1.jpg')} 
                           alt="Preview" 
                           className="upload-preview-img"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/images/training-1.jpg';
+                          }}
                         />
                       </div>
                     )}
@@ -683,7 +733,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {gallery.map(item => (
                     <tr key={item._id}>
                       <td>
-                        <img src={item.imageUrl} alt="" className="table-thumb" />
+                        <img 
+                          src={getMediaUrl(item.imageUrl, '/images/training-1.jpg')} 
+                          alt="" 
+                          className="table-thumb" 
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/images/training-1.jpg';
+                          }}
+                        />
                       </td>
                       <td>
                         <strong>{item.title}</strong>
@@ -866,6 +923,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         {playerForm.photoUrl}
                       </span>
                     </div>
+                    {playerForm.photoUrl ? (
+                      <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <img 
+                          src={getMediaUrl(playerForm.photoUrl)} 
+                          alt="Player preview" 
+                          style={{ width: '45px', height: '45px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-gold-primary)' }}
+                          onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
+                        />
+                        <span style={{ fontSize: '0.8rem', color: '#4ade80' }}>✓ Photo attached</span>
+                      </div>
+                    ) : (
+                      <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#94a3b8' }}>
+                        ℹ️ No photo attached yet. A sleek academy athlete monogram will be generated automatically.
+                      </div>
+                    )}
                   </div>
 
                   <div className="form-group">
@@ -945,7 +1017,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <tr key={p._id}>
                       <td>
                         <div className="table-player-cell">
-                          <img src={p.photoUrl} alt="" className="table-thumb" />
+                          {p.photoUrl && !p.photoUrl.includes('training-1.jpg') && !p.photoUrl.includes('angels-action-1.jpg') ? (
+                            <img 
+                              src={getMediaUrl(p.photoUrl)} 
+                              alt="" 
+                              className="table-thumb" 
+                              onError={(e) => {
+                                (e.target as HTMLElement).style.display = 'none';
+                              }}
+                            />
+                          ) : (
+                            <div className="table-thumb" style={{
+                              background: p.academy === 'angels' ? 'linear-gradient(135deg, #be185d, #1e1b4b)' : 'linear-gradient(135deg, #15803d, #0f172a)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--color-gold-primary)',
+                              fontWeight: 800,
+                              fontSize: '0.85rem'
+                            }}>
+                              {p.name ? p.name.charAt(0).toUpperCase() : 'P'}
+                            </div>
+                          )}
                           <strong>{p.name}</strong>
                         </div>
                       </td>
@@ -1061,6 +1154,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         style={{ flex: 1 }}
                       />
                     </div>
+                    {newsForm.coverImage ? (
+                      <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <img 
+                          src={getMediaUrl(newsForm.coverImage)} 
+                          alt="Cover preview" 
+                          style={{ width: '60px', height: '40px', borderRadius: '4px', objectFit: 'cover', border: '1px solid var(--color-gold-primary)' }}
+                          onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }}
+                        />
+                        <span style={{ fontSize: '0.8rem', color: '#4ade80' }}>✓ Cover image ready</span>
+                      </div>
+                    ) : (
+                      <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#94a3b8' }}>
+                        ℹ️ No cover photo uploaded yet. An editorial theme badge will be used.
+                      </div>
+                    )}
                   </div>
 
                 <div className="form-group">
@@ -1118,7 +1226,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {news.map(n => (
                     <tr key={n._id}>
                       <td>
-                        <img src={n.coverImage} alt="" className="table-thumb" />
+                        {n.coverImage && !n.coverImage.includes('training-1.jpg') ? (
+                          <img 
+                            src={getMediaUrl(n.coverImage)} 
+                            alt="" 
+                            className="table-thumb" 
+                            onError={(e) => {
+                              (e.target as HTMLElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <div className="table-thumb" style={{
+                            background: 'linear-gradient(135deg, rgba(255,208,0,0.2) 0%, rgba(15,23,42,0.9) 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--color-gold-primary)',
+                            fontSize: '0.9rem'
+                          }}>
+                            📰
+                          </div>
+                        )}
                       </td>
                       <td>
                         <strong>{n.title}</strong>
@@ -1155,31 +1283,285 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         {/* TAB 4: MANAGE MATCHES */}
         {activeTab === 'matches' && (
           <div>
+            {/* Hidden file inputs for logos */}
+            <input 
+              type="file" 
+              ref={ourLogoFileInputRef} 
+              onChange={handleOurLogoChange} 
+              accept="image/*" 
+              style={{ display: 'none' }} 
+            />
+            <input 
+              type="file" 
+              ref={opponentLogoFileInputRef} 
+              onChange={handleOpponentLogoChange} 
+              accept="image/*" 
+              style={{ display: 'none' }} 
+            />
+
             <div className="glass-card" style={{ marginBottom: '2.5rem' }}>
-              <h3 style={{ fontSize: '1.4rem', marginBottom: '1.25rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <Trophy size={22} color="var(--color-gold-primary)" />
-                <span>Create Match Fixture / Post Result</span>
-              </h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '1rem' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.4rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '0.6rem', margin: 0 }}>
+                    <Trophy size={24} color="var(--color-gold-primary)" />
+                    <span>Match Fixture & Results Studio</span>
+                  </h3>
+                  <p style={{ color: '#94a3b8', fontSize: '0.88rem', margin: '0.35rem 0 0 0' }}>
+                    Configure match venue, competition format (11v11, 8-aside, etc.), upload opponent crests, and publish upcoming fixtures or final scores.
+                  </p>
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMatchForm(prev => ({
+                        ...prev,
+                        academy: 'next_pro',
+                        homeTeam: 'Fackson Next Pro U17',
+                        homeLogo: '/logos/fackson-next-pro.jpg'
+                      }));
+                    }}
+                    className={`btn btn-sm ${matchForm.academy === 'next_pro' ? 'btn-green' : 'btn-outline'}`}
+                    style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}
+                  >
+                    Next Pro Match
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMatchForm(prev => ({
+                        ...prev,
+                        academy: 'angels',
+                        homeTeam: 'Fackson Angels U17',
+                        homeLogo: '/logos/fackson-angels.jpg'
+                      }));
+                    }}
+                    className={`btn btn-sm ${matchForm.academy === 'angels' ? 'btn-gold' : 'btn-outline'}`}
+                    style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}
+                  >
+                    Angels Match
+                  </button>
+                </div>
+              </div>
 
               <form onSubmit={handleCreateMatch}>
+                {/* LOGO SELECTION / UPLOAD PALETTES */}
+                <div style={{ 
+                  background: 'rgba(255, 255, 255, 0.03)', 
+                  border: '1px solid rgba(255, 255, 255, 0.08)', 
+                  borderRadius: '12px', 
+                  padding: '1.25rem', 
+                  marginBottom: '1.75rem' 
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                    <Flag size={18} color="var(--color-gold-primary)" />
+                    <span style={{ color: '#f8fafc', fontWeight: 600, fontSize: '1rem' }}>Team Crest & Logo Palette</span>
+                    <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>(Upload direct club crests or enter image links)</span>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                    {/* OUR TEAM LOGO */}
+                    <div style={{ 
+                      background: 'rgba(11, 27, 22, 0.6)', 
+                      border: '1px solid rgba(16, 185, 129, 0.25)', 
+                      borderRadius: '10px', 
+                      padding: '1rem' 
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-gold-light)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          Our Academy Crest (Home)
+                        </span>
+                        <div style={{ display: 'flex', gap: '0.35rem' }}>
+                          <button
+                            type="button"
+                            onClick={() => setMatchForm(prev => ({ ...prev, homeLogo: '/logos/fackson-next-pro.jpg' }))}
+                            style={{ 
+                              background: matchForm.homeLogo.includes('next-pro') ? 'rgba(16, 185, 129, 0.25)' : 'transparent',
+                              border: '1px solid rgba(255,255,255,0.1)',
+                              color: '#fff',
+                              borderRadius: '4px',
+                              padding: '0.2rem 0.5rem',
+                              fontSize: '0.72rem',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            Next Pro
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setMatchForm(prev => ({ ...prev, homeLogo: '/logos/fackson-angels.jpg' }))}
+                            style={{ 
+                              background: matchForm.homeLogo.includes('angels') ? 'rgba(217, 119, 6, 0.25)' : 'transparent',
+                              border: '1px solid rgba(255,255,255,0.1)',
+                              color: '#fff',
+                              borderRadius: '4px',
+                              padding: '0.2rem 0.5rem',
+                              fontSize: '0.72rem',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            Angels
+                          </button>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{ 
+                          width: '64px', 
+                          height: '64px', 
+                          borderRadius: '50%', 
+                          background: '#04120c', 
+                          border: '2px solid rgba(16, 185, 129, 0.5)', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          overflow: 'hidden', 
+                          flexShrink: 0,
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                        }}>
+                          {matchForm.homeLogo ? (
+                            <img 
+                              src={getMediaUrl(matchForm.homeLogo)} 
+                              alt="Our Crest" 
+                              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
+                              }}
+                            />
+                          ) : (
+                            <Shield size={28} color="var(--color-gold-primary)" />
+                          )}
+                        </div>
+
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                          <button
+                            type="button"
+                            onClick={() => ourLogoFileInputRef.current?.click()}
+                            disabled={uploadingOurLogo}
+                            className="btn btn-outline btn-sm"
+                            style={{ fontSize: '0.78rem', padding: '0.4rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem', justifyContent: 'center' }}
+                          >
+                            {uploadingOurLogo ? (
+                              <RefreshCw size={14} className="animate-spin" />
+                            ) : (
+                              <Upload size={14} />
+                            )}
+                            <span>{uploadingOurLogo ? 'Uploading Crest...' : 'Upload Crest File'}</span>
+                          </button>
+
+                          <input
+                            type="text"
+                            placeholder="Or paste Logo Image URL"
+                            value={matchForm.homeLogo}
+                            onChange={(e) => setMatchForm({ ...matchForm, homeLogo: e.target.value })}
+                            className="form-input"
+                            style={{ fontSize: '0.78rem', padding: '0.35rem 0.6rem' }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* OPPONENT TEAM LOGO */}
+                    <div style={{ 
+                      background: 'rgba(24, 15, 34, 0.6)', 
+                      border: '1px solid rgba(217, 119, 6, 0.3)', 
+                      borderRadius: '10px', 
+                      padding: '1rem' 
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          Opponent Team Crest (Away)
+                        </span>
+                        {matchForm.awayLogo && (
+                          <button
+                            type="button"
+                            onClick={() => setMatchForm(prev => ({ ...prev, awayLogo: '' }))}
+                            style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '0.72rem', cursor: 'pointer' }}
+                          >
+                            Reset
+                          </button>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{ 
+                          width: '64px', 
+                          height: '64px', 
+                          borderRadius: '50%', 
+                          background: '#130c1f', 
+                          border: '2px solid rgba(217, 119, 6, 0.5)', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          overflow: 'hidden', 
+                          flexShrink: 0,
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                        }}>
+                          {matchForm.awayLogo ? (
+                            <img 
+                              src={getMediaUrl(matchForm.awayLogo)} 
+                              alt="Opponent Crest" 
+                              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
+                              }}
+                            />
+                          ) : (
+                            <Shield size={28} color="#94a3b8" />
+                          )}
+                        </div>
+
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                          <button
+                            type="button"
+                            onClick={() => opponentLogoFileInputRef.current?.click()}
+                            disabled={uploadingOpponentLogo}
+                            className="btn btn-outline btn-sm"
+                            style={{ fontSize: '0.78rem', padding: '0.4rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem', justifyContent: 'center' }}
+                          >
+                            {uploadingOpponentLogo ? (
+                              <RefreshCw size={14} className="animate-spin" />
+                            ) : (
+                              <Upload size={14} />
+                            )}
+                            <span>{uploadingOpponentLogo ? 'Uploading Crest...' : 'Upload Opponent Crest'}</span>
+                          </button>
+
+                          <input
+                            type="text"
+                            placeholder="Or paste Opponent Crest URL"
+                            value={matchForm.awayLogo}
+                            onChange={(e) => setMatchForm({ ...matchForm, awayLogo: e.target.value })}
+                            className="form-input"
+                            style={{ fontSize: '0.78rem', padding: '0.35rem 0.6rem' }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* TEAM NAMES */}
                 <div className="form-row">
                   <div className="form-group">
-                    <label className="form-label">Home Team *</label>
+                    <label className="form-label">Home Team Name *</label>
                     <input 
                       type="text" 
                       required 
                       value={matchForm.homeTeam}
                       onChange={(e) => setMatchForm({ ...matchForm, homeTeam: e.target.value })}
+                      placeholder="e.g. Fackson Next Pro U17"
                       className="form-input"
                     />
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Away Team *</label>
+                    <label className="form-label">Away / Opponent Team Name *</label>
                     <input 
                       type="text" 
                       required 
-                      placeholder="e.g. Apex Stars FC"
+                      placeholder="e.g. Apex Stars Football Academy"
                       value={matchForm.awayTeam}
                       onChange={(e) => setMatchForm({ ...matchForm, awayTeam: e.target.value })}
                       className="form-input"
@@ -1187,13 +1569,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
                 </div>
 
+                {/* ACADEMY, AGE TIER, & GAME FORMAT */}
                 <div className="form-row">
                   <div className="form-group">
                     <label className="form-label">Academy Association *</label>
                     <select 
                       className="form-select"
                       value={matchForm.academy}
-                      onChange={(e) => setMatchForm({ ...matchForm, academy: e.target.value as any })}
+                      onChange={(e) => {
+                        const val = e.target.value as any;
+                        setMatchForm(prev => ({
+                          ...prev,
+                          academy: val,
+                          homeTeam: val === 'angels' ? 'Fackson Angels U17' : 'Fackson Next Pro U17',
+                          homeLogo: val === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'
+                        }));
+                      }}
                     >
                       <option value="next_pro">Fackson Next Pro (Male)</option>
                       <option value="angels">Fackson Angels (Female)</option>
@@ -1210,14 +1601,118 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       <option value="u10">Under 10 (U-10)</option>
                       <option value="u13">Under 13 (U-13)</option>
                       <option value="u17">Under 17 (U-17)</option>
-                      <option value="free_age">Free Age (Senior)</option>
+                      <option value="free_age">Free Age (Senior / First Team)</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span>Competition / Game Type *</span>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-gold-light)' }}>Format</span>
+                    </label>
+                    <select 
+                      className="form-select"
+                      value={matchForm.gameType}
+                      onChange={(e) => setMatchForm({ ...matchForm, gameType: e.target.value })}
+                      style={{ fontWeight: 600, color: 'var(--color-gold-light)' }}
+                    >
+                      <option value="11 v 11">11 v 11 (Full Standard Match)</option>
+                      <option value="8 aside">8 aside (Youth / Small Sided Match)</option>
+                      <option value="7 aside">7 aside (Grassroots Tournament)</option>
+                      <option value="6 aside">6 aside (Fast-Paced Mini Pitch)</option>
+                      <option value="5 aside / Futsal">5 aside / Futsal (Indoor / Court)</option>
                     </select>
                   </div>
                 </div>
 
+                {/* GAME TYPE QUICK CHIPS */}
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '-0.5rem', marginBottom: '1.25rem' }}>
+                  {['11 v 11', '8 aside', '7 aside', '6 aside', '5 aside / Futsal'].map(gt => (
+                    <button
+                      key={gt}
+                      type="button"
+                      onClick={() => setMatchForm(prev => ({ ...prev, gameType: gt }))}
+                      style={{
+                        background: matchForm.gameType === gt ? 'rgba(217, 119, 6, 0.25)' : 'rgba(255, 255, 255, 0.04)',
+                        border: matchForm.gameType === gt ? '1px solid var(--color-gold-primary)' : '1px solid rgba(255, 255, 255, 0.08)',
+                        color: matchForm.gameType === gt ? 'var(--color-gold-light)' : '#cbd5e1',
+                        borderRadius: '20px',
+                        padding: '0.2rem 0.65rem',
+                        fontSize: '0.75rem',
+                        fontWeight: matchForm.gameType === gt ? 600 : 400,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      {gt}
+                    </button>
+                  ))}
+                </div>
+
+                {/* COMPETITION & VENUE */}
                 <div className="form-row">
                   <div className="form-group">
-                    <label className="form-label">Date *</label>
+                    <label className="form-label">Competition / Tournament Name *</label>
+                    <input 
+                      type="text" 
+                      required 
+                      value={matchForm.competition}
+                      onChange={(e) => setMatchForm({ ...matchForm, competition: e.target.value })}
+                      placeholder="e.g. Lagos State Elite Grassroots League"
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                      <label className="form-label" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <MapPin size={15} color="var(--color-gold-primary)" />
+                        <span>Match Venue (Location) *</span>
+                      </label>
+                      <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Quick Presets below</span>
+                    </div>
+                    <input 
+                      type="text" 
+                      required 
+                      value={matchForm.venue}
+                      onChange={(e) => setMatchForm({ ...matchForm, venue: e.target.value })}
+                      placeholder="e.g. Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado"
+                      className="form-input"
+                    />
+                  </div>
+                </div>
+
+                {/* VENUE PRESET CHIPS */}
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '-0.5rem', marginBottom: '1.25rem' }}>
+                  {[
+                    { label: 'Meiran Field Estate (Home)', full: 'Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado' },
+                    { label: 'Agege Township Stadium', full: 'Agege Township Stadium, Agege, Lagos' },
+                    { label: 'Mobolaji Johnson Arena', full: 'Mobolaji Johnson Arena, Onikan, Lagos Island' },
+                    { label: 'Legacy Pitch Surulere', full: 'Legacy Pitch, National Stadium, Surulere, Lagos' }
+                  ].map(v => (
+                    <button
+                      key={v.label}
+                      type="button"
+                      onClick={() => setMatchForm(prev => ({ ...prev, venue: v.full }))}
+                      style={{
+                        background: matchForm.venue === v.full ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255, 255, 255, 0.04)',
+                        border: matchForm.venue === v.full ? '1px solid var(--color-green-primary)' : '1px solid rgba(255, 255, 255, 0.08)',
+                        color: matchForm.venue === v.full ? '#fff' : '#94a3b8',
+                        borderRadius: '6px',
+                        padding: '0.2rem 0.6rem',
+                        fontSize: '0.72rem',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {v.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* DATE, TIME & STATUS */}
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Match Date *</label>
                     <input 
                       type="date" 
                       required 
@@ -1228,7 +1723,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Kickoff Time *</label>
+                    <label className="form-label">Kickoff Time (WAT) *</label>
                     <input 
                       type="time" 
                       required 
@@ -1237,25 +1732,38 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       className="form-input"
                     />
                   </div>
-                </div>
 
-                <div className="form-row">
                   <div className="form-group">
-                    <label className="form-label">Status *</label>
+                    <label className="form-label">Match Status *</label>
                     <select 
                       className="form-select"
                       value={matchForm.status}
                       onChange={(e) => setMatchForm({ ...matchForm, status: e.target.value as any })}
                     >
                       <option value="upcoming">Upcoming Match</option>
-                      <option value="completed">Completed (Has Final Score)</option>
+                      <option value="live">Live Now (In Progress)</option>
+                      <option value="completed">Completed (Final Score)</option>
                     </select>
                   </div>
+                </div>
 
-                  {matchForm.status === 'completed' && (
-                    <>
+                {/* SCORES & SCORERS IF COMPLETED OR LIVE */}
+                {(matchForm.status === 'completed' || matchForm.status === 'live') && (
+                  <div style={{ 
+                    background: 'rgba(217, 119, 6, 0.08)', 
+                    border: '1px solid rgba(217, 119, 6, 0.25)', 
+                    borderRadius: '10px', 
+                    padding: '1.25rem', 
+                    marginBottom: '1.5rem' 
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', color: 'var(--color-gold-light)', fontWeight: 600 }}>
+                      <Trophy size={18} />
+                      <span>Match Scores & Goalscorers</span>
+                    </div>
+
+                    <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label">Home Score</label>
+                        <label className="form-label">Home Goals ({matchForm.homeTeam || 'Home'})</label>
                         <input 
                           type="number" 
                           min={0}
@@ -1265,7 +1773,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Away Score</label>
+                        <label className="form-label">Away Goals ({matchForm.awayTeam || 'Away'})</label>
                         <input 
                           type="number" 
                           min={0}
@@ -1274,34 +1782,170 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           className="form-input"
                         />
                       </div>
-                    </>
-                  )}
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label">Goalscorers (Comma separated, e.g. "David 34', Emmanuel 78'")</label>
+                      <input 
+                        type="text"
+                        placeholder="e.g. David 34', Chinedu 62' (pen)"
+                        value={matchForm.scorers}
+                        onChange={(e) => setMatchForm({ ...matchForm, scorers: e.target.value })}
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* LIVE FIXTURE CARD PREVIEW */}
+                <div style={{ 
+                  margin: '1.75rem 0', 
+                  padding: '1.25rem', 
+                  borderRadius: '14px', 
+                  background: 'rgba(4, 18, 12, 0.85)', 
+                  border: '1px dashed rgba(217, 119, 6, 0.4)' 
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Eye size={16} color="var(--color-gold-primary)" />
+                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f8fafc', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Live Card Preview (How it appears on website)
+                      </span>
+                    </div>
+                    <span className="game-type-chip" style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem' }}>
+                      {matchForm.gameType || '11 v 11'}
+                    </span>
+                  </div>
+
+                  <div className="match-card-large">
+                    <div className="match-card-large-strip">
+                      <div className="match-meta-left">
+                        <span className={`badge ${matchForm.academy === 'angels' ? 'badge-gold' : 'badge-green'}`}>
+                          {matchForm.academy === 'angels' ? 'Fackson Angels' : 'Next Pro'}
+                        </span>
+                        <span className="competition-name" style={{ color: '#cbd5e1' }}>
+                          {matchForm.competition || 'Grassroots League'}
+                        </span>
+                        <span className="game-type-chip">
+                          {matchForm.gameType || '11 v 11'}
+                        </span>
+                      </div>
+
+                      <div className="match-meta-right">
+                        {matchForm.status === 'live' ? (
+                          <span className="live-status-pill">
+                            <span className="pulse-dot"></span> LIVE
+                          </span>
+                        ) : matchForm.status === 'completed' ? (
+                          <span className="badge badge-gold">FT RESULT</span>
+                        ) : (
+                          <span className="badge badge-navy">
+                            <Clock size={12} style={{ display: 'inline', marginRight: '4px' }} />
+                            UPCOMING
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="match-teams-showcase">
+                      <div className="team-col team-col-home">
+                        <div className="team-crest-wrapper">
+                          <img 
+                            src={getMediaUrl(matchForm.homeLogo)} 
+                            alt={matchForm.homeTeam} 
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
+                            }}
+                          />
+                        </div>
+                        <h4 className="team-name">{matchForm.homeTeam || 'Fackson Next Pro'}</h4>
+                        <span className="team-subtext">HOME CREST</span>
+                      </div>
+
+                      <div className="score-center-col">
+                        {matchForm.status === 'completed' || matchForm.status === 'live' ? (
+                          <div className="score-badge-large">
+                            <span>{matchForm.homeScore}</span>
+                            <span className="score-divider">-</span>
+                            <span>{matchForm.awayScore}</span>
+                          </div>
+                        ) : (
+                          <div className="vs-badge-large">
+                            <span>VS</span>
+                          </div>
+                        )}
+                        <div className="kickoff-time-pill">
+                          <Clock size={12} />
+                          <span>{matchForm.date} @ {matchForm.time}</span>
+                        </div>
+                      </div>
+
+                      <div className="team-col team-col-away">
+                        <div className="team-crest-wrapper">
+                          {matchForm.awayLogo ? (
+                            <img 
+                              src={getMediaUrl(matchForm.awayLogo)} 
+                              alt={matchForm.awayTeam || 'Opponent'} 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
+                              }}
+                            />
+                          ) : (
+                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1e293b' }}>
+                              <Shield size={36} color="#94a3b8" />
+                            </div>
+                          )}
+                        </div>
+                        <h4 className="team-name">{matchForm.awayTeam || 'Opponent Club'}</h4>
+                        <span className="team-subtext">AWAY CREST</span>
+                      </div>
+                    </div>
+
+                    <div className="match-venue-card">
+                      <div className="venue-detail">
+                        <MapPin size={16} />
+                        <span><strong>Match Venue:</strong> {matchForm.venue || 'Meiran Field Estate'}</span>
+                      </div>
+                      <div className="format-detail">
+                        <Flag size={14} />
+                        <span>Format: <strong>{matchForm.gameType || '11 v 11'}</strong></span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <button 
                   type="submit" 
-                  className="btn btn-green" 
-                  style={{ width: '100%', marginTop: '1rem' }}
+                  className="btn btn-green btn-lg" 
+                  style={{ width: '100%', marginTop: '0.5rem', fontWeight: 700 }}
                   disabled={loading}
                 >
-                  <Plus size={18} />
-                  <span>Save Match Schedule</span>
+                  <Plus size={20} />
+                  <span>{loading ? 'Saving Fixture...' : 'Publish Match Fixture to Website'}</span>
                 </button>
               </form>
             </div>
 
-            {/* Matches List */}
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: '#fff' }}>
-              Scheduled Fixtures & Results ({matches.length})
-            </h3>
+            {/* MATCHES LIST TABLE */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <h3 style={{ fontSize: '1.25rem', color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Trophy size={18} color="var(--color-gold-primary)" />
+                <span>Scheduled Fixtures & Results ({matches.length})</span>
+              </h3>
+              <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+                All matches automatically display on the website's Matches/Fixtures page
+              </span>
+            </div>
+
             <div className="admin-table-container">
               <table className="admin-table">
                 <thead>
                   <tr>
-                    <th>Match</th>
-                    <th>Academy</th>
-                    <th>Category</th>
+                    <th>Match Teams & Logos</th>
+                    <th>Format</th>
+                    <th>Academy & Tier</th>
                     <th>Date & Time</th>
+                    <th>Match Venue</th>
                     <th>Status / Score</th>
                     <th>Action</th>
                   </tr>
@@ -1310,21 +1954,80 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   {matches.map(m => (
                     <tr key={m._id}>
                       <td>
-                        <strong>{m.homeTeam} vs {m.awayTeam}</strong>
-                        <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{m.competition}</p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                            <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#0b1b16', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <img 
+                                src={getMediaUrl(m.homeLogo || (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'))} 
+                                alt={m.homeTeam} 
+                                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                onError={(e) => { (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg'; }}
+                              />
+                            </div>
+                            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>vs</span>
+                            <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#180f22', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              {m.awayLogo ? (
+                                <img 
+                                  src={getMediaUrl(m.awayLogo)} 
+                                  alt={m.awayTeam} 
+                                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                  onError={(e) => { (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg'; }}
+                                />
+                              ) : (
+                                <Shield size={14} color="#94a3b8" />
+                              )}
+                            </div>
+                          </div>
+                          <div>
+                            <strong style={{ color: '#fff', fontSize: '0.92rem' }}>{m.homeTeam} vs {m.awayTeam}</strong>
+                            <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: 0 }}>{m.competition}</p>
+                          </div>
+                        </div>
                       </td>
                       <td>
-                        <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`}>
-                          {m.academy === 'angels' ? 'Angels' : 'Next Pro'}
+                        <span className="game-type-chip" style={{ fontSize: '0.75rem', padding: '0.2rem 0.55rem' }}>
+                          {m.gameType || '11 v 11'}
                         </span>
                       </td>
-                      <td>{m.category.toUpperCase()}</td>
-                      <td>{m.date} @ {m.time}</td>
+                      <td>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                          <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ width: 'fit-content' }}>
+                            {m.academy === 'angels' ? 'Angels' : 'Next Pro'}
+                          </span>
+                          <span style={{ fontSize: '0.78rem', color: '#cbd5e1' }}>{m.category.toUpperCase()}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div style={{ fontSize: '0.85rem', color: '#f8fafc' }}>
+                          <strong>{m.date}</strong>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--color-gold-light)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                            <Clock size={11} /> {m.time}
+                          </div>
+                        </div>
+                      </td>
+                      <td style={{ maxWidth: '240px' }}>
+                        <div style={{ fontSize: '0.8rem', color: '#cbd5e1', display: 'flex', alignItems: 'flex-start', gap: '0.35rem' }}>
+                          <MapPin size={13} color="var(--color-gold-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                          <span style={{ lineHeight: 1.3 }}>{m.venue || 'Meiran Field Estate'}</span>
+                        </div>
+                      </td>
                       <td>
                         {m.status === 'completed' ? (
-                          <strong style={{ color: 'var(--color-gold-primary)' }}>
-                            {m.homeScore} - {m.awayScore} (FINAL)
-                          </strong>
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <strong style={{ color: 'var(--color-gold-primary)', fontSize: '0.95rem' }}>
+                              {m.homeScore} - {m.awayScore}
+                            </strong>
+                            <span className="badge badge-gold" style={{ fontSize: '0.68rem', width: 'fit-content' }}>FINAL</span>
+                          </div>
+                        ) : m.status === 'live' ? (
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <strong style={{ color: '#10b981', fontSize: '0.95rem' }}>
+                              {m.homeScore} - {m.awayScore}
+                            </strong>
+                            <span className="live-status-pill" style={{ fontSize: '0.68rem', width: 'fit-content', padding: '0.15rem 0.45rem' }}>
+                              <span className="pulse-dot"></span> LIVE
+                            </span>
+                          </div>
                         ) : (
                           <span className="badge badge-navy">UPCOMING</span>
                         )}

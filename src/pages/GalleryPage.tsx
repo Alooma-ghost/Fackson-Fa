@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GalleryItem } from '../types';
 import { Image as ImageIcon, ZoomIn } from 'lucide-react';
+import { getMediaUrl } from '../services/api';
 
 interface GalleryPageProps {
   gallery: GalleryItem[];
@@ -158,7 +159,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ gallery, onOpenLightbo
                 >
                   {/* Photo */}
                   <img
-                    src={item.imageUrl}
+                    src={getMediaUrl(item.imageUrl)}
                     alt={item.title}
                     style={{
                       width: '100%',
@@ -170,7 +171,8 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ gallery, onOpenLightbo
                       display: 'block',
                     }}
                     onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
                     }}
                   />
 

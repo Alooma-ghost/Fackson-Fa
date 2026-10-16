@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { X, Calendar, Tag, Shield } from 'lucide-react';
 import { GalleryItem } from '../types';
+import { getMediaUrl } from '../services/api';
 
 interface LightboxModalProps {
   item: GalleryItem | null;
@@ -46,9 +47,13 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, onClose }) =
           justifyContent: 'center'
         }}>
           <img 
-            src={item.imageUrl} 
+            src={getMediaUrl(item.imageUrl)} 
             alt={item.title} 
             style={{ width: '100%', maxHeight: '520px', objectFit: 'contain' }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
           />
         </div>
 

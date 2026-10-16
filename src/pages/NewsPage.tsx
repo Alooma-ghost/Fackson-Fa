@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NewsItem, AcademyType } from '../types';
 import { Calendar, User, ArrowRight, BookOpen, X } from 'lucide-react';
+import { getMediaUrl } from '../services/api';
 
 interface NewsPageProps {
   news: NewsItem[];
@@ -64,14 +65,50 @@ export const NewsPage: React.FC<NewsPageProps> = ({ news, openRegistration }) =>
                 marginBottom: '1.25rem',
                 position: 'relative'
               }}>
-                <img 
-                  src={item.coverImage} 
-                  alt={item.title} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/images/training-1.jpg';
+                {item.coverImage && !item.coverImage.includes('training-1.jpg') ? (
+                  <img 
+                    src={getMediaUrl(item.coverImage)} 
+                    alt={item.title} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      if (target.nextElementSibling) {
+                        (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                      }
+                    }}
+                  />
+                ) : null}
+                <div 
+                  style={{
+                    display: (!item.coverImage || item.coverImage.includes('training-1.jpg')) ? 'flex' : 'none',
+                    width: '100%',
+                    height: '100%',
+                    background: 'radial-gradient(circle at 50% 40%, rgba(255, 208, 0, 0.15) 0%, rgba(10, 15, 20, 0.95) 80%)',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid rgba(255, 208, 0, 0.2)'
                   }}
-                />
+                >
+                  <div style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '50%',
+                    background: 'rgba(255, 208, 0, 0.1)',
+                    border: '1px solid rgba(255, 208, 0, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.8rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    📰
+                  </div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--color-gold-primary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    Official Dispatch
+                  </span>
+                </div>
                 <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                   <span 
                     className={`badge ${item.academy === 'angels' ? 'badge-gold' : item.academy === 'next_pro' ? 'badge-green' : 'badge-navy'}`}
@@ -142,13 +179,18 @@ export const NewsPage: React.FC<NewsPageProps> = ({ news, openRegistration }) =>
                 <X size={20} />
               </button>
 
-              <div style={{ maxHeight: '350px', overflow: 'hidden', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem' }}>
-                <img 
-                  src={activeArticle.coverImage} 
-                  alt={activeArticle.title} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                />
-              </div>
+              {activeArticle.coverImage && !activeArticle.coverImage.includes('training-1.jpg') && (
+                <div style={{ maxHeight: '350px', overflow: 'hidden', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem' }}>
+                  <img 
+                    src={getMediaUrl(activeArticle.coverImage)} 
+                    alt={activeArticle.title} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
 
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.75rem' }}>
                 <span className={`badge ${activeArticle.academy === 'angels' ? 'badge-gold' : activeArticle.academy === 'next_pro' ? 'badge-green' : 'badge-navy'}`}>

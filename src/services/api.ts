@@ -7,11 +7,24 @@ export const getApiUrl = (endpoint: string = ''): string => {
   return `${API_BASE}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 };
 
-export const getMediaUrl = (path?: string): string => {
-  if (!path) return '';
+export const getMediaUrl = (path?: string, fallback: string = ''): string => {
+  if (!path) return fallback;
+  if (path.startsWith('data:') || path.startsWith('blob:')) return path;
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
-  if (path.startsWith('/uploads') && RAW_URL) return `${RAW_URL}${path}`;
+  if (path.startsWith('/uploads')) {
+    const backendUrl = RAW_URL || 'http://localhost:5000';
+    return `${backendUrl}${path}`;
+  }
   return path;
+};
+
+export const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
 };
 
 export const getAuthToken = (): string | null => {

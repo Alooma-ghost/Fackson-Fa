@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { MatchItem, AcademyType, AgeCategory } from '../types';
-import { Calendar, Trophy, Shield, MapPin, Clock, Award, Star, Activity } from 'lucide-react';
+import { Calendar, Trophy, Shield, MapPin, Clock, Award, Star, Activity, CheckCircle, Flag } from 'lucide-react';
 import { LiveScoreCard } from '../components/LiveScoreCard';
+import { getMediaUrl } from '../services/api';
 
 interface MatchesPageProps {
   matches: MatchItem[];
@@ -298,150 +299,281 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
       {/* Matches Grid List */}
       <section style={{ padding: '1rem 0' }}>
         <div className="container">
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '1.5rem'
-          }}>
-            {filteredMatches.map(m => (
-              <div
-                key={m._id}
-                style={{
-                  background: '#080a08',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  borderRadius: '16px',
-                  padding: '1.5rem',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-              >
-                {/* Accent Top Strip */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: '3px',
-                  background: m.status === 'live' 
-                    ? '#ef4444' 
-                    : m.status === 'completed'
-                    ? '#22c55e'
-                    : 'var(--color-gold-primary)'
-                }} />
+          {filteredMatches.length === 0 ? (
+            <div style={{
+              textAlign: 'center',
+              padding: '4rem 1.5rem',
+              background: 'rgba(255, 255, 255, 0.02)',
+              borderRadius: '20px',
+              border: '1px dashed rgba(255, 208, 0, 0.3)'
+            }}>
+              <Calendar size={48} style={{ color: 'var(--color-gold-primary)', margin: '0 auto 1rem', opacity: 0.7 }} />
+              <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: '#fff' }}>No Fixtures Found</h3>
+              <p style={{ color: '#94a3b8', fontSize: '0.95rem', maxWidth: '460px', margin: '0 auto' }}>
+                No matches match the selected criteria. Change your filters or check back shortly for updated match announcements.
+              </p>
+            </div>
+          ) : (
+            <div className="match-grid-large">
+              {filteredMatches.map(m => {
+                const homeLogoSrc = getMediaUrl(
+                  m.homeLogo || (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'),
+                  m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'
+                );
+                const isHomeMeiran = (m.venue || '').toLowerCase().includes('meiran');
 
-                {/* Match Header */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: '1rem',
-                  fontSize: '0.75rem'
-                }}>
-                  <span style={{
-                    color: m.academy === 'angels' ? '#fb7185' : 'var(--color-gold-primary)',
-                    fontWeight: 800,
-                    textTransform: 'uppercase'
-                  }}>
-                    {m.competition}
-                  </span>
+                return (
+                  <div key={m._id} className="match-card-large">
+                    {/* Top Accent Strip */}
+                    <div className={`match-card-large-strip ${m.status}`} />
 
-                  <span style={{
-                    background: m.status === 'live' 
-                      ? 'rgba(239,68,68,0.2)' 
-                      : m.status === 'completed'
-                      ? 'rgba(34,197,94,0.15)'
-                      : 'rgba(255,208,0,0.15)',
-                    color: m.status === 'live' 
-                      ? '#ef4444' 
-                      : m.status === 'completed'
-                      ? '#4ade80'
-                      : 'var(--color-gold-primary)',
-                    border: '1px solid',
-                    borderColor: m.status === 'live' 
-                      ? 'rgba(239,68,68,0.4)' 
-                      : m.status === 'completed'
-                      ? 'rgba(34,197,94,0.4)'
-                      : 'rgba(255,208,0,0.4)',
-                    padding: '2px 8px',
-                    borderRadius: '50px',
-                    fontWeight: 700,
-                    fontSize: '0.68rem',
-                    textTransform: 'uppercase'
-                  }}>
-                    {m.status}
-                  </span>
-                </div>
+                    {/* Match Meta Header */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      gap: '0.5rem',
+                      marginBottom: '0.75rem'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        <span style={{
+                          color: 'var(--color-gold-primary)',
+                          fontWeight: 800,
+                          fontSize: '0.8rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em'
+                        }}>
+                          {m.competition || 'Youth Elite Championship'}
+                        </span>
+                        <span className="game-type-chip">
+                          ⚽ {m.gameType || '11 v 11'}
+                        </span>
+                      </div>
 
-                {/* Scoreboard Body */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0.75rem 0',
-                  borderBottom: '1px solid rgba(255,255,255,0.06)'
-                }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.98rem' }}>
-                      {m.homeTeam}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <span className="badge badge-navy" style={{ fontSize: '0.7rem' }}>
+                          {m.category === 'free_age' ? 'Senior' : m.category.toUpperCase()}
+                        </span>
+                        <span style={{
+                          background: m.status === 'live'
+                            ? 'rgba(239,68,68,0.2)'
+                            : m.status === 'completed'
+                            ? 'rgba(34,197,94,0.15)'
+                            : 'rgba(255,208,0,0.15)',
+                          color: m.status === 'live'
+                            ? '#ef4444'
+                            : m.status === 'completed'
+                            ? '#4ade80'
+                            : 'var(--color-gold-primary)',
+                          border: '1px solid',
+                          borderColor: m.status === 'live'
+                            ? 'rgba(239,68,68,0.45)'
+                            : m.status === 'completed'
+                            ? 'rgba(34,197,94,0.45)'
+                            : 'rgba(255,208,0,0.45)',
+                          padding: '3px 10px',
+                          borderRadius: '50px',
+                          fontWeight: 800,
+                          fontSize: '0.7rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em'
+                        }}>
+                          {m.status === 'live' ? '🔴 Live In Play' : m.status === 'completed' ? 'Full Time' : 'Upcoming'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Big Teams & Score Showcase */}
+                    <div className="match-teams-showcase">
+                      {/* Home Team */}
+                      <div className="team-box">
+                        <div className="team-crest-wrapper">
+                          <img 
+                            src={homeLogoSrc}
+                            alt={m.homeTeam}
+                            className="team-crest-img"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              const fallback = m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                              if (!target.src.includes(fallback)) target.src = fallback;
+                            }}
+                          />
+                        </div>
+                        <div className="team-title-large">
+                          {m.homeTeam}
+                        </div>
+                        <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
+                          {m.academy === 'angels' ? 'Angels Squad' : 'Next Pro Squad'}
+                        </span>
+                      </div>
+
+                      {/* Center Board (Score / VS / Kickoff) */}
+                      <div className="match-center-board">
+                        {m.status === 'completed' ? (
+                          <>
+                            <div className="score-badge-large">
+                              {m.homeScore ?? 0} : {m.awayScore ?? 0}
+                            </div>
+                            <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#4ade80', letterSpacing: '0.06em', marginTop: '6px' }}>
+                              FINAL SCORE
+                            </span>
+                            <span style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px' }}>
+                              {m.date}
+                            </span>
+                          </>
+                        ) : m.status === 'live' ? (
+                          <>
+                            <div className="score-badge-large" style={{ color: '#ef4444', borderColor: '#ef4444' }}>
+                              {m.homeScore ?? 0} : {m.awayScore ?? 0}
+                            </div>
+                            <span style={{
+                              fontSize: '0.72rem',
+                              fontWeight: 800,
+                              color: '#ef4444',
+                              letterSpacing: '0.06em',
+                              marginTop: '6px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}>
+                              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }} />
+                              LIVE &bull; {m.time}
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <div className="vs-badge-large">VS</div>
+                            <div style={{
+                              marginTop: '0.5rem',
+                              color: 'var(--color-gold-primary)',
+                              fontWeight: 800,
+                              fontSize: '0.98rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}>
+                              <Clock size={14} />
+                              {m.time}
+                            </div>
+                            <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              <Calendar size={13} />
+                              {m.date}
+                            </div>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Away Team */}
+                      <div className="team-box">
+                        <div className="team-crest-wrapper">
+                          {m.awayLogo ? (
+                            <img 
+                              src={getMediaUrl(m.awayLogo)}
+                              alt={m.awayTeam}
+                              className="team-crest-img"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                if (target.nextElementSibling) {
+                                  (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                                }
+                              }}
+                            />
+                          ) : null}
+                          <div style={{
+                            display: m.awayLogo ? 'none' : 'flex',
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            background: '#131e2b',
+                            border: '1px solid rgba(255, 208, 0, 0.4)',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>
+                            <Shield size={30} color="var(--color-gold-primary)" />
+                          </div>
+                        </div>
+                        <div className="team-title-large">
+                          {m.awayTeam}
+                        </div>
+                        <span className="badge badge-navy" style={{ fontSize: '0.68rem', padding: '2px 8px' }}>
+                          Opponent
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Scorers List (if any) */}
+                    {m.scorers && m.scorers.length > 0 && (
+                      <div style={{
+                        padding: '0.55rem 0.85rem',
+                        background: 'rgba(0,0,0,0.5)',
+                        borderRadius: '10px',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        fontSize: '0.76rem',
+                        color: '#cbd5e1',
+                        marginBottom: '0.65rem'
+                      }}>
+                        <strong style={{ color: 'var(--color-gold-primary)' }}>⚽ Scorers: </strong>
+                        {m.scorers.join(' • ')}
+                      </div>
+                    )}
+
+                    {/* Prominent Match Venue & Location Palette */}
+                    <div className="match-venue-card">
+                      <div style={{
+                        background: 'rgba(74, 222, 128, 0.15)',
+                        border: '1px solid rgba(74, 222, 128, 0.4)',
+                        borderRadius: '8px',
+                        padding: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0
+                      }}>
+                        <MapPin size={18} color="#4ade80" />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: '0.5rem',
+                          marginBottom: '2px'
+                        }}>
+                          <span style={{
+                            fontSize: '0.68rem',
+                            fontWeight: 800,
+                            color: '#4ade80',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em'
+                          }}>
+                            Match Venue &amp; Pitch
+                          </span>
+                          <span style={{
+                            fontSize: '0.68rem',
+                            color: isHomeMeiran ? 'var(--color-gold-primary)' : '#94a3b8',
+                            fontWeight: 700
+                          }}>
+                            {isHomeMeiran ? '🏟️ Home Ground' : '📍 Away Stadium'}
+                          </span>
+                        </div>
+                        <p style={{
+                          color: '#ffffff',
+                          fontSize: '0.88rem',
+                          fontWeight: 600,
+                          lineHeight: 1.35,
+                          margin: 0
+                        }}>
+                          {m.venue || 'Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado'}
+                        </p>
+                      </div>
                     </div>
                   </div>
-
-                  <div style={{
-                    background: '#040604',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '8px',
-                    padding: '4px 12px',
-                    fontWeight: 900,
-                    fontSize: '1.25rem',
-                    color: m.status === 'completed' ? '#4ade80' : 'var(--color-gold-primary)',
-                    margin: '0 1rem'
-                  }}>
-                    {m.status === 'upcoming' ? 'VS' : `${m.homeScore ?? 0} - ${m.awayScore ?? 0}`}
-                  </div>
-
-                  <div style={{ flex: 1, textAlign: 'right' }}>
-                    <div style={{ fontWeight: 800, color: '#cbd5e1', fontSize: '0.98rem' }}>
-                      {m.awayTeam}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Scorers if available */}
-                {m.scorers && m.scorers.length > 0 && (
-                  <div style={{
-                    padding: '0.65rem 0',
-                    borderBottom: '1px solid rgba(255,255,255,0.06)',
-                    fontSize: '0.74rem',
-                    color: '#94a3b8'
-                  }}>
-                    <strong style={{ color: '#e2e8f0' }}>Scorers: </strong>
-                    {m.scorers.join(', ')}
-                  </div>
-                )}
-
-                {/* Venue & Kickoff Footer */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginTop: '0.85rem',
-                  fontSize: '0.75rem',
-                  color: '#94a3b8'
-                }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <Calendar size={13} color="var(--color-gold-primary)" />
-                    {m.date} &bull; {m.time}
-                  </span>
-
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <MapPin size={13} color="#4ade80" />
-                    {m.venue.split(',')[0]}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
     </div>

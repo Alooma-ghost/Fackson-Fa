@@ -95,6 +95,7 @@ export interface MatchItem {
   homeScore?: number;
   awayScore?: number;
   competition: string;
+  gameType?: string;
   scorers?: string[];
   createdAt?: string;
 }

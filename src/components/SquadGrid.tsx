@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Player, AgeCategory, AcademyType } from '../types';
 import { Search, Shield, Zap, Target } from 'lucide-react';
+import { getMediaUrl } from '../services/api';
 
 interface SquadGridProps {
   players: Player[];
@@ -135,15 +136,89 @@ export const SquadGrid: React.FC<SquadGridProps> = ({
           {filteredPlayers.map((player) => (
             <div key={player._id} className="player-card">
               <div className="player-image-wrap">
-                <img 
-                  src={player.photoUrl || (player.academy === 'angels' ? '/images/angels-action-1.jpg' : '/images/training-1.jpg')} 
-                  alt={player.name} 
-                  className="player-photo"
-                  onError={(e) => {
-                    // Fallback to academy image if custom url fails
-                    (e.target as HTMLImageElement).src = player.academy === 'angels' ? '/images/angels-action-1.jpg' : '/images/training-1.jpg';
+                {player.photoUrl && !player.photoUrl.includes('training-1.jpg') && !player.photoUrl.includes('angels-action-1.jpg') ? (
+                  <img 
+                    src={getMediaUrl(player.photoUrl)} 
+                    alt={player.name} 
+                    className="player-photo"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      if (target.nextElementSibling) {
+                        (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                      }
+                    }}
+                  />
+                ) : null}
+
+                {/* Athletic Silhouette / Monogram Card when no custom photo is present */}
+                <div 
+                  className="player-photo-placeholder"
+                  style={{
+                    display: (!player.photoUrl || player.photoUrl.includes('training-1.jpg') || player.photoUrl.includes('angels-action-1.jpg')) ? 'flex' : 'none',
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: player.academy === 'angels' 
+                      ? 'radial-gradient(circle at 50% 35%, rgba(244, 63, 94, 0.25) 0%, rgba(15, 23, 42, 0.95) 75%)'
+                      : 'radial-gradient(circle at 50% 35%, rgba(34, 197, 94, 0.25) 0%, rgba(15, 23, 42, 0.95) 75%)',
+                    overflow: 'hidden'
                   }}
-                />
+                >
+                  {/* Watermark Jersey Number */}
+                  <div style={{
+                    position: 'absolute',
+                    fontSize: '6.5rem',
+                    fontWeight: 900,
+                    color: 'rgba(255, 255, 255, 0.04)',
+                    lineHeight: 1,
+                    userSelect: 'none',
+                    zIndex: 1
+                  }}>
+                    {player.jerseyNumber || '10'}
+                  </div>
+
+                  {/* Player Monogram / Silhouette Badge */}
+                  <div style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(255,208,0,0.2) 0%, rgba(0,0,0,0.6) 100%)',
+                    border: '2px solid rgba(255, 208, 0, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+                    zIndex: 2,
+                    marginBottom: '0.6rem'
+                  }}>
+                    <span style={{
+                      fontSize: '2rem',
+                      fontWeight: 900,
+                      color: 'var(--color-gold-primary)',
+                      textTransform: 'uppercase'
+                    }}>
+                      {player.name ? player.name.charAt(0) : 'F'}
+                    </span>
+                  </div>
+
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    color: '#94a3b8',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    zIndex: 2
+                  }}>
+                    {player.position}
+                  </span>
+                </div>
+
                 <div className="player-number">#{player.jerseyNumber}</div>
                 <div className="player-badge-overlay">
                   <span className={`badge ${player.academy === 'angels' ? 'badge-gold' : 'badge-green'}`}>

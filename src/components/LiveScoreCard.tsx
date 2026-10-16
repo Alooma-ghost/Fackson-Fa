@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, MapPin, Clock, ArrowRight, Activity } from 'lucide-react';
 import { MatchItem } from '../types';
+import { getMediaUrl } from '../services/api';
 
 interface LiveScoreCardProps {
   onViewMatches?: () => void;
@@ -9,20 +10,26 @@ interface LiveScoreCardProps {
 
 export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, matches }) => {
   // If there's an active live match from props, use it, otherwise show the official academy fixture snapshot
-  const liveMatch = matches?.find(m => m.status === 'live') || {
-    id: 'live-snapshot-1',
+  const fallbackMatch: MatchItem = {
+    _id: 'live-snapshot-1',
     homeTeam: 'Fackson Next Pro',
     awayTeam: 'Lagos City All-Stars',
+    homeLogo: '/logos/fackson-next-pro.jpg',
+    awayLogo: '',
     homeScore: 2,
     awayScore: 1,
-    status: 'live' as const,
+    status: 'live',
     date: 'Today',
-    time: '68\' 2nd Half',
+    time: "68' 2nd Half",
     venue: 'Meiran Field Estate, Alagbado',
     competition: 'Lagos State Elite Grassroots League',
-    academy: 'next_pro' as const,
-    scorers: ['Papa Daniel 24\'', 'Lawal Seun 58\'', 'K. Adeleke 41\' (Pen)']
+    gameType: '11 v 11',
+    academy: 'next_pro',
+    category: 'u17',
+    scorers: ["Papa Daniel 24'", "Lawal Seun 58'", "K. Adeleke 41' (Pen)"]
   };
+
+  const liveMatch = matches?.find(m => m.status === 'live') || fallbackMatch;
 
   return (
     <div style={{
@@ -89,14 +96,19 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
           </span>
         </div>
 
-        <span style={{
-          fontSize: '0.7rem',
-          color: '#94a3b8',
-          fontWeight: 600,
-          textTransform: 'uppercase'
-        }}>
-          {liveMatch.competition}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{
+            fontSize: '0.7rem',
+            color: '#94a3b8',
+            fontWeight: 600,
+            textTransform: 'uppercase'
+          }}>
+            {liveMatch.competition}
+          </span>
+          <span className="game-type-chip" style={{ fontSize: '0.65rem', padding: '2px 8px' }}>
+            ⚽ {liveMatch.gameType || '11 v 11'}
+          </span>
+        </div>
       </div>
 
       {/* Scoreboard Row */}
@@ -115,14 +127,17 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
           flex: 1
         }}>
           <img
-            src="/logos/fackson-next-pro.jpg"
-            alt="Fackson Next Pro"
+            src={getMediaUrl(liveMatch.homeLogo || (liveMatch.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg'), '/logos/fackson-next-pro.jpg')}
+            alt={liveMatch.homeTeam}
             style={{
-              width: '38px',
-              height: '38px',
+              width: '42px',
+              height: '42px',
               borderRadius: '50%',
               border: '2px solid var(--color-gold-primary)',
               objectFit: 'cover'
+            }}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/logos/fackson-next-pro.jpg';
             }}
           />
           <div>
@@ -139,7 +154,7 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
               color: '#4ade80',
               fontWeight: 700
             }}>
-              HOME • MEIRAN FIELD ESTATE
+              {liveMatch.academy === 'angels' ? 'FACKSON ANGELS' : 'FACKSON NEXT PRO'}
             </div>
           </div>
         </div>
@@ -197,23 +212,41 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
               color: '#94a3b8',
               fontWeight: 600
             }}>
-              VISITING ACADEMY
+              VISITING SQUAD
             </div>
           </div>
+          {liveMatch.awayLogo ? (
+            <img 
+              src={getMediaUrl(liveMatch.awayLogo)}
+              alt={liveMatch.awayTeam}
+              style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '50%',
+                border: '2px solid rgba(255, 208, 0, 0.4)',
+                objectFit: 'cover'
+              }}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                if (target.nextElementSibling) {
+                  (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                }
+              }}
+            />
+          ) : null}
           <div style={{
-            width: '38px',
-            height: '38px',
+            display: liveMatch.awayLogo ? 'none' : 'flex',
+            width: '42px',
+            height: '42px',
             borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.08)',
-            border: '2px solid #64748b',
-            display: 'flex',
+            background: '#131e2b',
+            border: '2px solid rgba(255, 208, 0, 0.4)',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#cbd5e1',
-            fontSize: '0.8rem',
-            fontWeight: 800
+            color: 'var(--color-gold-primary)'
           }}>
-            LCA
+            <Shield size={20} />
           </div>
         </div>
       </div>
@@ -234,8 +267,8 @@ export const LiveScoreCard: React.FC<LiveScoreCardProps> = ({ onViewMatches, mat
           color: '#cbd5e1',
           fontSize: '0.72rem'
         }}>
-          <MapPin size={12} color="var(--color-gold-primary)" />
-          <span style={{ color: '#94a3b8' }}>Meiran Field Estate, Alagbado</span>
+          <MapPin size={13} color="#4ade80" />
+          <span style={{ color: '#94a3b8' }}>{liveMatch.venue || 'Meiran Field Estate, Alagbado'}</span>
         </div>
 
         {onViewMatches && (
