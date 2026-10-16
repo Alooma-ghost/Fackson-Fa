@@ -5,6 +5,7 @@ import { AlumniSection } from '../components/AlumniSection';
 import { CoachesSection } from '../components/CoachesSection';
 import { MapSection } from '../components/MapSection';
 import { LiveScoreCard } from '../components/LiveScoreCard';
+import { getMediaUrl } from '../services/api';
 
 interface HomeProps {
   setCurrentTab: (tab: string) => void;
@@ -414,13 +415,20 @@ export const Home: React.FC<HomeProps> = ({
                 className="gallery-teaser-item"
               >
                 <img
-                  src={item.imageUrl}
+                  src={getMediaUrl(item.imageUrl, '/logos/fackson-next-pro.jpg')}
                   alt={item.title}
                   style={{
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
                     transition: 'transform 0.4s ease'
+                  }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    const fallback = item.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                    if (!target.src.includes(fallback)) {
+                      target.src = fallback;
+                    }
                   }}
                 />
                 <div style={{

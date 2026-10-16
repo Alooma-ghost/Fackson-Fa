@@ -25,176 +25,94 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({
     { text: '📝 Early registration open for Under 10, Under 13, Under 15, Under 17 & Senior Free Age squads.', tag: 'ENROLLMENT', isAction: true }
   ];
 
-  // Merge live news into ticker items if available
-  const dynamicItems = news.length > 0 
-    ? news.slice(0, 5).map(n => ({
-        text: `📰 ${n.title} - ${n.excerpt.substring(0, 75)}...`,
-        tag: n.academy === 'angels' ? 'ANGELS' : 'NEXT PRO',
-        isAction: false
-      }))
-    : defaultTickerItems;
+  // Merge live matches and news into ticker items
+  const matchItems = matches.slice(0, 3).map(m => {
+    const isLive = m.status === 'live';
+    const isFt = m.status === 'completed';
+    return {
+      text: isFt 
+        ? `🏁 FT: ${m.homeTeam} ${m.homeScore ?? 0} - ${m.awayScore ?? 0} ${m.awayTeam} (${m.competition || 'Match'})`
+        : isLive
+        ? `🔴 LIVE: ${m.homeTeam} ${m.homeScore ?? 0} - ${m.awayScore ?? 0} ${m.awayTeam}`
+        : `⚽ FIXTURE: ${m.homeTeam} vs ${m.awayTeam} • ${m.date} @ ${m.time} (${m.venue || 'Meiran Field'})`,
+      tag: isLive ? 'LIVE' : isFt ? 'RESULT' : 'FIXTURE',
+      isAction: false,
+      tab: 'matches'
+    };
+  });
 
-  const allItems = [...dynamicItems, ...defaultTickerItems];
+  const newsItems = news.slice(0, 6).map(n => ({
+    text: `📰 ${n.title}`,
+    tag: n.category === 'match_fixture' ? 'FIXTURE' : (n.academy === 'angels' ? 'ANGELS' : 'NEXT PRO'),
+    isAction: false,
+    tab: 'news'
+  }));
+
+  const dynamicItems = [...matchItems, ...newsItems];
+  const allItems = dynamicItems.length > 0 ? [...dynamicItems, ...defaultTickerItems] : defaultTickerItems;
 
   if (minimized) {
     return (
       <button 
         onClick={() => setMinimized(false)}
-        style={{
-          position: 'fixed',
-          bottom: '12px',
-          right: '16px',
-          zIndex: 9999,
-          background: 'var(--color-gold-primary)',
-          color: '#000',
-          border: 'none',
-          borderRadius: '50px',
-          padding: '8px 16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-          cursor: 'pointer',
-          fontWeight: 700,
-          fontSize: '0.8rem'
-        }}
+        className="ticker-minimized-pill"
         title="Show Academy Live Ticker"
       >
-        <Flame size={16} />
-        <span>Live Updates</span>
+        <Flame size={14} />
+        <span>Updates</span>
       </button>
     );
   }
 
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 9999,
-      background: 'rgba(5, 18, 13, 0.96)',
-      backdropFilter: 'blur(10px)',
-      borderTop: '2px solid var(--color-gold-primary)',
-      boxShadow: '0 -4px 25px rgba(0, 0, 0, 0.6)',
-      display: 'flex',
-      alignItems: 'center',
-      height: '44px',
-      overflow: 'hidden'
-    }}>
+    <div className="news-ticker-container">
       {/* Ticker Lead Badge */}
-      <div style={{
-        background: 'linear-gradient(135deg, #ffd000 0%, #e6a800 100%)',
-        color: '#051810',
-        padding: '0 16px',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-        fontWeight: 800,
-        fontSize: '0.78rem',
-        letterSpacing: '0.5px',
-        textTransform: 'uppercase',
-        flexShrink: 0,
-        boxShadow: '4px 0 12px rgba(0,0,0,0.3)',
-        zIndex: 2
-      }}>
-        <Flame size={16} />
-        <span style={{ display: 'inline' }}>LATEST UPDATES</span>
+      <div className="ticker-lead-badge">
+        <Flame size={14} className="ticker-lead-icon" />
+        <span className="ticker-lead-text-desktop">LATEST UPDATES</span>
+        <span className="ticker-lead-text-mobile">LIVE</span>
       </div>
 
       {/* Marquee Ticker Track */}
-      <div 
-        style={{
-          flex: 1,
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          position: 'relative',
-          padding: '0 12px'
-        }}
-      >
+      <div className="ticker-viewport">
         <div className="ticker-track">
           {allItems.map((item, idx) => (
             <span 
               key={idx}
               onClick={() => {
                 if (item.isAction) openRegistration();
-                else if (onOpenNews) onOpenNews('news');
+                else if (onOpenNews) onOpenNews((item as any).tab || 'news');
               }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginRight: '36px',
-                color: '#e2e8f0',
-                fontSize: '0.86rem',
-                cursor: 'pointer'
-              }}
+              className="ticker-item"
             >
-              <span style={{
-                background: 'rgba(255, 208, 0, 0.15)',
-                color: 'var(--color-gold-primary)',
-                fontSize: '0.7rem',
-                fontWeight: 700,
-                padding: '2px 8px',
-                borderRadius: '4px',
-                border: '1px solid rgba(255, 208, 0, 0.3)'
-              }}>
+              <span className="ticker-item-tag">
                 {item.tag}
               </span>
-              <span className="ticker-item-hover" style={{ fontWeight: 500 }}>
+              <span className="ticker-item-hover ticker-item-title">
                 {item.text}
               </span>
-              <span style={{ color: 'rgba(255,255,255,0.2)', marginLeft: '12px' }}>&bull;</span>
+              <span className="ticker-item-dot">&bull;</span>
             </span>
           ))}
         </div>
       </div>
 
       {/* Action / Dismiss */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '0 12px',
-        flexShrink: 0,
-        background: 'rgba(5, 18, 13, 0.96)',
-        zIndex: 2,
-        borderLeft: '1px solid rgba(255,255,255,0.1)'
-      }}>
+      <div className="ticker-actions">
         <button 
           onClick={openRegistration}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'var(--color-gold-primary)',
-            fontSize: '0.78rem',
-            fontWeight: 700,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '3px',
-            padding: '4px 8px'
-          }}
+          className="ticker-register-btn"
         >
-          <span>Register</span>
-          <ChevronRight size={14} />
+          <span>Trials</span>
+          <ChevronRight size={13} />
         </button>
 
         <button 
           onClick={() => setMinimized(true)}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#94a3b8',
-            cursor: 'pointer',
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center'
-          }}
+          className="ticker-close-btn"
           title="Minimize Ticker"
         >
-          <X size={15} />
+          <X size={14} />
         </button>
       </div>
     </div>

@@ -172,7 +172,10 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ gallery, onOpenLightbo
                     }}
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
+                      const fallback = item.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                      if (!target.src.includes(fallback)) {
+                        target.src = fallback;
+                      }
                     }}
                   />
 
