@@ -35,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isAngels = activeAcademy === 'angels' || currentTab === 'angels';
 
   const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(
-    `Hello Head Coach Farouk, I would like to inquire about Fackson Football Academy (${isAngels ? 'Fackson Angels Women' : 'Fackson Next Pro Men'}) trials, enrollment and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.`
+    `Hello CEO Farouk, I would like to inquire about Fackson Football Academy (${isAngels ? 'Fackson Angels Female' : 'Fackson Next Pro Male'}) trials, enrollment and training schedule (U10-U15: Mon-Fri 4:00 PM – 6:00 PM, Sat-Sun 11:00 AM – 2:00 PM; Free-age: Mon-Fri 6:45 AM – 11:00 AM) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.`
   )}`;
 
   const navLinks = [
@@ -117,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               transition: 'all 0.2s ease'
             }}
           >
-            Next Pro (Men)
+            Next Pro (Male)
           </button>
           <button
             onClick={() => handleSwitchAcademy('angels')}
@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               transition: 'all 0.2s ease'
             }}
           >
-            Angels (Women)
+            Angels (Female)
           </button>
         </div>
 

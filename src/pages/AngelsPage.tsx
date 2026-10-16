@@ -14,7 +14,7 @@ interface AngelsPageProps {
 export const AngelsPage: React.FC<AngelsPageProps> = ({ players, openRegistration }) => {
   const [selectedCategory, setSelectedCategory] = useState<AgeCategory | 'all'>('all');
   const angelsPlayers = players.filter(p => p.academy === 'angels');
-  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello Head Coach Farouk, I would like to inquire about Fackson Angels (Women) trials, scholarship slots, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.")}`;
+  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello CEO Farouk, I would like to inquire about Fackson Angels (Female) trials, scholarship slots, and training schedule (U10-U15: Mon-Fri 4:00 PM – 6:00 PM, Sat-Sun 11:00 AM – 2:00 PM; Free-age: Mon-Fri 6:45 AM – 11:00 AM) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.")}`;
 
   return (
     <div>
@@ -40,16 +40,16 @@ export const AngelsPage: React.FC<AngelsPageProps> = ({ players, openRegistratio
             <div style={{ flex: 1, minWidth: '280px' }}>
               <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
                 <span className="badge badge-gold" style={{ background: 'rgba(251, 113, 133, 0.2)', color: '#fecdd3', borderColor: '#fb7185' }}>
-                  Women's Academy Division
+                  Female Academy Division
                 </span>
                 <span className="badge badge-green">Regional Champions</span>
-                <span className="badge badge-navy">Meiran Estate, Alagbado</span>
+                <span className="badge badge-navy">Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado</span>
               </div>
               <h1 style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', color: '#ffffff', marginBottom: '0.75rem' }}>
                 FACKSON <span style={{ color: '#fb7185' }}>ANGELS</span>
               </h1>
               <p style={{ color: '#cbd5e1', fontSize: '1.1rem', maxWidth: '700px', lineHeight: 1.6 }}>
-                Championing women's football empowerment and elite player development. Developing technical brilliance, football intelligence, and championship character across Under 10, Under 13, Under 15, Under 17, and Free Age (Senior) rosters.
+                Championing female football empowerment and elite player development. Developing technical brilliance, football intelligence, and championship character across Under 10, Under 13, Under 15, Under 17, and Free Age (Senior) rosters.
               </p>
             </div>
             
@@ -83,7 +83,7 @@ export const AngelsPage: React.FC<AngelsPageProps> = ({ players, openRegistratio
                 }}
               >
                 <MessageCircle size={16} />
-                <span>WhatsApp Coach</span>
+                <span>WhatsApp CEO</span>
               </a>
 
 

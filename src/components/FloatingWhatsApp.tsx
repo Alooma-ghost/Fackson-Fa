@@ -20,7 +20,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
 
   const getUrl = (phone: string, role: string) =>
     `https://wa.me/${phone}?text=${encodeURIComponent(
-      `Hello ${role}, I would like to inquire about Fackson Football Academy (Next Pro Men / Angels Women) trials and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.`
+      `Hello ${role}, I would like to inquire about Fackson Football Academy (Next Pro Male / Angels Female) trials and training at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.\nU10–U15: Mon–Fri 4–6 PM & Sat–Sun 11 AM–2 PM | Free Age: Mon–Fri 6:45–11 AM`
     )}`;
 
   return (
@@ -89,7 +89,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <a
-              href={getUrl(headCoach, 'Head Coach Farouk')}
+              href={getUrl(headCoach, 'CEO Farouk Yusuf')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -109,7 +109,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
               className="wa-chip"
             >
               <span>0802 974 5452</span>
-              <span style={{ fontSize: '0.65rem', color: '#cbd5e1', fontWeight: 600 }}>Head Coach</span>
+              <span style={{ fontSize: '0.65rem', color: '#cbd5e1', fontWeight: 600 }}>CEO</span>
             </a>
 
             <a
@@ -141,7 +141,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
 
       {/* Pulsing Floating Action Button */}
       <a
-        href={getUrl(headCoach, 'Head Coach Farouk')}
+        href={getUrl(headCoach, 'CEO Farouk Yusuf')}
         target="_blank"
         rel="noopener noreferrer"
         style={{
@@ -159,7 +159,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
           position: 'relative',
         }}
         className="floating-whatsapp-btn"
-        title="Chat on WhatsApp: 0802 974 5452 (Head Coach) / 0817 349 6343 (Coach)"
+        title="Chat on WhatsApp: 0802 974 5452 (CEO) / 0817 349 6343 (Coach)"
       >
         <MessageCircle size={28} />
         {/* Radar Ring Animation */}

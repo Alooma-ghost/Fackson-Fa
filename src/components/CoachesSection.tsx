@@ -5,13 +5,16 @@ interface CoachesSectionProps {
   openRegistration?: () => void;
 }
 
-const HEAD_COACH_WHATSAPP = 'https://wa.me/2348029745452?text=' + encodeURIComponent(
-  'Hello Head Coach Farouk, I would like to inquire about Fackson Football Academy trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
+const CEO_WHATSAPP = 'https://wa.me/2348029745452?text=' + encodeURIComponent(
+  'Hello, I would like to inquire about Fackson Football Academy trials, enrollment, and training schedule at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.'
 );
 
 const COACH_WHATSAPP = 'https://wa.me/2348173496343?text=' + encodeURIComponent(
-  'Hello Coach, I would like to inquire about Fackson Football Academy trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
+  'Hello Coach, I would like to inquire about Fackson Football Academy trials, enrollment, and training schedule at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.'
 );
+
+// Keep alias for backward compatibility
+const HEAD_COACH_WHATSAPP = CEO_WHATSAPP;
 
 const THREE_COACHES = [
   {
@@ -20,21 +23,21 @@ const THREE_COACHES = [
     license: 'Licensed Academy Coach',
     focus: 'Senior & youth tactical setup, match strategy & squad discipline',
     theme: '#4ade80',
-    photoUrl: '/images/coach-atere.jpg',
+    photoUrl: '/images/coach-atere.png',
     initials: 'AG',
   },
   {
     name: 'Coach Fasoranti Busayo',
-    role: 'Under-15 Coach',
+    role: 'Assistant Coach',
     license: 'Youth Technical Specialist',
-    focus: 'Under-15 technical fundamentals, agility drills & tactical awareness',
+    focus: 'Youth technical fundamentals, agility drills & tactical awareness',
     theme: '#ffd000',
-    photoUrl: '/images/team-photo.jpg',
+    photoUrl: '/images/coach-busayo.jpg',
     initials: 'FB',
   },
   {
     name: 'Coach Ahmed Sambo',
-    role: 'Third Assistant Coach',
+    role: 'Assistant Coach',
     license: 'Technical Assistant & Scouting',
     focus: 'Grassroots scout evaluation, positional training & athletic conditioning',
     theme: '#38bdf8',
@@ -146,10 +149,15 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration
             <div className="head-coach-schedule-box">
               <Calendar size={18} color="#4ade80" style={{ flexShrink: 0 }} />
               <div>
-                <strong style={{ color: '#ffffff' }}>Training Days:</strong> Tuesday, Thursday, Saturday · <span style={{ color: '#4ade80' }}>6:45 AM – 11:00 AM</span>
+                <strong style={{ color: '#ffffff' }}>U10–U15 (Male & Female):</strong>
+                <span style={{ color: '#4ade80' }}> Mon–Fri: 4:00 PM – 6:00 PM</span> · <span style={{ color: '#a7f3d0' }}>Sat–Sun: 11:00 AM – 2:00 PM</span>
+                <div style={{ fontSize: '0.74rem', color: '#cbd5e1', marginTop: '3px' }}>
+                  <strong style={{ color: '#ffffff' }}>Free Age (Male & Female):</strong>
+                  <span style={{ color: '#ffd000' }}> Mon–Fri: 6:45 AM – 11:00 AM</span>
+                </div>
                 <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '2px' }}>
                   <MapPin size={12} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '4px' }} />
-                  Meiran Field Estate, Alagbado, Lagos
+                  Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado
                 </div>
               </div>
             </div>
@@ -157,14 +165,14 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration
             {/* Direct Contact CTAs */}
             <div className="head-coach-actions">
               <a
-                href={HEAD_COACH_WHATSAPP}
+                href={CEO_WHATSAPP}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="head-coach-wa-btn-1"
                 id="head-coach-wa-1"
               >
                 <MessageCircle size={16} />
-                <span>0802 974 5452 (Head Coach)</span>
+                <span>0802 974 5452 (CEO)</span>
               </a>
 
               <a
@@ -346,7 +354,7 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration
               Ready to train with our coaches?
             </p>
             <p style={{ color: '#94a3b8', fontSize: '0.82rem', margin: '4px 0 0' }}>
-              Open trials every Monday, Wednesday &amp; Saturday — Meiran Field Estate, Alagbado
+              U10–U15: Mon–Fri 4–6 PM, Sat–Sun 11 AM–2 PM | Free-Age: Mon–Fri 6:45–11 AM — Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado
             </p>
           </div>
           {openRegistration ? (

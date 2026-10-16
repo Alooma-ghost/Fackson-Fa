@@ -586,14 +586,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value })}
                         id="gallery-category-select"
                       >
-                        <optgroup label="— Age Squads (Next Pro Men) —">
+                        <optgroup label="— Age Squads (Next Pro Male) —">
                           <option value="u10_boys">🔵 Under 10 – Boys (Next Pro U10)</option>
                           <option value="u13_boys">🔵 Under 13 – Boys (Next Pro U13)</option>
                           <option value="u15_boys">🔵 Under 15 – Boys (Next Pro U15)</option>
                           <option value="u17_boys">🔵 Under 17 – Boys (Next Pro U17)</option>
                           <option value="senior_boys">🔵 Free Age / Senior – Boys</option>
                         </optgroup>
-                        <optgroup label="— Age Squads (Angels Women) —">
+                        <optgroup label="— Age Squads (Angels Female) —">
                           <option value="u10_girls">🟡 Under 10 – Girls (Angels U10)</option>
                           <option value="u13_girls">🟡 Under 13 – Girls (Angels U13)</option>
                           <option value="u15_girls">🟡 Under 15 – Girls (Angels U15)</option>
@@ -621,8 +621,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         onChange={(e) => setGalleryForm({ ...galleryForm, academy: e.target.value })}
                       >
                         <option value="all">Both Academies (General)</option>
-                        <option value="next_pro">Fackson Next Pro (Men)</option>
-                        <option value="angels">Fackson Angels (Women)</option>
+                        <option value="next_pro">Fackson Next Pro (Male)</option>
+                        <option value="angels">Fackson Angels (Female)</option>
                       </select>
                     </div>
 
@@ -783,8 +783,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       value={playerForm.academy}
                       onChange={(e) => setPlayerForm({ ...playerForm, academy: e.target.value as AcademyType })}
                     >
-                      <option value="next_pro">Fackson Next Pro (Men)</option>
-                      <option value="angels">Fackson Angels (Women)</option>
+                      <option value="next_pro">Fackson Next Pro (Male)</option>
+                      <option value="angels">Fackson Angels (Female)</option>
                     </select>
                   </div>
 
@@ -1029,8 +1029,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       onChange={(e) => setNewsForm({ ...newsForm, academy: e.target.value as any })}
                     >
                       <option value="all">Both Academies</option>
-                      <option value="next_pro">Fackson Next Pro (Men)</option>
-                      <option value="angels">Fackson Angels (Women)</option>
+                      <option value="next_pro">Fackson Next Pro (Male)</option>
+                      <option value="angels">Fackson Angels (Female)</option>
                     </select>
                   </div>
                 </div>
@@ -1195,8 +1195,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       value={matchForm.academy}
                       onChange={(e) => setMatchForm({ ...matchForm, academy: e.target.value as any })}
                     >
-                      <option value="next_pro">Fackson Next Pro (Men)</option>
-                      <option value="angels">Fackson Angels (Women)</option>
+                      <option value="next_pro">Fackson Next Pro (Male)</option>
+                      <option value="angels">Fackson Angels (Female)</option>
                     </select>
                   </div>
 

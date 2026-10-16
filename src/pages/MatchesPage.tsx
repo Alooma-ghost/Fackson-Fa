@@ -161,7 +161,7 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
             maxWidth: '650px',
             lineHeight: 1.6
           }}>
-            Follow live scores, tournament schedules, kickoff countdowns, and historical results across Fackson Next Pro (Men) and Fackson Angels (Women) at Meiran Field Estate and away venues.
+            Follow live scores, tournament schedules, kickoff countdowns, and historical results across Fackson Next Pro (Male) and Fackson Angels (Female) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado and away venues.
           </p>
         </div>
       </section>
@@ -267,8 +267,8 @@ export const MatchesPage: React.FC<MatchesPageProps> = ({ matches, openRegistrat
                 }}
               >
                 <option value="all">All Academies</option>
-                <option value="next_pro">Fackson Next Pro (Men)</option>
-                <option value="angels">Fackson Angels (Women)</option>
+                <option value="next_pro">Fackson Next Pro (Male)</option>
+                <option value="angels">Fackson Angels (Female)</option>
               </select>
 
               <select

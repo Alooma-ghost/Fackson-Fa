@@ -236,7 +236,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               marginBottom: '1.25rem',
               textAlign: 'left'
             }}>
-              <strong>Trial registration registered.</strong> No online fee required. Please connect with Head Coach Farouk Yusuf to receive your assessment date at Meiran Field Estate, Alagbado.
+              <strong>Trial registration registered.</strong> No online fee required. Please connect with CEO Farouk Yusuf to receive your assessment date at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.
             </div>
 
             {/* Registration Summary Card */}
@@ -255,16 +255,19 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.65rem', marginBottom: '0.65rem' }}>
                 <span style={{ color: '#94a3b8', fontSize: '0.88rem' }}>Academy &amp; Tier</span>
                 <strong style={{ color: 'var(--color-gold-primary)' }}>
-                  {formData.academyPreference === 'angels' ? 'Fackson Angels (Women)' : 'Fackson Next Pro (Men)'} &bull; {formData.category.toUpperCase()}
+                  {formData.academyPreference === 'angels' ? 'Fackson Angels (Female)' : 'Fackson Next Pro (Male)'} &bull; {formData.category.toUpperCase()}
                 </strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.65rem', marginBottom: '0.65rem' }}>
                 <span style={{ color: '#94a3b8', fontSize: '0.88rem' }}>Training Ground</span>
-                <span style={{ color: '#4ade80', fontSize: '0.88rem', fontWeight: 600 }}>Meiran Field Estate, Alagbado</span>
+                <span style={{ color: '#4ade80', fontSize: '0.88rem', fontWeight: 600 }}>Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.65rem', marginBottom: '0.65rem' }}>
-                <span style={{ color: '#94a3b8', fontSize: '0.88rem' }}>Training Days</span>
-                <span style={{ color: '#e2e8f0', fontSize: '0.88rem', fontWeight: 600 }}>Tue, Thu, Sat (6:45 AM – 11:00 AM)</span>
+                <span style={{ color: '#94a3b8', fontSize: '0.88rem' }}>Training Schedule</span>
+                <span style={{ color: '#e2e8f0', fontSize: '0.82rem', fontWeight: 600, textAlign: 'right' }}>
+                  U10–U15: Mon–Fri 4–6 PM, Sat–Sun 11 AM–2 PM<br />
+                  Free-Age: Mon–Fri 6:45 AM – 11:00 AM
+                </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ color: '#94a3b8', fontSize: '0.88rem' }}>Registration Status</span>
@@ -277,7 +280,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a
                 href={`https://wa.me/2348029745452?text=${encodeURIComponent(
-                  `Hello Head Coach Farouk Yusuf, I have registered ${formData.playerName} for Fackson Football Academy (${formData.academyPreference === 'angels' ? 'Angels' : 'Next Pro'}, ${formData.category.toUpperCase()}) trials at Meiran Field Estate, Alagbado. Please confirm trial time.`
+                  `Hello CEO Farouk Yusuf, I have registered ${formData.playerName} for Fackson Football Academy (${formData.academyPreference === 'angels' ? 'Angels Female' : 'Next Pro Male'}, ${formData.category.toUpperCase()}) trials at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado. Please confirm trial time.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -293,12 +296,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   padding: '0.6rem 1.4rem'
                 }}
               >
-                <span>0802 974 5452 (Head Coach)</span>
+                <span>0802 974 5452 (CEO)</span>
               </a>
 
               <a
                 href={`https://wa.me/2348173496343?text=${encodeURIComponent(
-                  `Hello Coach, I have registered ${formData.playerName} for Fackson Football Academy (${formData.academyPreference === 'angels' ? 'Angels' : 'Next Pro'}, ${formData.category.toUpperCase()}) trials at Meiran Field Estate, Alagbado. Please confirm trial time.`
+                  `Hello Coach, I have registered ${formData.playerName} for Fackson Football Academy (${formData.academyPreference === 'angels' ? 'Angels Female' : 'Next Pro Male'}, ${formData.category.toUpperCase()}) trials at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado. Please confirm trial time.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -446,7 +449,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 <h3 style={{ fontSize: '1.6rem', color: '#fff' }}>Academy Trial Registration</h3>
               </div>
               <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
-                Register for open trials across Fackson Next Pro (Men) and Fackson Angels (Women) squads.
+                Register for open trials across Fackson Next Pro (Male) and Fackson Angels (Female) squads.
               </p>
             </div>
 
@@ -509,8 +512,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                       });
                     }}
                   >
-                    <option value="next_pro">Fackson Next Pro (Men Academy)</option>
-                    <option value="angels">Fackson Angels (Women Academy)</option>
+                    <option value="next_pro">Fackson Next Pro (Male Academy)</option>
+                    <option value="angels">Fackson Angels (Female Academy)</option>
                   </select>
                 </div>
 

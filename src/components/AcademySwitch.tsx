@@ -22,7 +22,7 @@ export const AcademySwitch: React.FC<AcademySwitchProps> = ({ activeAcademy, set
             alt="Fackson Next Pro" 
             className="switcher-badge" 
           />
-          <span>Fackson Next Pro (Men)</span>
+          <span>Fackson Next Pro (Male)</span>
         </button>
 
         <button
@@ -37,7 +37,7 @@ export const AcademySwitch: React.FC<AcademySwitchProps> = ({ activeAcademy, set
             alt="Fackson Angels" 
             className="switcher-badge" 
           />
-          <span>Fackson Angels (Women)</span>
+          <span>Fackson Angels (Female)</span>
         </button>
       </div>
     </div>

@@ -20,6 +20,18 @@ const achievements = [
     ]
   },
   {
+    player: 'Rasheed Ibrahim Akanbi',
+    position: 'Forward / Winger (#11)',
+    club: 'Boluspor (Turkey TFF 1. Lig) / ex-Sheriff',
+    flag: '🇹🇷',
+    photoUrl: '/images/alumni/rasheed-akanbi.jpg',
+    items: [
+      'Signed Boluspor (Turkey TFF 1. Lig) — 2025',
+      'UEFA Champions League & Europa League Star with Sheriff Tiraspol',
+      'Faced Cristiano Ronaldo (Man United) in European Competition'
+    ]
+  },
+  {
     player: 'Lawal Oluwaseun',
     position: 'Midfielder / Left Winger',
     club: 'FC Koper (Slovenia PrvaLiga)',
@@ -40,7 +52,7 @@ const achievements = [
     items: [
       'Nigerian U-17 National Team (Flamingos) — 2025',
       'FIFA U-17 World Cup Morocco — 2025',
-      'Fackson Angels Pioneer Women Star'
+      'Fackson Angels Pioneer Female Star'
     ]
   },
   {
@@ -60,7 +72,7 @@ const achievements = [
 const sections = [
   {
     title: '1. Introduction',
-    content: `Fackson Nextpro Football Academy is a grassroots football club established in 1998 at Alagbado, Ifako-Ijaiye LGA, Lagos State, Nigeria. The club was founded with the vision of discovering, nurturing, and developing young football talents while providing them with opportunities to grow into professional footballers.
+    content: `Fackson Nextpro Football Academy is a grassroots football club established in 1998 at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado, Ifako-Ijaiye LGA, Lagos State, Nigeria. The club was founded with the vision of discovering, nurturing, and developing young football talents while providing them with opportunities to grow into professional footballers.
 
 The establishment of the club was inspired by the passion for football and the desire to create a platform where talented young players could receive proper football education, discipline, mentorship, and exposure to competitive football.
 

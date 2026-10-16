@@ -2,9 +2,10 @@ import React from 'react';
 import { MapPin, Navigation, Phone, Clock, Shield, CheckCircle, ExternalLink, MessageCircle } from 'lucide-react';
 
 export const MapSection: React.FC = () => {
-  const mapAddress = "Meiran Estate, Alagbado, Lagos, Nigeria";
+  const mapAddress = "Ojokoro Housing Estate Field, Meiran Alagbado, Lagos, Nigeria";
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapAddress)}`;
-  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello Head Coach Farouk! I'm planning to visit Fackson Football Academy at Meiran Field Estate, Alagbado, Lagos. Please confirm the training schedule (Tuesday, Thursday & Saturday morning 6:45 AM - 11:00 AM) and pitch directions.")}`;
+  const ceoWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello! I'm planning to visit Fackson Football Academy at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado. Please confirm the training schedule and directions.")}`;
+  const coachWhatsAppUrl = ceoWhatsAppUrl;
 
   return (
     <section className="section" style={{ background: '#030a07', position: 'relative' }}>
@@ -30,10 +31,10 @@ export const MapSection: React.FC = () => {
           </div>
 
           <h2 style={{ fontSize: '2.4rem', color: '#fff', marginBottom: '1rem' }}>
-            Find Us at <span className="text-gradient-gold">Meiran Estate, Alagbado</span>
+            Find Us at <span className="text-gradient-gold">Meiran Field Estate, Alagbado</span>
           </h2>
           <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
-            The primary home ground for Fackson Next Pro (Men) and Fackson Angels (Women). Visit our sports complex for training sessions, open trials, and academy tours.
+            The primary home ground for Fackson Next Pro (Male) and Fackson Angels (Female). Visit our sports complex for training sessions, open trials, and academy tours.
           </p>
         </div>
 
@@ -134,7 +135,7 @@ export const MapSection: React.FC = () => {
                   <div>
                     <h4 style={{ color: '#fff', fontSize: '0.98rem', marginBottom: '0.2rem' }}>Ground Address</h4>
                     <p style={{ color: '#94a3b8', fontSize: '0.88rem', margin: 0, lineHeight: 1.5 }}>
-                      Meiran Estate, Off Lagos-Abeokuta Expressway, Alagbado Axis, Lagos State, Nigeria.
+                      Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado, Lagos State, Nigeria.
                     </p>
                   </div>
                 </div>
@@ -154,10 +155,12 @@ export const MapSection: React.FC = () => {
                     <Clock size={18} />
                   </div>
                   <div>
-                    <h4 style={{ color: '#fff', fontSize: '0.98rem', marginBottom: '0.2rem' }}>Training Timetable</h4>
-                    <p style={{ color: '#94a3b8', fontSize: '0.88rem', margin: 0, lineHeight: 1.5 }}>
-                      <strong style={{ color: '#4ade80' }}>Training Days:</strong> Tuesday, Thursday &amp; Saturday<br />
-                      <strong>Morning Session:</strong> 6:45 AM – 11:00 AM
+                    <h4 style={{ color: '#fff', fontSize: '0.98rem', marginBottom: '0.2rem' }}>Training Schedule</h4>
+                    <p style={{ color: '#94a3b8', fontSize: '0.88rem', margin: 0, lineHeight: 1.6 }}>
+                      <strong style={{ color: '#4ade80' }}>U10–U15 (Male & Female):</strong><br />
+                      Mon–Fri: 4:00 PM – 6:00 PM &bull; Sat–Sun: 11:00 AM – 2:00 PM<br />
+                      <strong style={{ color: '#ffd000' }}>Free Age (Male & Female):</strong><br />
+                      Mon–Fri: 6:45 AM – 11:00 AM
                     </p>
                   </div>
                 </div>
@@ -198,7 +201,7 @@ export const MapSection: React.FC = () => {
                 Need Directions to Meiran Field Estate?
               </p>
               <p style={{ color: '#a7f3d0', fontSize: '0.82rem', marginBottom: '1rem' }}>
-                Meiran Field Estate Ground &bull; Training: Tuesday, Thursday &amp; Saturday (6:45 AM – 11:00 AM)
+                Ojokoro Housing Estate Field, Meiran Alagbado &bull; U10–U15: Mon–Fri 4–6 PM / Sat–Sun 11 AM–2 PM &bull; Free Age: Mon–Fri 6:45–11 AM
               </p>
               <a 
                 href={googleMapsUrl}
@@ -218,7 +221,7 @@ export const MapSection: React.FC = () => {
                 <span>Open in Google Maps</span>
               </a>
               <a
-                href={coachWhatsAppUrl}
+                href={ceoWhatsAppUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-sm"
@@ -235,7 +238,7 @@ export const MapSection: React.FC = () => {
                   marginTop: '0.6rem'
                 }}
               >
-                <span>📞 0817 349 6343 · 0802 974 5452</span>
+                <span>📞 CEO: 0802 974 5452 &bull; Coach: 0817 349 6343</span>
               </a>
             </div>
           </div>

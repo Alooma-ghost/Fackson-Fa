@@ -66,7 +66,7 @@ export const SquadPage: React.FC<SquadPageProps> = ({
             maxWidth: '680px',
             lineHeight: 1.6
           }}>
-            Browse official player dossiers across <strong style={{ color: '#4ade80' }}>Fackson Next Pro (Men)</strong> and <strong style={{ color: '#fb7185' }}>Fackson Angels (Women)</strong> spanning Under-10, Under-13, Under-15, Under-17, and Senior squads.
+            Browse official player dossiers across <strong style={{ color: '#4ade80' }}>Fackson Next Pro (Male)</strong> and <strong style={{ color: '#fb7185' }}>Fackson Angels (Female)</strong> spanning Under-10, Under-13, Under-15, Under-17, and Senior squads.
           </p>
         </div>
       </section>
@@ -114,7 +114,7 @@ export const SquadPage: React.FC<SquadPageProps> = ({
               Want to Earn a Spot on the Roster?
             </h3>
             <p style={{ color: '#cbd5e1', maxWidth: '620px', margin: '0 auto 1.5rem', fontSize: '0.92rem', lineHeight: 1.6 }}>
-              We scout and evaluate young footballers year-round at Meiran Field Estate, Alagbado. Complete our academy registration to schedule your pitch assessment.
+              We scout and evaluate young footballers year-round at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado. Complete our academy registration to schedule your pitch assessment.
             </p>
             <button className="btn btn-gold btn-md" onClick={openRegistration}>
               <UserPlus size={18} />

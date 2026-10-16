@@ -10,7 +10,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration, activeAcademy = 'next_pro' }) => {
   const isAngels = activeAcademy === 'angels';
-  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(`Hello Head Coach Farouk, I would like to inquire about Fackson Football Academy (${isAngels ? 'Fackson Angels' : 'Fackson Next Pro'}) at Meiran Estate Alagbado Lagos.`)}`;
+  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(`Hello CEO Farouk Yusuf, I would like to inquire about Fackson Football Academy (${isAngels ? 'Fackson Angels' : 'Fackson Next Pro'}) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.`)}`;
 
   const navTo = (tab: string) => {
     setCurrentTab(tab);
@@ -34,35 +34,41 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration,
         }}>
           {/* Brand Info */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.15rem', marginBottom: '1.35rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
                 <img 
                   src="/logos/fackson-next-pro.jpg" 
                   alt="Fackson Next Pro Logo" 
                   style={{ 
-                    width: '26px', 
-                    height: '26px', 
+                    width: '38px', 
+                    height: '38px', 
                     borderRadius: '50%', 
-                    border: '1.5px solid var(--color-gold-primary)' 
+                    border: '2px solid var(--color-gold-primary)',
+                    boxShadow: '0 0 12px rgba(255, 208, 0, 0.4)',
+                    objectFit: 'cover',
+                    display: 'block'
                   }} 
                 />
                 <img 
                   src="/logos/fackson-angels.jpg" 
                   alt="Fackson Angels Logo" 
                   style={{ 
-                    width: '26px', 
-                    height: '26px', 
+                    width: '38px', 
+                    height: '38px', 
                     borderRadius: '50%', 
-                    border: '1.5px solid #fb7185' 
+                    border: '2px solid #fb7185',
+                    boxShadow: '0 0 12px rgba(251, 113, 133, 0.4)',
+                    objectFit: 'cover',
+                    display: 'block'
                   }} 
                 />
               </div>
-              <div>
-                <h4 style={{ fontSize: '0.82rem', color: '#fff', fontWeight: 900, letterSpacing: '0.02em', margin: 0, lineHeight: 1.15 }}>
+              <div style={{ minWidth: 0 }}>
+                <h4 style={{ fontSize: '1.05rem', color: '#fff', fontWeight: 900, letterSpacing: '0.03em', margin: 0, lineHeight: 1.2 }}>
                   FACKSON FOOTBALL
                 </h4>
-                <p style={{ fontSize: '0.58rem', color: 'var(--color-gold-primary)', fontWeight: 700, margin: '2px 0 0', lineHeight: 1.15 }}>
-                  Next Pro &bull; Angels &bull; Meiran Field Estate, Lagos
+                <p style={{ fontSize: '0.72rem', color: 'var(--color-gold-primary)', fontWeight: 700, margin: '4px 0 0', lineHeight: 1.35 }}>
+                  Next Pro (Male) &bull; Angels (Female) &bull; Meiran Field Estate, Lagos
                 </p>
               </div>
             </div>
@@ -179,12 +185,12 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration,
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.88rem', color: '#cbd5e1' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
                 <MapPin size={18} color="var(--color-gold-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <span>Meiran Field Estate, Alagbado Axis, Lagos State, Nigeria</span>
+                <span>Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado, Lagos State, Nigeria</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                 <Phone size={18} color="var(--color-gold-primary)" style={{ flexShrink: 0 }} />
                 <div>
-                  <a href="https://wa.me/2348029745452" target="_blank" rel="noopener noreferrer" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'block' }}>+234 802 974 5452 (Head Coach)</a>
+                  <a href="https://wa.me/2348029745452" target="_blank" rel="noopener noreferrer" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'block' }}>+234 802 974 5452 (CEO)</a>
                   <a href="https://wa.me/2348173496343" target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8', textDecoration: 'none', display: 'block', fontSize: '0.82rem', marginTop: '2px' }}>+234 817 349 6343 (Coach)</a>
                 </div>
               </div>
@@ -196,10 +202,10 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration,
                 <Clock size={18} color="#4ade80" style={{ flexShrink: 0, marginTop: '2px' }} />
                 <div>
                   <div style={{ color: '#fff', fontWeight: 700, fontSize: '0.84rem' }}>
-                    Training: Tue &bull; Thu &bull; Sat
+                    U10–U15 (Male &amp; Female): Mon–Fri 4:00–6:00 PM &bull; Sat–Sun 11 AM–2 PM
                   </div>
                   <div style={{ color: '#94a3b8', fontSize: '0.78rem', marginTop: '1px' }}>
-                    Morning: 6:45 AM – 11:00 AM
+                    Free Age (Male &amp; Female): Mon–Fri 6:45 AM–11:00 AM
                   </div>
                 </div>
               </div>
@@ -224,7 +230,7 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration,
                 }}
               >
                 <MessageCircle size={16} />
-                +234 817 349 6343
+                CEO: +234 802 974 5452
               </a>
 
               <button 
@@ -251,7 +257,7 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration,
           color: '#64748b'
         }}>
           <div>
-            © {new Date().getFullYear()} Fackson Football Academy (Fackson Next Pro &amp; Fackson Angels). Based at Meiran Estate, Alagbado, Lagos.
+            © {new Date().getFullYear()} Fackson Football Academy (Fackson Next Pro Male &amp; Fackson Angels Female). Based at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado, Lagos.
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <span 

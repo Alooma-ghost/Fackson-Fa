@@ -22,6 +22,7 @@ import { AboutPage } from './pages/AboutPage';
 
 import { api, getAuthToken, removeAuthToken } from './services/api';
 import { Player, GalleryItem, NewsItem, MatchItem, RegistrationItem, AdminUser, AcademyType } from './types';
+import { INITIAL_GALLERY_ITEMS } from './data/initialGallery';
 
 export const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>('home');
@@ -29,7 +30,7 @@ export const App: React.FC = () => {
   
   // Data states
   const [players, setPlayers] = useState<Player[]>([]);
-  const [gallery, setGallery] = useState<GalleryItem[]>([]);
+  const [gallery, setGallery] = useState<GalleryItem[]>(INITIAL_GALLERY_ITEMS);
   const [news, setNews] = useState<NewsItem[]>([]);
   const [matches, setMatches] = useState<MatchItem[]>([]);
   const [registrations, setRegistrations] = useState<RegistrationItem[]>([]);
@@ -51,7 +52,7 @@ export const App: React.FC = () => {
         api.getMatches()
       ]);
       setPlayers(playersData);
-      setGallery(galleryData);
+      setGallery(galleryData && galleryData.length > 0 ? galleryData : INITIAL_GALLERY_ITEMS);
       setNews(newsData);
       setMatches(matchesData);
 

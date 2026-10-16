@@ -14,7 +14,7 @@ interface NextProPageProps {
 export const NextProPage: React.FC<NextProPageProps> = ({ players, openRegistration }) => {
   const [selectedCategory, setSelectedCategory] = useState<AgeCategory | 'all'>('all');
   const nextProPlayers = players.filter(p => p.academy === 'next_pro');
-  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello Head Coach Farouk, I would like to inquire about Fackson Next Pro (Men) trials, enrollment, and training (Tue, Thu, Sat morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.")}`;
+  const ceoWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello CEO Farouk, I would like to inquire about Fackson Next Pro (Male) trials, enrollment, and training schedule (U10-U15: Mon-Fri 4:00 PM – 6:00 PM, Sat-Sun 11:00 AM – 2:00 PM; Free-age: Mon-Fri 6:45 AM – 11:00 AM) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.")}`;
 
   return (
     <div>
@@ -39,15 +39,15 @@ export const NextProPage: React.FC<NextProPageProps> = ({ players, openRegistrat
             />
             <div style={{ flex: 1, minWidth: '280px' }}>
               <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
-                <span className="badge badge-green">Men's Academy Division</span>
+                <span className="badge badge-green">Male Academy Division</span>
                 <span className="badge badge-gold">Elite Pathway</span>
-                <span className="badge badge-navy">Meiran Estate, Alagbado</span>
+                <span className="badge badge-navy">Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado</span>
               </div>
               <h1 style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', color: '#ffffff', marginBottom: '0.75rem' }}>
                 FACKSON NEXT PRO
               </h1>
               <p style={{ color: '#cbd5e1', fontSize: '1.1rem', maxWidth: '700px', lineHeight: 1.6 }}>
-                The premier men's football training development program, cultivating discipline, athletic endurance, tactical IQ, and technical mastery across Under 10, Under 13, Under 15, Under 17, and Free Age (Senior) rosters.
+                The premier male youth football training development program, cultivating discipline, athletic endurance, tactical IQ, and technical mastery across Under 10, Under 13, Under 15, Under 17, and Free Age (Senior) rosters.
               </p>
             </div>
             
@@ -56,7 +56,24 @@ export const NextProPage: React.FC<NextProPageProps> = ({ players, openRegistrat
                 <UserPlus size={18} />
                 <span>Join Next Pro Trials</span>
               </button>
-              
+              <a
+                href={ceoWhatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-sm"
+                style={{
+                  background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                  color: '#fff',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: 700
+                }}
+              >
+                <MessageCircle size={16} />
+                <span>WhatsApp CEO</span>
+              </a>
             </div>
           </div>
         </div>

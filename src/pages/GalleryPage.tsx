@@ -43,13 +43,13 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ gallery, onOpenLightbo
               className={`category-pill ${selectedAcademy === 'next_pro' ? 'active' : ''}`}
               onClick={() => setSelectedAcademy('next_pro')}
             >
-              Fackson Next Pro (Men)
+              Fackson Next Pro (Male)
             </button>
             <button
               className={`category-pill ${selectedAcademy === 'angels' ? 'active' : ''}`}
               onClick={() => setSelectedAcademy('angels')}
             >
-              Fackson Angels (Women)
+              Fackson Angels (Female)
             </button>
           </div>
 

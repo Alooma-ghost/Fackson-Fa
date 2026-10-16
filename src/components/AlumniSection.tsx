@@ -7,6 +7,11 @@ const alumni = [
     name: 'Papa Mustapha Daniel',
     role: 'Midfielder / Forward',
     photoUrl: '/images/alumni/papa-daniel.jpg',
+    galleryImages: [
+      '/images/alumni/papa-daniel.jpg',
+      '/images/gallery/papa-national-team.jpg',
+      '/images/gallery/papa-celje-strike.jpg'
+    ],
     headline: 'NK Celje (Slovenia) & Nigerian Super Eagles',
     story:
       'Nurtured through our foundational grassroots academy at Meiran Field Estate, Alagbado. Developed elite tactical vision and physical stamina before securing a landmark professional transfer to the Slovenian PrvaLiga with NK Celje. He achieved a major milestone in 2025 by earning his senior international debut with the Nigerian Super Eagles.',
@@ -47,16 +52,22 @@ const alumni = [
     name: 'Shuaib Fatimo',
     role: 'Forward / Defender (#22)',
     photoUrl: '/images/alumni/shuaib-fatimo.jpg',
+    galleryImages: [
+      '/images/alumni/shuaib-fatimo.jpg',
+      '/images/gallery/fatimo-shuaib-flamingos-team.jpg',
+      '/images/gallery/fatimo-shuaib-match-action.jpg',
+      '/images/gallery/fatimo-shuaib-training.jpg'
+    ],
     headline: 'FIFA U-17 World Cup 2025 & Flamingos',
     story:
-      'A pioneer prodigy developed through Fackson Angels Women Academy. Demonstrating remarkable defensive grit and attacking versatility, she was named to the Nigerian U-17 National Team (Flamingos) for the FIFA U-17 World Cup Morocco 2025 while starring for Honey Badgers in the Nigerian Women Football League (NWFL).',
+      'A pioneer prodigy developed through Fackson Angels Female Academy. Demonstrating remarkable defensive grit and attacking versatility, she was named to the Nigerian U-17 National Team (Flamingos) for the FIFA U-17 World Cup Morocco 2025 while starring for Honey Badgers in the Nigerian Women Football League (NWFL).',
     tags: [
       { label: 'FIFA U-17 World Cup Morocco 🇲🇦', color: '#fb7185', bg: 'rgba(251, 113, 133, 0.12)' },
       { label: 'Nigeria Flamingos U-17 🇳🇬', color: '#4ade80', bg: 'rgba(74, 222, 128, 0.12)' },
       { label: 'NWFL Standout Player', color: '#ffd000', bg: 'rgba(255, 208, 0, 0.12)' }
     ],
     highlights: [
-      'Pioneer star trained at Fackson Angels Women Academy',
+      'Pioneer star trained at Fackson Angels Female Academy',
       'Selected for Nigeria Flamingos (U-17 Women National Team)',
       'Official squad member for FIFA U-17 Women World Cup Morocco 2025',
       'Active standout competitor in Nigerian Women Football League (NWFL)'
@@ -81,6 +92,33 @@ const alumni = [
       'Crowned Champion of Africa at the Africa U-23 Cup of Nations',
       'Over a decade of top-flight domestic and foreign professional career'
     ]
+  },
+  {
+    id: 'rasheed',
+    name: 'Rasheed Ibrahim Akanbi',
+    role: 'Forward',
+    photoUrl: '/images/alumni/rasheed-akanbi.jpg',
+    galleryImages: [
+      '/images/alumni/rasheed-akanbi.jpg',
+      '/images/gallery/rasheed-akanbi-boluspor.jpg',
+      '/images/gallery/rasheed-akanbi-action.jpg',
+      '/images/gallery/rasheed-akanbi-sheriff.jpg',
+      '/images/gallery/rasheed-akanbi-ronaldo.jpg'
+    ],
+    headline: 'Boluspor (Turkey TFF 1. Lig) · ex-Sheriff Tiraspol',
+    story:
+      'Born 9 May 1999, Rasheed Ibrahim Akanbi is a Nigerian professional footballer who plays as a forward. A proud product of Fackson Football Academy\'s grassroots system, he rose from our pitches at Meiran Field Estate to professional football. On 22 June 2022, he signed with FC Sheriff Tiraspol in the Moldovan Super Liga, competing in the UEFA Champions League. After his contract expired, he signed a two-year deal with Boluspor in Turkey\'s TFF 1. Lig on 14 July 2025.',
+    tags: [
+      { label: 'Boluspor · TFF 1. Lig 🇹🇷', color: '#ef4444', bg: 'rgba(239, 68, 68, 0.12)' },
+      { label: 'ex-Sheriff Tiraspol 🇲🇩', color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.12)' },
+      { label: 'UEFA Champions League', color: '#ffd000', bg: 'rgba(255, 208, 0, 0.12)' }
+    ],
+    highlights: [
+      'Developed through Fackson Football Academy grassroots programme at Meiran Field Estate',
+      'Signed for FC Sheriff Tiraspol (Moldova) on 22 June 2022 — UEFA Champions League competitor',
+      'Signed a 2-year professional contract with Boluspor (Turkey TFF 1. Lig) on 14 July 2025',
+      'Photographed alongside Cristiano Ronaldo — a testament to his European journey'
+    ]
   }
 ];
 
@@ -92,8 +130,17 @@ interface AlumniSectionProps {
 
 export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
   const [lightbox, setLightbox] = useState<AlumniPlayer | null>(null);
+  const [activePhoto, setActivePhoto] = useState<string>('');
 
-  const closeLightbox = useCallback(() => setLightbox(null), []);
+  const openLightbox = (player: AlumniPlayer) => {
+    setLightbox(player);
+    setActivePhoto(player.photoUrl);
+  };
+
+  const closeLightbox = useCallback(() => {
+    setLightbox(null);
+    setActivePhoto('');
+  }, []);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -154,7 +201,7 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
             maxWidth: '680px',
             margin: '0 auto'
           }}>
-            From our grassroots training pitches at Meiran Field Estate, Alagbado to European top divisions, Olympic podiums, and World Cup tournaments. Here are proud graduates of Fackson Football Academy.
+            From our grassroots training pitches at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado to European top divisions, Olympic podiums, and World Cup tournaments. Here are proud graduates of Fackson Football Academy.
           </p>
         </div>
 
@@ -190,7 +237,7 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
                   overflow: 'hidden',
                   cursor: 'zoom-in'
                 }}
-                onClick={() => setLightbox(player)}
+                onClick={() => openLightbox(player)}
                 title="Click to view full picture"
               >
                 <img
@@ -437,7 +484,7 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
               Your Child Could Be Our Next Success Story
             </h3>
             <p style={{ color: '#94a3b8', fontSize: '0.92rem', margin: 0, lineHeight: 1.6 }}>
-              Open registration and scouting trials are active for Under-10, Under-13, Under-15, Under-17, and Free Age squads at Meiran Field Estate, Alagbado.
+              Open registration and scouting trials are active for Under-10 to Under-15 (Male &amp; Female) and Free Age (Male &amp; Female) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.
             </p>
           </div>
 
@@ -530,12 +577,12 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
               border: '2px solid rgba(255, 208, 0, 0.3)'
             }}>
               <img
-                src={lightbox.photoUrl}
+                src={activePhoto || lightbox.photoUrl}
                 alt={lightbox.name}
                 style={{
                   width: '100%',
                   height: 'auto',
-                  maxHeight: '70vh',
+                  maxHeight: '65vh',
                   objectFit: 'contain',
                   display: 'block',
                   background: '#040804'
@@ -548,8 +595,8 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                background: 'linear-gradient(to top, rgba(2, 6, 2, 0.97) 0%, rgba(2, 6, 2, 0.2) 65%, transparent 100%)',
-                padding: '36px 22px 20px'
+                background: 'linear-gradient(to top, rgba(2, 6, 2, 0.97) 0%, rgba(2, 6, 2, 0.3) 65%, transparent 100%)',
+                padding: '32px 20px 18px'
               }}>
                 <div style={{
                   fontSize: '0.74rem',
@@ -591,6 +638,54 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
                 <span>Fackson FA Graduate</span>
               </div>
             </div>
+
+            {/* Thumbnail switcher if multiple images exist */}
+            {lightbox.galleryImages && lightbox.galleryImages.length > 1 && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 10,
+                marginTop: 14,
+                padding: '6px 12px',
+                background: 'rgba(255,255,255,0.06)',
+                borderRadius: '50px',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Photos ({lightbox.galleryImages.length}):
+                </span>
+                {lightbox.galleryImages.map((imgSrc, idx) => {
+                  const isCurrent = (activePhoto || lightbox.photoUrl) === imgSrc;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setActivePhoto(imgSrc)}
+                      style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: '10px',
+                        overflow: 'hidden',
+                        padding: 0,
+                        border: isCurrent ? '2px solid var(--color-gold-primary)' : '1px solid rgba(255,255,255,0.25)',
+                        background: '#000',
+                        cursor: 'pointer',
+                        transform: isCurrent ? 'scale(1.1)' : 'scale(1)',
+                        transition: 'all 0.2s ease',
+                        boxShadow: isCurrent ? '0 0 12px rgba(255,208,0,0.5)' : 'none'
+                      }}
+                      title={`Photo ${idx + 1}`}
+                    >
+                      <img
+                        src={imgSrc}
+                        alt={`${lightbox.name} ${idx + 1}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             {/* Tag Pills */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 14, justifyContent: 'center' }}>

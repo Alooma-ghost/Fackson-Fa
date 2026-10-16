@@ -63,8 +63,8 @@ export const FixturesPage: React.FC<FixturesPageProps> = ({ matches, openRegistr
               style={{ width: 'auto', padding: '0.4rem 1rem', fontSize: '0.85rem' }}
             >
               <option value="all">All Academies</option>
-              <option value="next_pro">Fackson Next Pro (Men)</option>
-              <option value="angels">Fackson Angels (Women)</option>
+              <option value="next_pro">Fackson Next Pro (Male)</option>
+              <option value="angels">Fackson Angels (Female)</option>
             </select>
 
             <select

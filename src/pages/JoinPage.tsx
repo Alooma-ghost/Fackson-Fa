@@ -76,10 +76,10 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
   const headCoachPhone = '2348029745452';
   const coachPhone = '2348173496343';
   const whatsappPreFilled = `https://wa.me/${headCoachPhone}?text=${encodeURIComponent(
-    `Hello Head Coach Farouk Yusuf, I have registered for Fackson Football Academy (${academy === 'angels' ? 'Fackson Angels Women' : 'Fackson Next Pro Men'}, ${category.toUpperCase()}).\n\nPlayer Name: ${fullName}\nDOB: ${dateOfBirth}\nPosition: ${position} (${dominantFoot} foot)\nGuardian: ${guardianName} (${phone})\nLocation: Meiran Field Estate, Alagbado.\n\nPlease confirm our trial date and training schedule.`
+    `Hello CEO Farouk Yusuf, I have registered for Fackson Football Academy (${academy === 'angels' ? 'Fackson Angels Female' : 'Fackson Next Pro Male'}, ${category.toUpperCase()}).\n\nPlayer Name: ${fullName}\nDOB: ${dateOfBirth}\nPosition: ${position} (${dominantFoot} foot)\nGuardian: ${guardianName} (${phone})\nLocation: Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.\n\nPlease confirm our trial date and training schedule.`
   )}`;
   const whatsappPreFilled2 = `https://wa.me/${coachPhone}?text=${encodeURIComponent(
-    `Hello Coach, I have registered for Fackson Football Academy (${academy === 'angels' ? 'Fackson Angels Women' : 'Fackson Next Pro Men'}, ${category.toUpperCase()}).\n\nPlayer Name: ${fullName}\nDOB: ${dateOfBirth}\nPosition: ${position} (${dominantFoot} foot)\nGuardian: ${guardianName} (${phone})\nLocation: Meiran Field Estate, Alagbado.\n\nPlease confirm our trial date and training schedule.`
+    `Hello Coach, I have registered for Fackson Football Academy (${academy === 'angels' ? 'Fackson Angels Female' : 'Fackson Next Pro Male'}, ${category.toUpperCase()}).\n\nPlayer Name: ${fullName}\nDOB: ${dateOfBirth}\nPosition: ${position} (${dominantFoot} foot)\nGuardian: ${guardianName} (${phone})\nLocation: Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.\n\nPlease confirm our trial date and training schedule.`
   )}`;
 
   return (
@@ -128,7 +128,9 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
             maxWidth: '680px',
             lineHeight: 1.6
           }}>
-            Register for official academy trials at Meiran Field Estate, Alagbado. Regular Training Days: Tuesday, Thursday &amp; Saturday (Morning 6:45 AM – 11:00 AM). Open to boys and girls across U-10, U-13, U-15, U-17, and Senior squads.
+            Register for official academy trials at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.
+            U10–U15 (Male &amp; Female): Mon–Fri 4:00–6:00 PM &bull; Sat–Sun 11:00 AM–2:00 PM.
+            Free Age (Male &amp; Female): Mon–Fri 6:45 AM–11:00 AM.
           </p>
         </div>
       </section>
@@ -181,7 +183,7 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
                   Instant WhatsApp Trial Scheduling
                 </h3>
                 <p style={{ color: '#cbd5e1', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '1.25rem' }}>
-                  Click below to send your pre-filled registration dossier directly to Head Coach Farouk Yusuf to receive your trial invitation date, pitch guidelines, and jersey instructions.
+                  Click below to send your pre-filled registration dossier directly to CEO Farouk Yusuf to receive your trial invitation date, pitch guidelines, and jersey instructions.
                 </p>
                 <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                   <a
@@ -202,7 +204,7 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
                     }}
                   >
                     <MessageCircle size={16} />
-                    <span>Send to Head Coach (0802 974 5452)</span>
+                    <span>Send to CEO (0802 974 5452)</span>
                   </a>
                   <a
                     href={whatsappPreFilled2}
@@ -286,7 +288,7 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
                     <img src="/logos/fackson-next-pro.jpg" alt="Next Pro" style={{ width: '42px', height: '42px', borderRadius: '50%' }} />
                     <div>
                       <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.95rem' }}>Fackson Next Pro</div>
-                      <div style={{ fontSize: '0.75rem', color: '#4ade80' }}>Men / Boys Academy</div>
+                      <div style={{ fontSize: '0.75rem', color: '#4ade80' }}>Male Academy</div>
                     </div>
                   </div>
 
@@ -307,7 +309,7 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
                     <img src="/logos/fackson-angels.jpg" alt="Angels" style={{ width: '42px', height: '42px', borderRadius: '50%' }} />
                     <div>
                       <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.95rem' }}>Fackson Angels</div>
-                      <div style={{ fontSize: '0.75rem', color: '#fb7185' }}>Women / Girls Academy</div>
+                      <div style={{ fontSize: '0.75rem', color: '#fb7185' }}>Female Academy</div>
                     </div>
                   </div>
                 </div>

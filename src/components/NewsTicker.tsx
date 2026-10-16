@@ -18,7 +18,7 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({
   const [minimized, setMinimized] = useState(false);
 
   const defaultTickerItems = [
-    { text: '⚽ Fackson Next Pro U-15 & U-17 Open Screening Trials ongoing at Meiran Estate, Alagbado.', tag: 'TRIALS', isAction: true },
+    { text: '⚽ Fackson Next Pro U-15 & U-17 Open Screening Trials ongoing at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.', tag: 'TRIALS', isAction: true },
     { text: '🏆 Fackson Angels U-15 crowned Lagos Youth Champions after 3-1 victory in state finals!', tag: 'MATCH RESULT', isAction: false },
     { text: '🌍 European Scouting Delegations arriving this month from Belgium & Portugal.', tag: 'PRO SCOUTING', isAction: false },
     { text: '⭐ Academy Graduate Tunde Bakare scores match-winner in Belgian Challenger Pro League.', tag: 'ALUMNI', isAction: false },

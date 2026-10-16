@@ -30,8 +30,8 @@ export const Home: React.FC<HomeProps> = ({
   const activeNews = news.slice(0, 3);
   const teaserGallery = gallery.slice(0, 3);
 
-  const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(
-    'Hello Head Coach Farouk Yusuf, I would like to inquire about Fackson Football Academy trials and training (Tuesday, Thursday & Saturday morning 6:45 AM – 11:00 AM) at Meiran Field Estate, Alagbado.'
+  const ceoWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent(
+    'Hello CEO Farouk Yusuf, I would like to inquire about Fackson Football Academy trials and training schedule (U10-U15: Mon-Fri 4:00 PM – 6:00 PM, Sat-Sun 11:00 AM – 2:00 PM; Free-age: Mon-Fri 6:45 AM – 11:00 AM) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.'
   )}`;
 
   return (
@@ -114,7 +114,7 @@ export const Home: React.FC<HomeProps> = ({
               letterSpacing: '-0.02em',
               textShadow: '0 2px 18px rgba(0,0,0,0.95)'
             }}>
-              CRAFTING CHAMPIONS IN <span className="text-gradient-gold">MEN &amp; WOMEN'S</span> FOOTBALL
+              CRAFTING CHAMPIONS IN <span className="text-gradient-gold">MALE &amp; FEMALE</span> FOOTBALL
             </h1>
 
             {/* Compact Subtitle */}
@@ -126,7 +126,7 @@ export const Home: React.FC<HomeProps> = ({
               maxWidth: '600px',
               textShadow: '0 1px 12px rgba(0,0,0,0.95)'
             }}>
-              Fackson Next Pro (Men) &amp; Fackson Angels (Women). Grassroots football academy delivering elite technical coaching, character development, and professional European pathways at Meiran Field Estate, Alagbado.
+              Fackson Next Pro (Male) &amp; Fackson Angels (Female). Grassroots football academy delivering elite technical coaching, character development, and professional European pathways at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.
             </p>
 
             {/* Primary CTAs: Register for Trials & View Fixtures & WhatsApp */}
@@ -155,7 +155,7 @@ export const Home: React.FC<HomeProps> = ({
                 <span>View Fixtures</span>
               </button>
               <a
-                href={coachWhatsAppUrl}
+                href={ceoWhatsAppUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-sm"
@@ -174,7 +174,7 @@ export const Home: React.FC<HomeProps> = ({
                 }}
               >
                 <MessageCircle size={16} />
-                <span>WhatsApp Coach</span>
+                <span>WhatsApp CEO</span>
               </a>
 
 
@@ -204,14 +204,14 @@ export const Home: React.FC<HomeProps> = ({
               },
               {
                 icon: <MapPin size={24} color="#4ade80" />,
-                title: 'Meiran Field Estate Grounds',
-                desc: 'Dedicated home pitch at Meiran Field Estate, Alagbado. Training: Tuesday, Thursday & Saturday (Morning 6:45 AM – 11:00 AM).',
+                title: 'Ojokoro Housing Estate Field',
+                desc: 'Home pitch at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado. Training: U10–U15 (Mon–Fri 4–6 PM, Sat–Sun 11 AM–2 PM) & Free-age (Mon–Fri 6:45–11 AM).',
                 border: 'rgba(74, 222, 128, 0.3)'
               },
               {
                 icon: <Award size={24} color="#38bdf8" />,
                 title: 'European Scout Pathway',
-                desc: 'Direct transfers into European leagues (Slovenia PrvaLiga) & Nigerian National Youth teams.',
+                desc: 'Direct transfers into European leagues (Slovenia PrvaLiga, Turkey TFF 1. Lig) & Nigerian National Youth teams.',
                 border: 'rgba(56, 189, 248, 0.3)'
               },
               {
@@ -259,7 +259,7 @@ export const Home: React.FC<HomeProps> = ({
             <div>
               <span className="section-tag">Active Squad Divisions</span>
               <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900 }}>
-                MEN &amp; WOMEN ROSTER TIERS
+                MALE &amp; FEMALE ROSTER TIERS
               </h2>
               <p style={{ color: '#94a3b8', fontSize: '0.9rem', maxWidth: '600px', margin: 0 }}>
                 From our foundational grassroot Under-10 prospects to professional Senior squads competing in State and National tournaments.
