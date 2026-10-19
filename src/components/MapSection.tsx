@@ -8,7 +8,7 @@ export const MapSection: React.FC = () => {
   const coachWhatsAppUrl = ceoWhatsAppUrl;
 
   return (
-    <section className="section" style={{ background: '#030a07', position: 'relative' }}>
+    <section className="section map-section" style={{ background: 'var(--bg-main, #030a07)', position: 'relative' }}>
       <div className="container">
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3rem' }}>
@@ -30,10 +30,10 @@ export const MapSection: React.FC = () => {
             <span>Official Academy Grounds &amp; Base</span>
           </div>
 
-          <h2 style={{ fontSize: '2.4rem', color: '#fff', marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '2.4rem', color: 'var(--color-cream, #fff)', marginBottom: '1rem' }}>
             Find Us at <span className="text-gradient-gold">Meiran Field Estate, Alagbado</span>
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--color-cream-subtle, #94a3b8)', fontSize: '1.05rem', lineHeight: 1.6 }}>
             The primary home ground for Fackson Next Pro (Male) and Fackson Angels (Female). Visit our sports complex for training sessions, open trials, and academy tours.
           </p>
         </div>

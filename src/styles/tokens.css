@@ -52,4 +52,36 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Page-level header gradient (dark default) */
+  --page-header-bg: linear-gradient(180deg, rgba(8, 14, 9, 0.95) 0%, #000000 100%);
 }
+
+/* Light Theme Variables — Clean White Background & Deep Black/Slate Text */
+:root[data-theme="light"],
+body.light-theme {
+  --bg-main: #ffffff;
+  --bg-surface-1: #f8fafc;
+  --bg-surface-2: #f1f5f9;
+  --bg-surface-3: #e2e8f0;
+  --bg-surface-glass: rgba(255, 255, 255, 0.94);
+  --bg-surface-glass-hover: rgba(248, 250, 252, 0.98);
+
+  --color-cream: #0f172a;
+  --color-cream-subtle: #334155;
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.14);
+  --border-accent: rgba(180, 83, 9, 0.35);
+  --border-green: rgba(24, 134, 60, 0.35);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --shadow-gold: 0 0 20px rgba(217, 119, 6, 0.15);
+  --shadow-green: 0 0 25px rgba(22, 163, 74, 0.18);
+
+  /* Page-level header gradient (light override) */
+  --page-header-bg: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+

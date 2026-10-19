@@ -39,9 +39,10 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
       {/* Speech Bubble / Contact Card */}
       {showTooltip && (
         <div
+          className="floating-wa-card"
           style={{
             pointerEvents: 'auto',
-            background: 'rgba(8, 14, 8, 0.96)',
+            background: 'var(--bg-surface-glass, rgba(8, 14, 8, 0.96))',
             border: '1px solid rgba(37, 211, 102, 0.45)',
             borderRadius: '16px',
             padding: '12px 14px',
@@ -66,7 +67,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
                   boxShadow: '0 0 8px #25D366',
                 }}
               />
-              <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#ffffff', letterSpacing: '0.02em' }}>
+              <span className="floating-wa-title" style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--color-cream, #ffffff)', letterSpacing: '0.02em' }}>
                 Chat on WhatsApp
               </span>
             </div>

@@ -49,12 +49,13 @@ const THREE_COACHES = [
 export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration }) => {
   return (
     <section
+      className="coaches-section"
       style={{
-        background: 'linear-gradient(180deg, #020502 0%, #060a06 50%, #020502 100%)',
+        background: 'var(--bg-surface-1, #060a06)',
         padding: '4.5rem 0',
         position: 'relative',
-        borderTop: '1px solid rgba(255,208,0,0.15)',
-        borderBottom: '1px solid rgba(255,208,0,0.15)'
+        borderTop: '1px solid var(--border-subtle)',
+        borderBottom: '1px solid var(--border-subtle)'
       }}
     >
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -70,10 +71,10 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ openRegistration
               Technical Leadership
             </span>
           </div>
-          <h2 style={{ fontSize: 'clamp(1.25rem, 2.2vw, 1.7rem)', fontWeight: 800, color: '#fff', marginBottom: '0.45rem', letterSpacing: '-0.01em' }}>
+          <h2 style={{ fontSize: 'clamp(1.25rem, 2.2vw, 1.7rem)', fontWeight: 800, color: 'var(--color-cream, #fff)', marginBottom: '0.45rem', letterSpacing: '-0.01em' }}>
             ACADEMY COACHING STAFF
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.86rem', maxWidth: '580px', margin: '0 auto', lineHeight: 1.55 }}>
+          <p style={{ color: 'var(--color-cream-subtle, #94a3b8)', fontSize: '0.86rem', maxWidth: '580px', margin: '0 auto', lineHeight: 1.55 }}>
             Licensed coaches and dedicated technical trainers committed to developing Nigeria's next generation of football talent at Meiran Field Estate, Alagbado.
           </p>
         </div>

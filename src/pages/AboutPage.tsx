@@ -124,7 +124,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ openRegistration, setCurre
   const [expandedSection, setExpandedSection] = useState<number | null>(0);
 
   return (
-    <div>
+    <div className="page-wrapper" style={{ background: 'var(--bg-main, #000000)', minHeight: '100vh' }}>
       {/* Page Hero */}
       <section style={{
         position: 'relative',

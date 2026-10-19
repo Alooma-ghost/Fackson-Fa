@@ -86,7 +86,7 @@ export const NewsPage: React.FC<NewsPageProps> = ({ news, openRegistration, matc
     : [...filteredMatchNews, ...filteredArticles];
 
   return (
-    <div style={{ padding: '4rem 0' }}>
+    <div className="page-wrapper" style={{ padding: '4rem 0', background: 'var(--bg-main, #000000)', minHeight: '100vh' }}>
       <div className="container">
         <div className="section-header">
           <span className="section-tag">Academy News</span>

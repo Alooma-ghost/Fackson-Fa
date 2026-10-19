@@ -159,7 +159,7 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
   }, [lightbox, closeLightbox]);
 
   return (
-    <section id="academy-alumni" className="section" style={{ background: '#030603', padding: '5rem 0', position: 'relative' }}>
+    <section id="academy-alumni" className="section" style={{ background: 'var(--bg-main, #030603)', padding: '5rem 0', position: 'relative' }}>
       <div className="container">
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 3.5rem' }}>
@@ -188,14 +188,14 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
           <h2 style={{
             fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
             fontWeight: 900,
-            color: '#fff',
+            color: 'var(--color-cream, #fff)',
             marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
             OUR ALUMNI — PLAYING IN EUROPE &amp; NATIONAL TEAMS
           </h2>
           <p style={{
-            color: '#94a3b8',
+            color: 'var(--color-cream-subtle, #94a3b8)',
             fontSize: '1rem',
             lineHeight: 1.65,
             maxWidth: '680px',
@@ -216,10 +216,10 @@ export const AlumniSection: React.FC<AlumniSectionProps> = ({ onNavigate }) => {
             <div
               key={player.id}
               style={{
-                background: '#070b07',
+                background: 'var(--bg-surface-1, #070b07)',
                 borderRadius: '24px',
                 overflow: 'hidden',
-                border: '1px solid rgba(255, 208, 0, 0.22)',
+                border: '1px solid var(--border-subtle)',
                 boxShadow: '0 16px 48px rgba(0,0,0,0.7)',
                 display: 'flex',
                 flexDirection: 'column',

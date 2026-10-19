@@ -81,10 +81,10 @@ export const VideosPage: React.FC<VideosPageProps> = ({ openRegistration }) => {
   )}`;
 
   return (
-    <div style={{ background: '#000000', minHeight: '100vh', paddingBottom: '5rem' }}>
+    <div className="page-wrapper" style={{ background: 'var(--bg-main, #000000)', minHeight: '100vh', paddingBottom: '5rem' }}>
       {/* Page Header */}
-      <section style={{
-        background: 'linear-gradient(180deg, rgba(8, 14, 9, 0.95) 0%, #000000 100%)',
+      <section className="page-header-section" style={{
+        background: 'var(--page-header-bg, linear-gradient(180deg, rgba(8, 14, 9, 0.95) 0%, #000000 100%))',
         borderBottom: '1px solid rgba(255, 208, 0, 0.2)',
         padding: '3.5rem 0 2.5rem'
       }}>

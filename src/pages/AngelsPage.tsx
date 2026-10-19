@@ -17,7 +17,7 @@ export const AngelsPage: React.FC<AngelsPageProps> = ({ players, openRegistratio
   const coachWhatsAppUrl = `https://wa.me/2348029745452?text=${encodeURIComponent("Hello CEO Farouk, I would like to inquire about Fackson Angels (Female) trials, scholarship slots, and training schedule (U10-U15: Mon-Fri 4:00 PM – 6:00 PM, Sat-Sun 11:00 AM – 2:00 PM; Free-age: Mon-Fri 6:45 AM – 11:00 AM) at Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado.")}`;
 
   return (
-    <div>
+    <div className="page-wrapper" style={{ background: 'var(--bg-main, #000000)', minHeight: '100vh' }}>
       {/* Header Banner */}
       <section style={{
         padding: '5rem 0 3.5rem',

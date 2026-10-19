@@ -341,3 +341,324 @@ section {
 .nav-link {
   transition: color 0.15s ease;
 }
+
+/* ==========================================================================
+   GLOBAL LIGHT MODE STYLING — Clean White Background & Deep Black/Slate Text
+   Using CSS variables + class-based selectors for 100% reliability
+   ========================================================================== */
+
+body.light-theme,
+[data-theme="light"] body,
+html.light-theme {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  background-image: 
+    radial-gradient(circle at 10% 15%, rgba(24, 134, 60, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 65%, rgba(217, 119, 6, 0.04) 0%, transparent 35%) !important;
+}
+
+/* ---- Headings ---- */
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme h5,
+body.light-theme h6 {
+  color: #0f172a !important;
+}
+
+/* ---- Body copy ---- */
+body.light-theme p {
+  color: #334155 !important;
+}
+body.light-theme span:not([class*="gradient"]):not([style*="color"]) {
+  color: inherit;
+}
+
+/* ---- Universal Page, Section & Container Light Mode Styles ---- */
+body.light-theme section,
+body.light-theme .section,
+body.light-theme .page-wrapper,
+[data-theme="light"] section,
+[data-theme="light"] .section,
+[data-theme="light"] .page-wrapper {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Page header banner */
+body.light-theme .page-header-section,
+[data-theme="light"] .page-header-section {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Alternate light sections for subtle premium contrast */
+body.light-theme .home-pillars-section,
+body.light-theme .home-squads-section,
+body.light-theme .coaches-section,
+body.light-theme .home-news-section,
+[data-theme="light"] .home-pillars-section,
+[data-theme="light"] .home-squads-section,
+[data-theme="light"] .coaches-section,
+[data-theme="light"] .home-news-section {
+  background: #f8fafc !important;
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Home match center section */
+body.light-theme .home-match-center-section,
+[data-theme="light"] .home-match-center-section {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Match center filter bar */
+body.light-theme .match-center-filter-bar,
+[data-theme="light"] .match-center-filter-bar {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+/* ---- Cards & Surfaces across all pages in Light Mode ---- */
+body.light-theme .home-pillar-card,
+body.light-theme .home-news-card,
+body.light-theme .match-card,
+body.light-theme .match-card-large,
+body.light-theme .match-detail-card,
+body.light-theme .live-score-card,
+body.light-theme .division-tier-card,
+body.light-theme .player-card,
+body.light-theme .coach-card,
+body.light-theme .alumni-card,
+body.light-theme .news-card,
+body.light-theme .gallery-card,
+body.light-theme .video-card,
+body.light-theme .glass-card,
+body.light-theme .facility-card,
+[data-theme="light"] .home-pillar-card,
+[data-theme="light"] .home-news-card,
+[data-theme="light"] .match-card,
+[data-theme="light"] .match-card-large,
+[data-theme="light"] .match-detail-card,
+[data-theme="light"] .live-score-card,
+[data-theme="light"] .division-tier-card,
+[data-theme="light"] .player-card,
+[data-theme="light"] .coach-card,
+[data-theme="light"] .alumni-card,
+[data-theme="light"] .news-card,
+[data-theme="light"] .gallery-card,
+[data-theme="light"] .video-card,
+[data-theme="light"] .glass-card {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06) !important;
+  color: #0f172a !important;
+}
+
+body.light-theme .home-pillar-card:hover,
+body.light-theme .match-card-large:hover,
+body.light-theme .division-tier-card:hover,
+body.light-theme .home-news-card:hover,
+body.light-theme .alumni-card:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1) !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Head Coach Master Card Light Mode */
+body.light-theme .head-coach-master-card,
+[data-theme="light"] .head-coach-master-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08) !important;
+}
+body.light-theme .head-coach-name,
+[data-theme="light"] .head-coach-name {
+  color: #0f172a !important;
+}
+body.light-theme .head-coach-title span,
+[data-theme="light"] .head-coach-title span {
+  color: #475569 !important;
+}
+body.light-theme .head-coach-stat-pill,
+[data-theme="light"] .head-coach-stat-pill {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-left: 3px solid #b45309 !important;
+}
+body.light-theme .head-coach-stat-val,
+[data-theme="light"] .head-coach-stat-val {
+  color: #0f172a !important;
+}
+body.light-theme .head-coach-stat-lbl,
+[data-theme="light"] .head-coach-stat-lbl {
+  color: #64748b !important;
+}
+body.light-theme .head-coach-bio,
+[data-theme="light"] .head-coach-bio {
+  color: #334155 !important;
+}
+body.light-theme .head-coach-schedule-box,
+[data-theme="light"] .head-coach-schedule-box {
+  background: rgba(22, 163, 74, 0.08) !important;
+  border: 1px solid rgba(22, 163, 74, 0.3) !important;
+  color: #15803d !important;
+}
+body.light-theme .head-coach-photo-overlay,
+[data-theme="light"] .head-coach-photo-overlay {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.9) 92%, #ffffff 100%) !important;
+}
+
+/* Floating WhatsApp Widget in Light Mode */
+body.light-theme .floating-wa-card,
+[data-theme="light"] .floating-wa-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(37, 211, 102, 0.5) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12), 0 0 16px rgba(37, 211, 102, 0.15) !important;
+}
+body.light-theme .floating-wa-title,
+[data-theme="light"] .floating-wa-title {
+  color: #0f172a !important;
+}
+body.light-theme .wa-chip,
+[data-theme="light"] .wa-chip {
+  background: rgba(37, 211, 102, 0.12) !important;
+  border-color: rgba(37, 211, 102, 0.45) !important;
+  color: #15803d !important;
+}
+body.light-theme .wa-chip span:last-child,
+[data-theme="light"] .wa-chip span:last-child {
+  color: #475569 !important;
+}
+body.light-theme .team-title-large,
+body.light-theme .live-score-team-name,
+body.light-theme .live-score-digit-home,
+body.light-theme .live-score-digit-away,
+body.light-theme .kickoff-time {
+  color: #0f172a !important;
+}
+body.light-theme .live-score-digits-box {
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+body.light-theme .live-score-topbar,
+body.light-theme .live-score-footer {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+body.light-theme .live-score-matchup {
+  background: #ffffff !important;
+}
+body.light-theme .vs-badge {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body.light-theme .score-badge-large {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+/* ---- Navbar ---- */
+body.light-theme .navbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 2px solid var(--color-gold-primary) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+body.light-theme .nav-title {
+  color: #0f172a !important;
+}
+body.light-theme .nav-link {
+  color: #334155 !important;
+}
+body.light-theme .nav-link:hover,
+body.light-theme .nav-link.active {
+  color: #b45309 !important;
+}
+body.light-theme .desktop-only-switcher {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+/* ---- Footer ---- */
+body.light-theme footer,
+[data-theme="light"] footer {
+  background: #f8fafc !important;
+  border-top: 1px solid #e2e8f0 !important;
+  color: #1e293b !important;
+}
+body.light-theme footer h4 {
+  color: #0f172a !important;
+}
+body.light-theme footer p,
+body.light-theme footer span {
+  color: #475569 !important;
+}
+body.light-theme footer a {
+  color: #334155 !important;
+}
+body.light-theme footer a:hover {
+  color: #b45309 !important;
+}
+
+/* ---- Badges & Chips ---- */
+body.light-theme .badge-navy {
+  background: #e2e8f0 !important;
+  color: #1e293b !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body.light-theme .section-tag {
+  background: rgba(180, 83, 9, 0.12) !important;
+  border-color: rgba(180, 83, 9, 0.3) !important;
+  color: #b45309 !important;
+}
+body.light-theme .game-type-chip {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+/* ---- Gold gradient text adapts to light bg ---- */
+body.light-theme .text-gradient-gold {
+  background: linear-gradient(135deg, #b45309 0%, #ca8a04 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* ---- Form Controls ---- */
+body.light-theme select,
+body.light-theme input,
+body.light-theme textarea {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+body.light-theme select:focus,
+body.light-theme input:focus,
+body.light-theme textarea:focus {
+  border-color: #16a34a !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15) !important;
+}
+
+/* ---- News Ticker ---- */
+body.light-theme .news-ticker-container {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+}
+body.light-theme .ticker-item {
+  color: #334155 !important;
+}
+body.light-theme .ticker-item-hover:hover {
+  color: #0f172a !important;
+}
+
+/* ---- Smooth theme transition on the whole page ---- */
+body, .page-wrapper, .navbar, footer, .glass-card,
+.match-card-large, .live-score-card, .division-tier-card {
+  transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease;
+}

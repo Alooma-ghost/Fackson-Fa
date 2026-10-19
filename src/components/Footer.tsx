@@ -196,7 +196,14 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentTab, openRegistration,
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                 <Mail size={18} color="var(--color-gold-primary)" style={{ flexShrink: 0 }} />
-                <span>recruitment@facksonfa.com</span>
+                <a
+                  href="mailto:Facksonacademy@gmail.com"
+                  style={{ color: '#cbd5e1', textDecoration: 'none', transition: 'color 0.2s ease' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-gold-primary)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = '#cbd5e1')}
+                >
+                  Facksonacademy@gmail.com
+                </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '0.6rem', marginTop: '0.2rem' }}>
                 <Clock size={18} color="#4ade80" style={{ flexShrink: 0, marginTop: '2px' }} />

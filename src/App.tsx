@@ -28,6 +28,31 @@ export const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [activeAcademy, setActiveAcademy] = useState<AcademyType>('next_pro');
   
+  // Theme state: 'dark' (obsidian black default) or 'light' (clean white background & deep black text)
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try {
+      const saved = localStorage.getItem('fackson_theme');
+      return (saved === 'light' || saved === 'dark') ? saved : 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+      document.documentElement.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+      document.documentElement.classList.remove('light-theme');
+    }
+    try {
+      localStorage.setItem('fackson_theme', theme);
+      localStorage.setItem('fackson_menu_theme', theme);
+    } catch {}
+  }, [theme]);
+
   // Data states
   const [players, setPlayers] = useState<Player[]>([]);
   const [gallery, setGallery] = useState<GalleryItem[]>(INITIAL_GALLERY_ITEMS);
@@ -135,7 +160,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg-main, #050505)', color: 'var(--color-cream, #fff)' }}>
       {/* Navbar */}
       <Navbar 
         currentTab={currentTab}
@@ -143,10 +168,12 @@ export const App: React.FC = () => {
         activeAcademy={activeAcademy}
         setActiveAcademy={setActiveAcademy}
         openRegistration={handleOpenRegistration}
+        theme={theme}
+        setTheme={setTheme}
       />
 
       {/* Main View Router */}
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, background: 'var(--bg-main, #050505)' }}>
         {currentTab === 'home' && (
           <Home 
             setCurrentTab={setCurrentTab}

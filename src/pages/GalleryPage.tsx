@@ -35,7 +35,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ gallery, onOpenLightbo
   });
 
   return (
-    <div style={{ padding: '4rem 0', minHeight: '80vh', background: '#030603' }}>
+    <div className="page-wrapper" style={{ padding: '4rem 0', minHeight: '80vh', background: 'var(--bg-main, #030603)' }}>
       <div className="container">
 
         {/* Header */}

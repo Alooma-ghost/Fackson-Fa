@@ -83,11 +83,11 @@ export const JoinPage: React.FC<JoinPageProps> = ({ defaultAcademy = 'next_pro' 
   )}`;
 
   return (
-    <div style={{ background: '#000000', minHeight: '100vh', paddingBottom: '6rem' }}>
+    <div className="page-wrapper" style={{ background: 'var(--bg-main, #000000)', minHeight: '100vh', paddingBottom: '6rem' }}>
       {/* Page Hero */}
-      <section style={{
-        background: 'linear-gradient(180deg, rgba(8, 14, 9, 0.95) 0%, #000000 100%)',
-        borderBottom: '1px solid rgba(255, 208, 0, 0.2)',
+      <section className="page-header-section" style={{
+        background: 'var(--page-header-bg)',
+        borderBottom: '1px solid var(--border-subtle)',
         padding: '3.5rem 0 2.5rem'
       }}>
         <div className="container">

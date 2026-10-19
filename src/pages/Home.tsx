@@ -1,6 +1,6 @@
-import React from 'react';
-import { Trophy, Users, Shield, ArrowRight, Calendar, Star, CheckCircle2, Award, ChevronRight, MapPin, Activity, Sparkles, Video, MessageCircle } from 'lucide-react';
-import { Player, GalleryItem, NewsItem, MatchItem, AcademyType } from '../types';
+import React, { useState } from 'react';
+import { Trophy, Users, Shield, ArrowRight, Calendar, Star, CheckCircle2, Award, ChevronRight, MapPin, Activity, Sparkles, Video, MessageCircle, Clock, Radio } from 'lucide-react';
+import { Player, GalleryItem, NewsItem, MatchItem, AcademyType, AgeCategory } from '../types';
 import { AlumniSection } from '../components/AlumniSection';
 import { CoachesSection } from '../components/CoachesSection';
 import { MapSection } from '../components/MapSection';
@@ -28,8 +28,113 @@ export const Home: React.FC<HomeProps> = ({
   matches,
   onOpenLightbox
 }) => {
+  // Demo fallback fixtures if database has sparse records
+  const demoFallbackMatches: MatchItem[] = [
+    {
+      _id: 'home-m-live',
+      homeTeam: 'Fackson Next Pro',
+      awayTeam: 'Lagos City All-Stars',
+      homeScore: 2,
+      awayScore: 1,
+      status: 'live',
+      date: 'Today',
+      time: "68' 2nd Half",
+      venue: 'Meiran Field Estate, Alagbado',
+      competition: 'Lagos State Elite Grassroots League',
+      gameType: '11 v 11',
+      academy: 'next_pro',
+      category: 'free_age',
+      scorers: ["Papa Daniel 24'", "Lawal Seun 58'", "K. Adeleke 41' (Pen)"]
+    },
+    {
+      _id: 'home-m-up-1',
+      homeTeam: 'Fackson Angels',
+      awayTeam: 'Ikeja Queens FC',
+      status: 'upcoming',
+      date: 'Saturday, Oct 18, 2026',
+      time: '10:00 AM',
+      venue: 'Meiran Field Estate Pitch 1, Alagbado',
+      competition: 'Lagos State Women Cup — Group Stage',
+      gameType: '11 v 11',
+      academy: 'angels',
+      category: 'u17'
+    },
+    {
+      _id: 'home-m-up-2',
+      homeTeam: 'Fackson Next Pro U-15',
+      awayTeam: 'Ogun Youth FA',
+      status: 'upcoming',
+      date: 'Sunday, Oct 19, 2026',
+      time: '2:30 PM',
+      venue: 'Meiran Field Estate Stadium, Alagbado',
+      competition: 'South-West Grassroots Cup',
+      gameType: '11 v 11',
+      academy: 'next_pro',
+      category: 'u15'
+    },
+    {
+      _id: 'home-m-up-3',
+      homeTeam: 'Agege Warriors',
+      awayTeam: 'Fackson Next Pro U-13',
+      status: 'upcoming',
+      date: 'Wednesday, Oct 22, 2026',
+      time: '4:00 PM',
+      venue: 'Agege Township Stadium, Lagos',
+      competition: 'Lagos Junior Youth League',
+      gameType: '11 v 11',
+      academy: 'next_pro',
+      category: 'u13'
+    },
+    {
+      _id: 'home-m-res-1',
+      homeTeam: 'Fackson Next Pro',
+      awayTeam: 'Alagbado United',
+      homeScore: 3,
+      awayScore: 0,
+      status: 'completed',
+      date: 'Oct 8, 2026',
+      time: 'FT',
+      venue: 'Meiran Field Estate, Alagbado',
+      competition: 'Lagos State FA Pre-Season Cup',
+      gameType: '11 v 11',
+      academy: 'next_pro',
+      category: 'free_age',
+      scorers: ["Papa Daniel 12', 64'", "O. Ibrahim 82'"]
+    },
+    {
+      _id: 'home-m-res-2',
+      homeTeam: 'Fackson Angels U-17',
+      awayTeam: 'Surulere Diamond Ladies',
+      homeScore: 2,
+      awayScore: 0,
+      status: 'completed',
+      date: 'Oct 3, 2026',
+      time: 'FT',
+      venue: 'Meiran Field Estate, Alagbado',
+      competition: 'Youth Invitational Cup',
+      gameType: '11 v 11',
+      academy: 'angels',
+      category: 'u17',
+      scorers: ["Shuaib Fatimo 31', 55'"]
+    }
+  ];
+
+  const allHomeMatches: MatchItem[] = matches && matches.length > 0 ? matches : demoFallbackMatches;
+  const [matchTab, setMatchTab] = useState<'all' | 'live' | 'upcoming' | 'completed'>('all');
+  const [matchAcademyFilter, setMatchAcademyFilter] = useState<'all' | AcademyType>('all');
+
+  const liveMatches = allHomeMatches.filter(m => m.status === 'live');
+  const upcomingMatches = allHomeMatches.filter(m => m.status === 'upcoming');
+  const completedMatches = allHomeMatches.filter(m => m.status === 'completed');
+
+  const filteredHomeMatches = allHomeMatches.filter(m => {
+    if (matchTab !== 'all' && m.status !== matchTab) return false;
+    if (matchAcademyFilter !== 'all' && m.academy !== matchAcademyFilter) return false;
+    return true;
+  });
+
   // Blend match fixtures into pitchside news feed so fixtures display as news on the website
-  const matchNewsTeasers: NewsItem[] = matches.slice(0, 2).map(m => {
+  const matchNewsTeasers: NewsItem[] = allHomeMatches.slice(0, 2).map(m => {
     const isHomeFackson = (m.homeTeam || '').toLowerCase().includes('fackson');
     const isAwayFackson = (m.awayTeam || '').toLowerCase().includes('fackson');
     const matchType = isHomeFackson ? 'Home Fixture' : isAwayFackson ? 'Away Fixture' : 'Showcase';
@@ -56,7 +161,7 @@ export const Home: React.FC<HomeProps> = ({
   )}`;
 
   return (
-    <div style={{ background: '#000000', color: '#fff' }}>
+    <div className="page-wrapper" style={{ background: 'var(--bg-main, #000000)', color: 'var(--color-cream, #fff)' }}>
       {/* 1. HERO BANNER — Real Team Photo Background & Reduced Text so Photo is Visible */}
       <section style={{
         position: 'relative',
@@ -205,11 +310,14 @@ export const Home: React.FC<HomeProps> = ({
       </section>
 
       {/* 2. CORE ACADEMY PILLARS STRIP — 4 Value Cards */}
-      <section style={{
-        background: '#070907',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        padding: '2.5rem 0'
-      }}>
+      <section 
+        className="home-pillars-section"
+        style={{
+          background: 'var(--bg-surface-1, #070907)',
+          borderBottom: '1px solid var(--border-subtle)',
+          padding: '2.5rem 0'
+        }}
+      >
         <div className="container">
           <div style={{
             display: 'grid',
@@ -244,8 +352,9 @@ export const Home: React.FC<HomeProps> = ({
             ].map(pillar => (
               <div
                 key={pillar.title}
+                className="home-pillar-card"
                 style={{
-                  background: '#0a0d0a',
+                  background: 'var(--bg-surface-2, #0a0d0a)',
                   border: `1px solid ${pillar.border}`,
                   borderRadius: '14px',
                   padding: '1.5rem',
@@ -254,10 +363,10 @@ export const Home: React.FC<HomeProps> = ({
                 }}
               >
                 <div style={{ marginBottom: '0.85rem' }}>{pillar.icon}</div>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#fff', marginBottom: '0.35rem' }}>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--color-cream, #fff)', marginBottom: '0.35rem' }}>
                   {pillar.title}
                 </h3>
-                <p style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5, margin: 0 }}>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-cream-subtle, #94a3b8)', lineHeight: 1.5, margin: 0 }}>
                   {pillar.desc}
                 </p>
               </div>
@@ -266,8 +375,579 @@ export const Home: React.FC<HomeProps> = ({
         </div>
       </section>
 
+      {/* 2.5 PITCHSIDE MATCH CENTER — Live Match Display, Upcoming Fixtures & Match Results */}
+      <section 
+        className="home-match-center-section"
+        style={{
+          padding: '3.75rem 0 3.25rem',
+          background: 'var(--bg-main, #050505)',
+          borderBottom: '1px solid var(--border-subtle)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Subtle ambient pitch background glow */}
+        <div style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-5%',
+          width: '450px',
+          height: '450px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(239, 68, 68, 0.08) 0%, rgba(0,0,0,0) 70%)',
+          pointerEvents: 'none'
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-5%',
+          width: '450px',
+          height: '450px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255, 208, 0, 0.07) 0%, rgba(0,0,0,0) 70%)',
+          pointerEvents: 'none'
+        }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          {/* Header Row */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            marginBottom: '2rem'
+          }}>
+            <div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(239, 68, 68, 0.12)',
+                border: '1px solid rgba(239, 68, 68, 0.35)',
+                borderRadius: '50px',
+                padding: '4px 14px',
+                marginBottom: '0.85rem'
+              }}>
+                <span style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  background: '#ef4444',
+                  boxShadow: '0 0 8px #ef4444',
+                  animation: 'pulse 1.5s infinite'
+                }} />
+                <span style={{
+                  fontSize: '0.74rem',
+                  fontWeight: 800,
+                  color: '#f87171',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em'
+                }}>
+                  Pitchside Match Center
+                </span>
+              </div>
+
+              <h2 style={{
+                fontSize: 'clamp(1.6rem, 3.2vw, 2.5rem)',
+                fontWeight: 900,
+                color: 'var(--color-cream, #fff)',
+                lineHeight: 1.15,
+                margin: '0 0 0.5rem'
+              }}>
+                UPCOMING FIXTURES, RESULTS &amp; <span className="text-gradient-gold">LIVE ACTION</span>
+              </h2>
+              <p style={{ color: 'var(--color-cream-subtle, #94a3b8)', fontSize: '0.9rem', maxWidth: '640px', margin: 0, lineHeight: 1.5 }}>
+                Direct updates for fans, scouts, and parents. Watch live in-play matches, discover upcoming tournament fixtures, and explore final scores at Meiran Field Estate.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <button
+                className="btn btn-gold btn-sm"
+                onClick={() => setCurrentTab('matches')}
+                style={{
+                  padding: '0.65rem 1.4rem',
+                  fontSize: '0.85rem',
+                  fontWeight: 800,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <Calendar size={15} />
+                <span>Full Match Center</span>
+                <ArrowRight size={15} />
+              </button>
+            </div>
+          </div>
+
+          {/* 1. Live Match Spotlight (if live match exists or fallback live snapshot) */}
+          {liveMatches.length > 0 && (
+            <div style={{ marginBottom: '2rem' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '0.75rem',
+                flexWrap: 'wrap',
+                gap: '0.5rem'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Radio size={16} color="#ef4444" style={{ animation: 'pulse 1.5s infinite' }} />
+                  <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#f87171', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                    Live Match Broadcast Display
+                  </span>
+                </div>
+                <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                  Real-time pitchside action at Meiran Field Estate
+                </span>
+              </div>
+              <LiveScoreCard matches={allHomeMatches} onViewMatches={() => setCurrentTab('matches')} />
+            </div>
+          )}
+
+          {/* 2. Interactive Navigation Tabs & Academy Filter Pills */}
+          <div 
+            className="match-center-filter-bar"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '1rem',
+              padding: '0.85rem 1.1rem',
+              background: 'var(--bg-surface-1, rgba(10, 16, 11, 0.75))',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '14px',
+              marginBottom: '1.5rem',
+              backdropFilter: 'blur(8px)'
+            }}
+          >
+            {/* Status Filter Tabs */}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {[
+                { id: 'all', label: '🔥 All Fixtures', count: allHomeMatches.length },
+                { id: 'live', label: '🔴 Live Now', count: liveMatches.length },
+                { id: 'upcoming', label: '📅 Upcoming', count: upcomingMatches.length },
+                { id: 'completed', label: '🏆 Results (FT)', count: completedMatches.length }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setMatchTab(tab.id as any)}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: '50px',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    border: matchTab === tab.id
+                      ? '1px solid var(--color-gold-primary)'
+                      : '1px solid rgba(255,255,255,0.08)',
+                    background: matchTab === tab.id
+                      ? 'rgba(255, 208, 0, 0.18)'
+                      : 'rgba(255, 255, 255, 0.03)',
+                    color: matchTab === tab.id ? 'var(--color-gold-primary)' : '#94a3b8'
+                  }}
+                >
+                  {tab.label} <span style={{ opacity: 0.7, fontSize: '0.72rem', marginLeft: '3px' }}>({tab.count})</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Academy Selector */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>Roster:</span>
+              <button
+                onClick={() => setMatchAcademyFilter('all')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  border: matchAcademyFilter === 'all' ? '1px solid #4ade80' : '1px solid rgba(255,255,255,0.08)',
+                  background: matchAcademyFilter === 'all' ? 'rgba(74, 222, 128, 0.15)' : 'transparent',
+                  color: matchAcademyFilter === 'all' ? '#4ade80' : '#94a3b8'
+                }}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setMatchAcademyFilter('next_pro')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  border: matchAcademyFilter === 'next_pro' ? '1px solid #4ade80' : '1px solid rgba(255,255,255,0.08)',
+                  background: matchAcademyFilter === 'next_pro' ? 'rgba(74, 222, 128, 0.15)' : 'transparent',
+                  color: matchAcademyFilter === 'next_pro' ? '#4ade80' : '#94a3b8'
+                }}
+              >
+                Next Pro (Male)
+              </button>
+              <button
+                onClick={() => setMatchAcademyFilter('angels')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  border: matchAcademyFilter === 'angels' ? '1px solid #fb7185' : '1px solid rgba(255,255,255,0.08)',
+                  background: matchAcademyFilter === 'angels' ? 'rgba(251, 113, 133, 0.15)' : 'transparent',
+                  color: matchAcademyFilter === 'angels' ? '#fb7185' : '#94a3b8'
+                }}
+              >
+                Angels (Female)
+              </button>
+            </div>
+          </div>
+
+          {/* 3. Match Cards Showcase Grid */}
+          <div className="match-grid-large">
+            {filteredHomeMatches.slice(0, 4).map(m => {
+              const isHomeFackson = (m.homeTeam || '').toLowerCase().includes('fackson');
+              const isAwayFackson = (m.awayTeam || '').toLowerCase().includes('fackson');
+              const homeLogoSrc = m.homeLogo
+                ? getMediaUrl(m.homeLogo)
+                : isHomeFackson
+                  ? (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg')
+                  : '';
+              const awayLogoSrc = m.awayLogo
+                ? getMediaUrl(m.awayLogo)
+                : isAwayFackson
+                  ? (m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg')
+                  : '';
+
+              return (
+                <div key={m._id} className="match-card-large">
+                  {/* Status Strip */}
+                  <div className={`match-card-large-strip ${m.status}`} />
+
+                  {/* Top Meta Bar */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '0.4rem',
+                    marginBottom: '0.65rem'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <span style={{
+                        color: 'var(--color-gold-primary)',
+                        fontWeight: 800,
+                        fontSize: '0.78rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em'
+                      }}>
+                        {m.competition || 'Youth Elite Championship'}
+                      </span>
+                      <span className="game-type-chip" style={{ fontSize: '0.65rem', padding: '1px 6px' }}>
+                        ⚽ {m.gameType || '11 v 11'}
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                      <span className="badge badge-navy" style={{ fontSize: '0.68rem', padding: '2px 6px' }}>
+                        {m.category === 'free_age' ? 'Senior' : m.category.toUpperCase()}
+                      </span>
+                      <span style={{
+                        background: m.status === 'live'
+                          ? 'rgba(239,68,68,0.2)'
+                          : m.status === 'completed'
+                          ? 'rgba(34,197,94,0.15)'
+                          : 'rgba(255,208,0,0.15)',
+                        color: m.status === 'live'
+                          ? '#ef4444'
+                          : m.status === 'completed'
+                          ? '#4ade80'
+                          : 'var(--color-gold-primary)',
+                        border: '1px solid',
+                        borderColor: m.status === 'live'
+                          ? 'rgba(239,68,68,0.45)'
+                          : m.status === 'completed'
+                          ? 'rgba(34,197,94,0.45)'
+                          : 'rgba(255,208,0,0.45)',
+                        padding: '2px 8px',
+                        borderRadius: '50px',
+                        fontWeight: 800,
+                        fontSize: '0.68rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em'
+                      }}>
+                        {m.status === 'live' ? '🔴 Live In-Play' : m.status === 'completed' ? 'Full Time' : 'Upcoming'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Team Crests & Scoreboard */}
+                  <div className="match-teams-showcase">
+                    {/* Home Team */}
+                    <div className="team-box">
+                      <div className="team-crest-wrapper">
+                        {homeLogoSrc ? (
+                          <img
+                            src={homeLogoSrc}
+                            alt={m.homeTeam}
+                            className="team-crest-img"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              if (isHomeFackson) {
+                                const fallback = m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                                if (!target.src.includes(fallback)) target.src = fallback;
+                              } else {
+                                target.style.display = 'none';
+                                if (target.nextElementSibling) {
+                                  (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                                }
+                              }
+                            }}
+                          />
+                        ) : null}
+                        <div style={{
+                          display: homeLogoSrc ? 'none' : 'flex',
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: '50%',
+                          background: '#131e2b',
+                          border: '1px solid rgba(255, 208, 0, 0.4)',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          <Shield size={24} color={isHomeFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
+                        </div>
+                      </div>
+                      <div className="team-title-large" style={{ fontSize: '0.82rem' }}>
+                        {m.homeTeam}
+                      </div>
+                      {isHomeFackson ? (
+                        <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                          {m.academy === 'angels' ? 'Angels' : 'Next Pro'}
+                        </span>
+                      ) : (
+                        <span className="badge badge-navy" style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                          Home
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Center Score / Kickoff */}
+                    <div className="match-center-board">
+                      {m.status === 'completed' ? (
+                        <>
+                          <div className="score-badge-large" style={{ fontSize: '1.4rem', padding: '4px 12px' }}>
+                            {m.homeScore ?? 0} : {m.awayScore ?? 0}
+                          </div>
+                          <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#4ade80', letterSpacing: '0.06em', marginTop: '4px' }}>
+                            FINAL SCORE
+                          </span>
+                          <span style={{ fontSize: '0.68rem', color: '#94a3b8', marginTop: '2px' }}>
+                            {m.date}
+                          </span>
+                        </>
+                      ) : m.status === 'live' ? (
+                        <>
+                          <div className="score-badge-large live" style={{ fontSize: '1.4rem', padding: '4px 12px', background: 'rgba(239,68,68,0.2)', borderColor: '#ef4444', color: '#fff' }}>
+                            {m.homeScore ?? 0} : {m.awayScore ?? 0}
+                          </div>
+                          <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#ef4444', letterSpacing: '0.06em', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }} />
+                            {m.time || 'LIVE'}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <div className="vs-badge" style={{ fontSize: '0.85rem' }}>VS</div>
+                          <div className="kickoff-time" style={{ fontSize: '0.85rem', fontWeight: 800, marginTop: '4px' }}>
+                            {m.time}
+                          </div>
+                          <div className="kickoff-date" style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '2px' }}>
+                            {m.date}
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Away Team */}
+                    <div className="team-box">
+                      <div className="team-crest-wrapper">
+                        {awayLogoSrc ? (
+                          <img
+                            src={awayLogoSrc}
+                            alt={m.awayTeam}
+                            className="team-crest-img"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              if (isAwayFackson) {
+                                const fallback = m.academy === 'angels' ? '/logos/fackson-angels.jpg' : '/logos/fackson-next-pro.jpg';
+                                if (!target.src.includes(fallback)) target.src = fallback;
+                              } else {
+                                target.style.display = 'none';
+                                if (target.nextElementSibling) {
+                                  (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                                }
+                              }
+                            }}
+                          />
+                        ) : null}
+                        <div style={{
+                          display: awayLogoSrc ? 'none' : 'flex',
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: '50%',
+                          background: '#131e2b',
+                          border: '1px solid rgba(255, 208, 0, 0.4)',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          <Shield size={24} color={isAwayFackson ? 'var(--color-gold-primary)' : '#94a3b8'} />
+                        </div>
+                      </div>
+                      <div className="team-title-large" style={{ fontSize: '0.82rem' }}>
+                        {m.awayTeam}
+                      </div>
+                      {isAwayFackson ? (
+                        <span className={`badge ${m.academy === 'angels' ? 'badge-gold' : 'badge-green'}`} style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                          {m.academy === 'angels' ? 'Angels' : 'Next Pro'}
+                        </span>
+                      ) : (
+                        <span className="badge badge-navy" style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                          Away
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Scorers Strip if completed or live */}
+                  {m.scorers && m.scorers.length > 0 && (
+                    <div style={{
+                      fontSize: '0.72rem',
+                      color: '#cbd5e1',
+                      padding: '4px 8px',
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: '6px',
+                      marginBottom: '0.5rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}>
+                      <span style={{ color: 'var(--color-gold-primary)', fontWeight: 800 }}>⚽ Scorers:</span>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {m.scorers.join(' • ')}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Venue & Link Footer */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: 'auto',
+                    paddingTop: '0.5rem',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                    fontSize: '0.72rem'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      color: '#94a3b8',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '70%'
+                    }}>
+                      <MapPin size={13} color="#4ade80" style={{ flexShrink: 0 }} />
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {m.venue || 'Meiran Field Estate, Alagbado'}
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={() => setCurrentTab('matches')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--color-gold-primary)',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        padding: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '3px',
+                        fontSize: '0.72rem'
+                      }}
+                    >
+                      <span>Match Info</span>
+                      <ChevronRight size={13} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* 4. Bottom Fan Access Bar */}
+          <div style={{
+            marginTop: '2rem',
+            background: 'linear-gradient(135deg, rgba(8, 22, 14, 0.9) 0%, rgba(14, 18, 14, 0.95) 100%)',
+            border: '1px solid rgba(255, 208, 0, 0.25)',
+            borderRadius: '16px',
+            padding: '1.25rem 1.75rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
+          }}>
+            <div style={{ maxWidth: '600px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <MapPin size={16} color="var(--color-gold-primary)" />
+                <span style={{ fontWeight: 800, color: '#fff', fontSize: '0.95rem' }}>
+                  Matches &amp; Training at Meiran Field Estate
+                </span>
+              </div>
+              <p style={{ color: '#94a3b8', fontSize: '0.82rem', margin: 0 }}>
+                Meiran Field Estate - Ojokoro Housing Estate Field, Meiran Alagbado, Lagos State. Weekend league fixtures &amp; open scouting showcases.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <button
+                className="btn btn-gold btn-sm"
+                onClick={() => setCurrentTab('matches')}
+                style={{ padding: '0.65rem 1.25rem', fontSize: '0.82rem', fontWeight: 800 }}
+              >
+                <span>View Full Fixture Schedule</span>
+                <ArrowRight size={14} />
+              </button>
+              <button
+                className="btn btn-outline btn-sm"
+                onClick={() => setCurrentTab('join')}
+                style={{ padding: '0.65rem 1.25rem', fontSize: '0.82rem', borderColor: '#4ade80', color: '#4ade80' }}
+              >
+                <span>Register for Trials</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 3. SQUADS HIGHLIGHT — Quick preview of divisions (U-10 through Senior) */}
-      <section style={{ padding: '4rem 0 3.5rem', background: '#030503' }}>
+      <section 
+        className="home-squads-section"
+        style={{ padding: '4rem 0 3.5rem', background: 'var(--bg-surface-1, #030503)' }}
+      >
         <div className="container">
           <div style={{
             display: 'flex',
@@ -279,10 +959,10 @@ export const Home: React.FC<HomeProps> = ({
           }}>
             <div>
               <span className="section-tag">Active Squad Divisions</span>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900 }}>
+              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900, color: 'var(--color-cream, #fff)' }}>
                 MALE &amp; FEMALE ROSTER TIERS
               </h2>
-              <p style={{ color: '#94a3b8', fontSize: '0.9rem', maxWidth: '600px', margin: 0 }}>
+              <p style={{ color: 'var(--color-cream-subtle, #94a3b8)', fontSize: '0.9rem', maxWidth: '600px', margin: 0 }}>
                 From our foundational grassroot Under-10 prospects to professional Senior squads competing in State and National tournaments.
               </p>
             </div>
@@ -314,8 +994,8 @@ export const Home: React.FC<HomeProps> = ({
                 key={div.tier}
                 onClick={() => setCurrentTab('squads')}
                 style={{
-                  background: '#080c08',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'var(--bg-surface-2, #080c08)',
+                  border: '1px solid var(--border-subtle)',
                   borderRadius: '16px',
                   padding: '1.5rem',
                   cursor: 'pointer',
@@ -344,7 +1024,7 @@ export const Home: React.FC<HomeProps> = ({
                   {div.badge}
                 </span>
 
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', margin: '0.5rem 0 0.25rem' }}>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--color-cream, #fff)', margin: '0.5rem 0 0.25rem' }}>
                   {div.tier}
                 </h3>
 
@@ -352,7 +1032,7 @@ export const Home: React.FC<HomeProps> = ({
                   {div.ages}
                 </div>
 
-                <p style={{ fontSize: '0.8rem', color: '#cbd5e1', lineHeight: 1.4, margin: 0 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-cream-subtle, #cbd5e1)', lineHeight: 1.4, margin: 0 }}>
                   {div.focus}
                 </p>
               </div>
@@ -368,7 +1048,10 @@ export const Home: React.FC<HomeProps> = ({
       <CoachesSection />
 
       {/* 5. GALLERY TEASER */}
-      <section style={{ padding: '3.5rem 0', background: '#050705', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section 
+        className="home-gallery-section"
+        style={{ padding: '3.5rem 0', background: 'var(--bg-main, #050705)', borderTop: '1px solid var(--border-subtle)' }}
+      >
         <div className="container">
           <div style={{
             display: 'flex',
@@ -380,7 +1063,7 @@ export const Home: React.FC<HomeProps> = ({
           }}>
             <div>
               <span className="section-tag">Visual Archives</span>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900 }}>
+              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900, color: 'var(--color-cream, #fff)' }}>
                 TRAINING &amp; MATCHDAY MOMENTS
               </h2>
             </div>
@@ -388,7 +1071,7 @@ export const Home: React.FC<HomeProps> = ({
             <button
               className="btn btn-outline btn-sm"
               onClick={() => setCurrentTab('gallery')}
-              style={{ borderColor: 'rgba(255,255,255,0.2)' }}
+              style={{ borderColor: 'var(--border-subtle)' }}
             >
               <span>View Full Gallery</span>
               <ArrowRight size={15} />
@@ -410,7 +1093,7 @@ export const Home: React.FC<HomeProps> = ({
                   borderRadius: '16px',
                   overflow: 'hidden',
                   cursor: 'pointer',
-                  border: '1px solid rgba(255,255,255,0.1)'
+                  border: '1px solid var(--border-subtle)'
                 }}
                 className="gallery-teaser-item"
               >
@@ -454,7 +1137,10 @@ export const Home: React.FC<HomeProps> = ({
       </section>
 
       {/* 6. LATEST ACADEMY NEWS & ANNOUNCEMENTS */}
-      <section style={{ padding: '3.5rem 0', background: '#000000' }}>
+      <section 
+        className="home-news-section"
+        style={{ padding: '3.5rem 0', background: 'var(--bg-surface-1, #000000)' }}
+      >
         <div className="container">
           <div style={{
             display: 'flex',
@@ -466,7 +1152,7 @@ export const Home: React.FC<HomeProps> = ({
           }}>
             <div>
               <span className="section-tag">Academy Announcements</span>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900 }}>
+              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900, color: 'var(--color-cream, #fff)' }}>
                 LATEST PITCHSIDE NEWS
               </h2>
             </div>
@@ -488,9 +1174,10 @@ export const Home: React.FC<HomeProps> = ({
             {activeNews.map(item => (
               <div
                 key={item._id}
+                className="home-news-card"
                 style={{
-                  background: '#080a08',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'var(--bg-surface-2, #080a08)',
+                  border: '1px solid var(--border-subtle)',
                   borderRadius: '16px',
                   padding: '1.5rem',
                   display: 'flex',
@@ -515,16 +1202,16 @@ export const Home: React.FC<HomeProps> = ({
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#fff', lineHeight: 1.35, marginBottom: '0.5rem' }}>
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--color-cream, #fff)', lineHeight: 1.35, marginBottom: '0.5rem' }}>
                     {item.title}
                   </h3>
 
-                  <p style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--color-cream-subtle, #94a3b8)', lineHeight: 1.5, margin: 0 }}>
                     {item.summary || item.content.slice(0, 110) + '...'}
                   </p>
                 </div>
 
-                <div style={{ marginTop: '1.25rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ marginTop: '1.25rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-subtle)' }}>
                   <button
                     onClick={() => setCurrentTab('news')}
                     style={{
